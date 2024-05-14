@@ -25,4 +25,9 @@ class Dimensions {
   static const double space2400 = 96;
   static const double space3200 = 128;
 
+
+  static const double borderWidth025 = 1;
+  static const double borderWidth050 = 2;
+  static const double borderWidth100 = 4;
+
 }
