@@ -18,6 +18,7 @@ class Typography {
   static const fontSize550 = 22.0;
   static const fontSize600 = 24.0;
   static const fontSize700 = 28.0;
+  static const fontSize800 = 32.0;
   static const fontSize900 = 36.0;
   static const fontSize1000 = 40.0;
   static const fontSize1200 = 48.0;
