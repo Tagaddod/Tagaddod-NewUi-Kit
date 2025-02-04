@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class AppColors {
+class AppColors extends Color {
   //black
   static const colorBlack = Colors.black;
   static const colorWhite = Colors.white;
@@ -110,4 +110,6 @@ class AppColors {
   static const colorPurple1400 = Color(0xFF5B12BC);
   static const colorPurple1500 = Color(0xFF410D87);
   static const colorPurple1600 = Color(0xFF25074D);
+
+  AppColors(super.value);
 }

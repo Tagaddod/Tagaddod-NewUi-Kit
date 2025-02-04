@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tagaddod_ui_kit/colors/semantic/text_colors.dart';
 import 'package:tagaddod_ui_kit/widgets/app_filled_button.dart';
-import 'package:tagaddod_ui_kit/widgets/app_text.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +17,12 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const Scaffold(body: AppText.bodyLg(text: 'Tagaddod')),
+      home: Scaffold(
+          body: Center(
+              child: AppFilledButton.large(
+        btnText: "Tagaddod",
+        textColor: TextColors.colorTextMagic,
+      ))),
     );
   }
 }

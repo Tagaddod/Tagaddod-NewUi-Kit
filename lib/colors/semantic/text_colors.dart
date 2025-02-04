@@ -1,6 +1,10 @@
+import 'package:flutter/material.dart';
 import 'package:tagaddod_ui_kit/colors/primtives/colors.dart';
 
 class TextColors {
+  static const colorBlack = Colors.black;
+  static const colorWhite = Colors.white;
+
   static const colorText = AppColors.colorGray1200;
   static const colorTextSecondary = AppColors.colorGray1100;
   static const colorTextDisabled = AppColors.colorGray1000;
