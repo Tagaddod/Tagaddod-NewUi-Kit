@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class Dimensions {
   static const double borderRadius0 = 0;
   static const double borderRadius050 = 2;
@@ -25,9 +27,48 @@ class Dimensions {
   static const double space2400 = 96;
   static const double space3200 = 128;
 
-
-  static const double borderWidth025 = 1;
+  static const double borderWidth25 = 1;
   static const double borderWidth050 = 2;
   static const double borderWidth100 = 4;
 
+  //Elevation
+  static const BoxShadow elevationShadow100 = BoxShadow(
+    color: Color(0xff16161d12),
+    offset: Offset(1, 0),
+  );
+
+  static const BoxShadow elevationShadow200 = BoxShadow(
+    color: Color.fromRGBO(22, 22, 29, 0.07), // Convert RGBA to Flutter Color
+    offset: Offset(0, 3), // X: 0px, Y: 3px
+    blurRadius: 1, // Blur radius: 1px
+    spreadRadius: -1,
+  );
+
+  static const BoxShadow elevationShadow300 = BoxShadow(
+    color: Color.fromRGBO(22, 22, 29, 0.20), // Convert RGBA to Flutter Color
+    offset: Offset(0, 4), // X: 0px, Y: 3px
+    blurRadius: 6, // Blur radius: 1px
+    spreadRadius: -2,
+  );
+
+  static const BoxShadow elevationShadow400 = BoxShadow(
+    color: Color.fromRGBO(22, 22, 29, 0.22), // Convert RGBA to Flutter Color
+    offset: Offset(0, 8), // X: 0px, Y: 3px
+    blurRadius: 16, // Blur radius: 1px
+    spreadRadius: -4,
+  );
+
+  static const BoxShadow elevationShadow500 = BoxShadow(
+    color: Color.fromRGBO(22, 22, 29, 0.24), // Convert RGBA to Flutter Color
+    offset: Offset(0, 12), // X: 0px, Y: 3px
+    blurRadius: 20, // Blur radius: 1px
+    spreadRadius: -8,
+  );
+
+  static const BoxShadow elevationShadow600 = BoxShadow(
+    color: Color.fromRGBO(22, 22, 29, 0.28), // Convert RGBA to Flutter Color
+    offset: Offset(0, 20), // X: 0px, Y: 3px
+    blurRadius: 20, // Blur radius: 1px
+    spreadRadius: -8,
+  );
 }

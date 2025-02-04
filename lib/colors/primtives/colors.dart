@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
-class Colors {
+
+class AppColors {
+  //black
+  static const colorBlack = Colors.black;
+  static const colorWhite = Colors.white;
+  //Blue
   static const colorBlue100 = Color(0xffFAFAFF);
   static const colorBlue200 = Color(0xffF8F8FF);
   static const colorBlue300 = Color(0xffF4F4FF);
@@ -17,7 +22,7 @@ class Colors {
   static const colorBlue1500 = Color(0xff00238F);
   static const colorBlue1600 = Color(0xff001157);
 
-
+  //Gray
   static const colorGray100 = Color(0xffFFFFFF);
   static const colorGray200 = Color(0xffFCFCFD);
   static const colorGray300 = Color(0xffF9F9FA);
@@ -35,7 +40,7 @@ class Colors {
   static const colorGray1500 = Color(0xff2A2C37);
   static const colorGray1600 = Color(0xff16161D);
 
-
+  //Green
   static const colorGreen100 = Color(0xffEFFFF4);
   static const colorGreen200 = Color(0xffE8FFEE);
   static const colorGreen300 = Color(0xffD7FFE3);
@@ -53,7 +58,7 @@ class Colors {
   static const colorGreen1500 = Color(0xff003A1D);
   static const colorGreen1600 = Color(0xff00200D);
 
-
+  //RED
   static const colorRed100 = Color(0xFFFEF9F9);
   static const colorRed200 = Color(0xFFFEF6F6);
   static const colorRed300 = Color(0xFFFDF3F3);
@@ -71,6 +76,7 @@ class Colors {
   static const colorRed1500 = Color(0xFF660E12);
   static const colorRed1600 = Color(0xFF3A080A);
 
+  //ORANGE
   static const colorOrange100 = Color(0xFFFEFAF6);
   static const colorOrange200 = Color(0xFFFEF8F2);
   static const colorOrange300 = Color(0xFFFEF4EA);
@@ -87,7 +93,7 @@ class Colors {
   static const colorOrange1400 = Color(0xFF5E4200);
   static const colorOrange1500 = Color(0xFF442E00);
   static const colorOrange1600 = Color(0xFF261800);
-
+  //PURPLE
   static const colorPurple100 = Color(0xFFFCFAFF);
   static const colorPurple200 = Color(0xFFFBF7FF);
   static const colorPurple300 = Color(0xFFF9F4FF);
@@ -104,5 +110,4 @@ class Colors {
   static const colorPurple1400 = Color(0xFF5B12BC);
   static const colorPurple1500 = Color(0xFF410D87);
   static const colorPurple1600 = Color(0xFF25074D);
-
 }
