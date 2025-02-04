@@ -84,8 +84,8 @@ class AppFilledButton extends StatelessWidget {
       child: InkWell(
         splashColor: getHighlightColor(),
         highlightColor: Colors.transparent,
-        borderRadius: BorderRadius.circular(10),
-        onTap: onTap,
+        borderRadius: borderRadius ?? BorderRadius.circular(8),
+        onTap: isLoading ? null : onTap,
         child: Ink(
           width: width,
           height: _height,
@@ -101,6 +101,7 @@ class AppFilledButton extends StatelessWidget {
                     height: 18,
                     child: CircularProgressIndicator(
                       color: textColor,
+                      strokeWidth: 3,
                     ),
                   ),
                 )
@@ -164,7 +165,7 @@ class AppFilledButton extends StatelessWidget {
       case ButtonType.criticalButton:
         return BgColors.colorBgFillCriticalActive;
       case ButtonType.neutralButton:
-        return BgColors.colorBgWhite;
+        return BgColors.colorBgSurfaceSecondaryActive;
     }
   }
 
@@ -202,7 +203,7 @@ Color getDefaultTextColor(ButtonType buttonType) {
     case ButtonType.criticalButton:
       return TextColors.colorTextOnBgFill;
     case ButtonType.neutralButton:
-      return TextColors.colorBlack;
+      return TextColors.colorText;
   }
 }
 

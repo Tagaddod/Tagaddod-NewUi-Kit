@@ -83,51 +83,49 @@ class AppOutlinedButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Center(
-        child: InkWell(
-          highlightColor: Colors.transparent,
-          splashColor: getHighlightColor(),
-          borderRadius: borderRadius ?? BorderRadius.circular(8),
-          onTap: onTap,
-          child: Ink(
-            width: width,
-            height: _height,
-            decoration: BoxDecoration(
-              borderRadius: borderRadius ?? BorderRadius.circular(8),
-              border: Border.all(
-                  color: onTap == null ? disabledTextColor! : borderColor!),
-              color: onTap == null ? disabledBackgroundColor : backgroundColor,
-            ),
-            child: isLoading
-                ? Center(
-                    child: SizedBox(
-                      width: 18,
-                      height: 18,
-                      child: CircularProgressIndicator(
-                        color: textColor,
-                      ),
-                    ),
-                  )
-                : Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      //icon
-                      if (iconPath != null)
-                        AppIcon(
-                          svgIconPath: iconPath!,
-                          colorFilter:
-                              ColorFilter.mode(textColor!, BlendMode.srcIn),
-                        ),
-                      SizedBox(
-                        width: iconPath != null ? 5 : 0,
-                      ),
-                      //text
-
-                      Expanded(child: getTextButtonWidget()),
-                    ],
-                  ),
+      child: InkWell(
+        highlightColor: Colors.transparent,
+        splashColor: getHighlightColor(),
+        borderRadius: borderRadius ?? BorderRadius.circular(8),
+        onTap: isLoading ? null : onTap,
+        child: Ink(
+          width: width,
+          height: _height,
+          decoration: BoxDecoration(
+            borderRadius: borderRadius ?? BorderRadius.circular(8),
+            border: Border.all(
+                color: onTap == null ? disabledTextColor! : borderColor!),
+            color: onTap == null ? disabledBackgroundColor : backgroundColor,
           ),
+          child: isLoading
+              ? Center(
+                  child: SizedBox(
+                    width: 18,
+                    height: 18,
+                    child: CircularProgressIndicator(
+                      color: textColor,
+                      strokeWidth: 3,
+                    ),
+                  ),
+                )
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    //icon
+                    if (iconPath != null)
+                      AppIcon(
+                        svgIconPath: iconPath!,
+                        colorFilter: ColorFilter.mode(
+                            onTap == null ? disabledTextColor! : textColor!,
+                            BlendMode.srcIn),
+                      ),
+                    if (iconPath != null) const SizedBox(width: 5),
+                    //text
+
+                    Flexible(child: getTextButtonWidget()),
+                  ],
+                ),
         ),
       ),
     );
@@ -164,7 +162,7 @@ class AppOutlinedButton extends StatelessWidget {
       case ButtonType.criticalButton:
         return BgColors.colorBgFillCriticalSecondary;
       case ButtonType.neutralButton:
-        return BgColors.colorBgSurfaceSecondary;
+        return BgColors.colorBgSurfaceSecondaryActive;
     }
   }
 }

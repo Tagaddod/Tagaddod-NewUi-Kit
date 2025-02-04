@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:tagaddod_ui_kit/colors/semantic/bg_colors.dart';
-import 'package:tagaddod_ui_kit/colors/semantic/border_colors.dart';
 import 'package:tagaddod_ui_kit/colors/semantic/text_colors.dart';
 import 'package:tagaddod_ui_kit/typography/semantics/body_styles.dart';
 import 'package:tagaddod_ui_kit/utils/button_type.dart';
@@ -67,7 +66,7 @@ class AppTonalButton extends StatelessWidget {
       this.backgroundColor,
       this.borderColor,
       Color? textColor,
-      this.disabledBackgroundColor = BgColors.colorBgFillDisabled,
+      this.disabledBackgroundColor = BgColors.colorBg,
       this.disabledTextColor = TextColors.colorTextDisabled,
       this.borderRadius,
       this.width = 109,
@@ -84,8 +83,8 @@ class AppTonalButton extends StatelessWidget {
       child: InkWell(
         splashColor: getHighlightColor(),
         highlightColor: Colors.transparent,
-        borderRadius: BorderRadius.circular(8),
-        onTap: onTap,
+        borderRadius: borderRadius ?? BorderRadius.circular(8),
+        onTap: isLoading ? null : onTap,
         child: Ink(
           width: width,
           height: _height,
@@ -101,6 +100,7 @@ class AppTonalButton extends StatelessWidget {
                     height: 18,
                     child: CircularProgressIndicator(
                       color: textColor,
+                      strokeWidth: 3,
                     ),
                   ),
                 )
@@ -111,18 +111,17 @@ class AppTonalButton extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       //icon
-                      //icon
-                      const Spacer(),
+
                       if (iconPath != null)
                         AppIcon(
                           svgIconPath: iconPath!,
-                          colorFilter:
-                              ColorFilter.mode(textColor!, BlendMode.srcIn),
+                          colorFilter: ColorFilter.mode(
+                              onTap == null ? disabledTextColor! : textColor!,
+                              BlendMode.srcIn),
                         ),
                       if (iconPath != null) const SizedBox(width: 5),
                       //text
-                      Expanded(child: getTextButtonWidget()),
-                      const Spacer(),
+                      Flexible(child: getTextButtonWidget()),
                     ],
                   ),
                 ),
@@ -183,9 +182,9 @@ class AppTonalButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(8));
       case ButtonType.neutralButton:
         return BoxDecoration(
-            color: BgColors.colorBgSurfaceSecondary,
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: BorderColors.colorBorder));
+          color: BgColors.colorBgSurfaceSecondary,
+          borderRadius: BorderRadius.circular(8),
+        );
     }
   }
 }
