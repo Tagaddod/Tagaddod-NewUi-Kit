@@ -3,6 +3,7 @@ import 'package:tagaddod_ui_kit/colors/semantic/bg_colors.dart';
 import 'package:tagaddod_ui_kit/colors/semantic/border_colors.dart';
 import 'package:tagaddod_ui_kit/colors/semantic/text_colors.dart';
 import 'package:tagaddod_ui_kit/typography/semantics/body_styles.dart';
+import 'package:tagaddod_ui_kit/utils/button_type.dart';
 import 'package:tagaddod_ui_kit/widgets/app_icon.dart';
 import 'package:tagaddod_ui_kit/widgets/app_text.dart';
 
@@ -85,7 +86,8 @@ class AppTonalButton extends StatelessWidget {
 
     return Center(
       child: InkWell(
-        highlightColor: const Color.fromARGB(255, 154, 19, 19),
+        highlightColor: getHighlightColor(),
+        borderRadius: BorderRadius.circular(8),
         onTap: onTap,
         child: Ink(
           width: width,
@@ -105,23 +107,26 @@ class AppTonalButton extends StatelessWidget {
                     ),
                   ),
                 )
-              : Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    //icon
-                    if (iconPath != null)
-                      AppIcon(
-                        svgIconPath: iconPath!,
-                        colorFilter:
-                            ColorFilter.mode(textColor!, BlendMode.srcIn),
+              : Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      //icon
+                      if (iconPath != null)
+                        AppIcon(
+                          svgIconPath: iconPath!,
+                          colorFilter:
+                              ColorFilter.mode(textColor!, BlendMode.srcIn),
+                        ),
+                      SizedBox(
+                        width: iconPath != null ? 5 : 0,
                       ),
-                    SizedBox(
-                      width: iconPath != null ? 5 : 0,
-                    ),
-                    //text
-                    getTextButtonWidget(),
-                  ],
+                      //text
+                      Expanded(child: getTextButtonWidget()),
+                    ],
+                  ),
                 ),
         ),
       ),
@@ -148,48 +153,59 @@ class AppTonalButton extends StatelessWidget {
         );
     }
   }
-}
 
+  //get highlight color
+  Color getHighlightColor() {
+    switch (buttonType) {
+      case ButtonType.defaultButton:
+        return BgColors.colorBgFillBrandSecondaryActive;
+      case ButtonType.successButton:
+        return BgColors.colorBgFillSuccessSecondaryActive;
+      case ButtonType.criticalButton:
+        return BgColors.colorBgFillCriticalSecondaryActive;
+      case ButtonType.neutralButton:
+        return BgColors.colorBgSurfaceSecondaryActive;
+    }
+  }
+
+//background color for button
+  BoxDecoration getButtonTypeDecoration(ButtonType buttonType) {
+    switch (buttonType) {
+      case ButtonType.defaultButton:
+        return BoxDecoration(
+            color: BgColors.colorBgFillBrandSecondary,
+            borderRadius: BorderRadius.circular(8));
+      case ButtonType.successButton:
+        return BoxDecoration(
+            color: BgColors.colorBgFillSuccessSecondary,
+            borderRadius: BorderRadius.circular(8));
+      case ButtonType.criticalButton:
+        return BoxDecoration(
+            color: BgColors.colorBgFillCriticalSecondary,
+            borderRadius: BorderRadius.circular(8));
+      case ButtonType.neutralButton:
+        return BoxDecoration(
+            color: BgColors.colorBgSurfaceSecondary,
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(color: BorderColors.colorBorder));
+    }
+  }
+}
 //get Default Text Color
 
 Color getDefaultTextColor(ButtonType buttonType) {
   switch (buttonType) {
     case ButtonType.defaultButton:
-      return TextColors.colorTextOnBgFill;
+      return TextColors.colorTextLink;
     case ButtonType.successButton:
-      return TextColors.colorTextOnBgFill;
+      return TextColors.colorTextSuccess;
 
     case ButtonType.neutralButton:
-      return TextColors.colorTextOnBgFill;
+      return TextColors.colorText;
 
     case ButtonType.criticalButton:
-      return TextColors.colorBlack;
-  }
-}
-
-//background color for button
-BoxDecoration getButtonTypeDecoration(ButtonType buttonType) {
-  switch (buttonType) {
-    case ButtonType.defaultButton:
-      return BoxDecoration(
-          color: BgColors.colorBgFillBrand,
-          borderRadius: BorderRadius.circular(8));
-    case ButtonType.successButton:
-      return BoxDecoration(
-          color: BgColors.colorBgFillSuccess,
-          borderRadius: BorderRadius.circular(8));
-    case ButtonType.criticalButton:
-      return BoxDecoration(
-          color: BgColors.colorBgFillCritical,
-          borderRadius: BorderRadius.circular(8));
-    case ButtonType.neutralButton:
-      return BoxDecoration(
-          color: BgColors.colorBgFill,
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: BorderColors.colorBorder));
+      return TextColors.colorTextCritical;
   }
 }
 
 enum ButtonSize { medium, large }
-
-enum ButtonType { defaultButton, successButton, criticalButton, neutralButton }

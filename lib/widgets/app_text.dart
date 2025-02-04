@@ -244,7 +244,6 @@ class AppText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint(AppTextStyles.getStyle(_appTextStatus).toString());
     return AutoSizeText(
       text,
       textAlign: textAlign,

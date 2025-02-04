@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:tagaddod_ui_kit/colors/primtives/colors.dart';
 import 'package:tagaddod_ui_kit/colors/semantic/bg_colors.dart';
-import 'package:tagaddod_ui_kit/colors/semantic/border_colors.dart';
 import 'package:tagaddod_ui_kit/colors/semantic/text_colors.dart';
 import 'package:tagaddod_ui_kit/typography/semantics/body_styles.dart';
+import 'package:tagaddod_ui_kit/utils/button_type.dart';
 import 'package:tagaddod_ui_kit/widgets/app_icon.dart';
 import 'package:tagaddod_ui_kit/widgets/app_text.dart';
 
@@ -87,6 +88,7 @@ class AppFilledButton extends StatelessWidget {
       child: InkWell(
         highlightColor: getHighlightColor(),
         borderRadius: BorderRadius.circular(8),
+        mouseCursor: WidgetStateMouseCursor.clickable,
         onTap: onTap,
         child: Ink(
           width: width,
@@ -106,23 +108,29 @@ class AppFilledButton extends StatelessWidget {
                     ),
                   ),
                 )
-              : Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    //icon
-                    if (iconPath != null)
-                      AppIcon(
-                        svgIconPath: iconPath!,
-                        colorFilter:
-                            ColorFilter.mode(textColor!, BlendMode.srcIn),
-                      ),
-                    SizedBox(
-                      width: iconPath != null ? 5 : 0,
+              : Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        //icon
+                        if (iconPath != null)
+                          AppIcon(
+                            svgIconPath: iconPath!,
+                            colorFilter:
+                                ColorFilter.mode(textColor!, BlendMode.srcIn),
+                          ),
+                        SizedBox(
+                          width: iconPath != null ? 5 : 0,
+                        ),
+
+                        //text
+                        Expanded(child: getTextButtonWidget()),
+                      ],
                     ),
-                    //text
-                    getTextButtonWidget(),
-                  ],
+                  ),
                 ),
         ),
       ),
@@ -181,9 +189,9 @@ class AppFilledButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(8));
       case ButtonType.neutralButton:
         return BoxDecoration(
-            color: BgColors.colorBgFill,
+            color: BgColors.colorBgSurfaceSecondaryActive,
             borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: BorderColors.colorBorder));
+            border: Border.all(color: AppColors.colorGray1600));
     }
   }
 }
@@ -195,15 +203,11 @@ Color getDefaultTextColor(ButtonType buttonType) {
       return TextColors.colorTextOnBgFill;
     case ButtonType.successButton:
       return TextColors.colorTextOnBgFill;
-
-    case ButtonType.neutralButton:
-      return TextColors.colorTextOnBgFill;
-
     case ButtonType.criticalButton:
-      return TextColors.colorBlack;
+      return TextColors.colorTextOnBgFill;
+    case ButtonType.neutralButton:
+      return TextColors.colorText;
   }
 }
 
 enum ButtonSize { medium, large }
-
-enum ButtonType { defaultButton, successButton, criticalButton, neutralButton }
