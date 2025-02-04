@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:tagaddod_ui_kit/colors/primtives/colors.dart';
 
 class BgColors {
+  static const colorBgWhite = AppColors.colorWhite;
   static const colorBg = AppColors.colorGray400;
   static const colorBgLight = AppColors.colorGray300;
   //Surface

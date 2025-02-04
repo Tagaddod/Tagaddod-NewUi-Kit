@@ -8,7 +8,6 @@ import 'package:tagaddod_ui_kit/widgets/app_icon.dart';
 import 'package:tagaddod_ui_kit/widgets/app_text.dart';
 
 class AppTonalButton extends StatelessWidget {
-  final ButtonSize _buttonSize;
   final ButtonType buttonType;
   final TextStyle _btnTextStyle;
   final bool isLoading;
@@ -40,8 +39,7 @@ class AppTonalButton extends StatelessWidget {
     this.borderColor,
     this.textColor,
     this.buttonType = ButtonType.defaultButton,
-  })  : _buttonSize = ButtonSize.medium,
-        _btnTextStyle = BodyStyles.bodySmSemiBold,
+  })  : _btnTextStyle = BodyStyles.bodySmSemiBold,
         _height = 40;
   AppTonalButton.medium(
       {super.key,
@@ -57,8 +55,7 @@ class AppTonalButton extends StatelessWidget {
       this.width = 80,
       Color? textColor,
       this.buttonType = ButtonType.defaultButton})
-      : _buttonSize = ButtonSize.medium,
-        _btnTextStyle = BodyStyles.bodySmSemiBold,
+      : _btnTextStyle = BodyStyles.bodySmSemiBold,
         _height = 40,
         textColor = textColor ?? getDefaultTextColor(buttonType);
   AppTonalButton.large(
@@ -75,8 +72,7 @@ class AppTonalButton extends StatelessWidget {
       this.borderRadius,
       this.width = 109,
       this.buttonType = ButtonType.defaultButton})
-      : _buttonSize = ButtonSize.large,
-        _btnTextStyle = BodyStyles.bodyMdSemiBold,
+      : _btnTextStyle = BodyStyles.bodyMdSemiBold,
         _height = 56,
         textColor = textColor ?? getDefaultTextColor(buttonType);
 
@@ -86,7 +82,8 @@ class AppTonalButton extends StatelessWidget {
 
     return Center(
       child: InkWell(
-        highlightColor: getHighlightColor(),
+        splashColor: getHighlightColor(),
+        highlightColor: Colors.transparent,
         borderRadius: BorderRadius.circular(8),
         onTap: onTap,
         child: Ink(
@@ -114,17 +111,18 @@ class AppTonalButton extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       //icon
+                      //icon
+                      const Spacer(),
                       if (iconPath != null)
                         AppIcon(
                           svgIconPath: iconPath!,
                           colorFilter:
                               ColorFilter.mode(textColor!, BlendMode.srcIn),
                         ),
-                      SizedBox(
-                        width: iconPath != null ? 5 : 0,
-                      ),
+                      if (iconPath != null) const SizedBox(width: 5),
                       //text
                       Expanded(child: getTextButtonWidget()),
+                      const Spacer(),
                     ],
                   ),
                 ),

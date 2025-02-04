@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tagaddod_ui_kit/colors/primtives/colors.dart';
 import 'package:tagaddod_ui_kit/colors/semantic/bg_colors.dart';
+import 'package:tagaddod_ui_kit/colors/semantic/border_colors.dart';
 import 'package:tagaddod_ui_kit/colors/semantic/text_colors.dart';
 import 'package:tagaddod_ui_kit/typography/semantics/body_styles.dart';
 import 'package:tagaddod_ui_kit/utils/button_type.dart';
@@ -8,7 +8,6 @@ import 'package:tagaddod_ui_kit/widgets/app_icon.dart';
 import 'package:tagaddod_ui_kit/widgets/app_text.dart';
 
 class AppFilledButton extends StatelessWidget {
-  final ButtonSize _buttonSize;
   final ButtonType buttonType;
   final TextStyle _btnTextStyle;
   final bool isLoading;
@@ -40,8 +39,7 @@ class AppFilledButton extends StatelessWidget {
     this.borderColor,
     this.textColor,
     this.buttonType = ButtonType.defaultButton,
-  })  : _buttonSize = ButtonSize.medium,
-        _btnTextStyle = BodyStyles.bodySmSemiBold,
+  })  : _btnTextStyle = BodyStyles.bodySmSemiBold,
         _height = 40;
   AppFilledButton.medium(
       {super.key,
@@ -51,14 +49,13 @@ class AppFilledButton extends StatelessWidget {
       this.iconPath,
       this.backgroundColor,
       this.disabledBackgroundColor = BgColors.colorBgFillDisabled,
-      this.disabledTextColor = TextColors.colorTextDisabled,
+      this.disabledTextColor = TextColors.colorTextOnBgFill,
       this.borderColor,
       this.borderRadius,
       this.width = 80,
       Color? textColor,
       this.buttonType = ButtonType.defaultButton})
-      : _buttonSize = ButtonSize.medium,
-        _btnTextStyle = BodyStyles.bodySmSemiBold,
+      : _btnTextStyle = BodyStyles.bodySmSemiBold,
         _height = 40,
         textColor = textColor ?? getDefaultTextColor(buttonType);
   AppFilledButton.large(
@@ -71,12 +68,11 @@ class AppFilledButton extends StatelessWidget {
       this.borderColor,
       Color? textColor,
       this.disabledBackgroundColor = BgColors.colorBgFillDisabled,
-      this.disabledTextColor = TextColors.colorTextDisabled,
+      this.disabledTextColor = TextColors.colorTextOnBgFill,
       this.borderRadius,
       this.width = 109,
       this.buttonType = ButtonType.defaultButton})
-      : _buttonSize = ButtonSize.large,
-        _btnTextStyle = BodyStyles.bodyMdSemiBold,
+      : _btnTextStyle = BodyStyles.bodyMdSemiBold,
         _height = 56,
         textColor = textColor ?? getDefaultTextColor(buttonType);
 
@@ -86,9 +82,9 @@ class AppFilledButton extends StatelessWidget {
 
     return Center(
       child: InkWell(
-        highlightColor: getHighlightColor(),
-        borderRadius: BorderRadius.circular(8),
-        mouseCursor: WidgetStateMouseCursor.clickable,
+        splashColor: getHighlightColor(),
+        highlightColor: Colors.transparent,
+        borderRadius: BorderRadius.circular(10),
         onTap: onTap,
         child: Ink(
           width: width,
@@ -108,26 +104,26 @@ class AppFilledButton extends StatelessWidget {
                     ),
                   ),
                 )
-              : Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: Center(
+              : Center(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
                       children: [
                         //icon
+
                         if (iconPath != null)
                           AppIcon(
                             svgIconPath: iconPath!,
-                            colorFilter:
-                                ColorFilter.mode(textColor!, BlendMode.srcIn),
+                            colorFilter: ColorFilter.mode(
+                                onTap == null ? disabledTextColor! : textColor!,
+                                BlendMode.srcIn),
                           ),
-                        SizedBox(
-                          width: iconPath != null ? 5 : 0,
-                        ),
-
+                        if (iconPath != null) const SizedBox(width: 5),
                         //text
-                        Expanded(child: getTextButtonWidget()),
+                        Flexible(child: getTextButtonWidget()),
                       ],
                     ),
                   ),
@@ -168,7 +164,7 @@ class AppFilledButton extends StatelessWidget {
       case ButtonType.criticalButton:
         return BgColors.colorBgFillCriticalActive;
       case ButtonType.neutralButton:
-        return BgColors.colorBgSurfaceSecondaryActive;
+        return BgColors.colorBgWhite;
     }
   }
 
@@ -189,9 +185,9 @@ class AppFilledButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(8));
       case ButtonType.neutralButton:
         return BoxDecoration(
-            color: BgColors.colorBgSurfaceSecondaryActive,
+            color: BgColors.colorBgWhite,
             borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: AppColors.colorGray1600));
+            border: Border.all(color: BorderColors.colorBorder));
     }
   }
 }
@@ -206,7 +202,7 @@ Color getDefaultTextColor(ButtonType buttonType) {
     case ButtonType.criticalButton:
       return TextColors.colorTextOnBgFill;
     case ButtonType.neutralButton:
-      return TextColors.colorText;
+      return TextColors.colorBlack;
   }
 }
 
