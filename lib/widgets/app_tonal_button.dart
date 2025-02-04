@@ -6,7 +6,7 @@ import 'package:tagaddod_ui_kit/typography/semantics/body_styles.dart';
 import 'package:tagaddod_ui_kit/widgets/app_icon.dart';
 import 'package:tagaddod_ui_kit/widgets/app_text.dart';
 
-class AppFilledButton extends StatelessWidget {
+class AppTonalButton extends StatelessWidget {
   final ButtonSize _buttonSize;
   final ButtonType buttonType;
   final TextStyle _btnTextStyle;
@@ -26,7 +26,7 @@ class AppFilledButton extends StatelessWidget {
   final void Function()? onTap;
 
   //private constructor
-  AppFilledButton._({
+  AppTonalButton._({
     required this.isLoading,
     required this.btnText,
     this.onTap,
@@ -42,7 +42,7 @@ class AppFilledButton extends StatelessWidget {
   })  : _buttonSize = ButtonSize.medium,
         _btnTextStyle = BodyStyles.bodySmSemiBold,
         _height = 40;
-  AppFilledButton.medium(
+  AppTonalButton.medium(
       {super.key,
       required this.btnText,
       this.isLoading = false,
@@ -60,7 +60,7 @@ class AppFilledButton extends StatelessWidget {
         _btnTextStyle = BodyStyles.bodySmSemiBold,
         _height = 40,
         textColor = textColor ?? getDefaultTextColor(buttonType);
-  AppFilledButton.large(
+  AppTonalButton.large(
       {super.key,
       required this.btnText,
       this.isLoading = false,
@@ -85,8 +85,7 @@ class AppFilledButton extends StatelessWidget {
 
     return Center(
       child: InkWell(
-        highlightColor: getHighlightColor(),
-        borderRadius: BorderRadius.circular(8),
+        highlightColor: const Color.fromARGB(255, 154, 19, 19),
         onTap: onTap,
         child: Ink(
           width: width,
@@ -149,44 +148,8 @@ class AppFilledButton extends StatelessWidget {
         );
     }
   }
-
-  //get highlight color
-  Color getHighlightColor() {
-    switch (buttonType) {
-      case ButtonType.defaultButton:
-        return BgColors.colorBgFillBrandActive;
-      case ButtonType.successButton:
-        return BgColors.colorBgFillSuccessActive;
-      case ButtonType.criticalButton:
-        return BgColors.colorBgFillCriticalActive;
-      case ButtonType.neutralButton:
-        return BgColors.colorBgSurfaceSecondaryActive;
-    }
-  }
-
-//background color for button
-  BoxDecoration getButtonTypeDecoration(ButtonType buttonType) {
-    switch (buttonType) {
-      case ButtonType.defaultButton:
-        return BoxDecoration(
-            color: BgColors.colorBgFillBrand,
-            borderRadius: BorderRadius.circular(8));
-      case ButtonType.successButton:
-        return BoxDecoration(
-            color: BgColors.colorBgFillSuccess,
-            borderRadius: BorderRadius.circular(8));
-      case ButtonType.criticalButton:
-        return BoxDecoration(
-            color: BgColors.colorBgFillCritical,
-            borderRadius: BorderRadius.circular(8));
-      case ButtonType.neutralButton:
-        return BoxDecoration(
-            color: BgColors.colorBgFill,
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: BorderColors.colorBorder));
-    }
-  }
 }
+
 //get Default Text Color
 
 Color getDefaultTextColor(ButtonType buttonType) {
@@ -201,6 +164,29 @@ Color getDefaultTextColor(ButtonType buttonType) {
 
     case ButtonType.criticalButton:
       return TextColors.colorBlack;
+  }
+}
+
+//background color for button
+BoxDecoration getButtonTypeDecoration(ButtonType buttonType) {
+  switch (buttonType) {
+    case ButtonType.defaultButton:
+      return BoxDecoration(
+          color: BgColors.colorBgFillBrand,
+          borderRadius: BorderRadius.circular(8));
+    case ButtonType.successButton:
+      return BoxDecoration(
+          color: BgColors.colorBgFillSuccess,
+          borderRadius: BorderRadius.circular(8));
+    case ButtonType.criticalButton:
+      return BoxDecoration(
+          color: BgColors.colorBgFillCritical,
+          borderRadius: BorderRadius.circular(8));
+    case ButtonType.neutralButton:
+      return BoxDecoration(
+          color: BgColors.colorBgFill,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: BorderColors.colorBorder));
   }
 }
 
