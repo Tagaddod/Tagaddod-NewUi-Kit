@@ -82,54 +82,47 @@ class AppFilledButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //we should get style of each component in here
+
     return Center(
-      child: Material(
-        color: Colors.white.withOpacity(0.0),
-        child: InkWell(
-          splashColor: const Color.fromARGB(255, 154, 19, 19),
-          onTap: onTap,
-          child: Container(
-            width: width,
-            height: _height,
-            decoration: getButtonTypeDecoration(buttonType).copyWith(
-              borderRadius: borderRadius,
-              border: borderColor,
-              color: onTap == null ? disabledBackgroundColor : backgroundColor,
-            ),
-            constraints: BoxConstraints(
-              minWidth: 80,
-              minHeight: 40,
-              maxHeight: _height,
-            ),
-            child: isLoading
-                ? Center(
-                    child: SizedBox(
-                      width: 18,
-                      height: 18,
-                      child: CircularProgressIndicator(
-                        color: textColor,
-                      ),
-                    ),
-                  )
-                : Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      //icon
-                      if (iconPath != null)
-                        AppIcon(
-                          svgIconPath: iconPath!,
-                          colorFilter:
-                              ColorFilter.mode(textColor!, BlendMode.srcIn),
-                        ),
-                      SizedBox(
-                        width: iconPath != null ? 5 : 0,
-                      ),
-                      //text
-                      getTextButtonWidget(),
-                    ],
-                  ),
+      child: InkWell(
+        highlightColor: const Color.fromARGB(255, 154, 19, 19),
+        onTap: onTap,
+        child: Ink(
+          width: width,
+          height: _height,
+          decoration: getButtonTypeDecoration(buttonType).copyWith(
+            borderRadius: borderRadius,
+            border: borderColor,
+            color: onTap == null ? disabledBackgroundColor : backgroundColor,
           ),
+          child: isLoading
+              ? Center(
+                  child: SizedBox(
+                    width: 18,
+                    height: 18,
+                    child: CircularProgressIndicator(
+                      color: textColor,
+                    ),
+                  ),
+                )
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    //icon
+                    if (iconPath != null)
+                      AppIcon(
+                        svgIconPath: iconPath!,
+                        colorFilter:
+                            ColorFilter.mode(textColor!, BlendMode.srcIn),
+                      ),
+                    SizedBox(
+                      width: iconPath != null ? 5 : 0,
+                    ),
+                    //text
+                    getTextButtonWidget(),
+                  ],
+                ),
         ),
       ),
     );

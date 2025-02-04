@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
                     child: AppFilledButton.large(
               btnText: "Tagaddod",
               onTap: () {},
-              textColor: TextColors.colorTextMagic,
+              textColor: TextColors.colorWhite,
             ))),
           );
         });
