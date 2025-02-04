@@ -4,6 +4,7 @@ import 'package:tagaddod_ui_kit/colors/semantic/text_colors.dart';
 import 'package:tagaddod_ui_kit/utils/button_type.dart';
 import 'package:tagaddod_ui_kit/widgets/app_filled_button.dart';
 import 'package:tagaddod_ui_kit/widgets/app_outlined_button.dart';
+import 'package:tagaddod_ui_kit/widgets/app_text_button.dart';
 import 'package:tagaddod_ui_kit/widgets/app_tonal_button.dart';
 
 void main() async {
@@ -50,6 +51,16 @@ class MyApp extends StatelessWidget {
                   buttonType: ButtonType.criticalButton,
                 ),
                 AppOutlinedButton.large(
+                  btnText: " Button",
+                  onTap: () {},
+                  buttonType: ButtonType.criticalButton,
+                ),
+                AppTextButton.large(
+                  btnText: " Button",
+                  onTap: () {},
+                  buttonType: ButtonType.criticalButton,
+                ),
+                AppTextButton.medium(
                   btnText: " Button",
                   onTap: () {},
                   buttonType: ButtonType.criticalButton,

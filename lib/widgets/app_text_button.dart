@@ -1,83 +1,67 @@
 import 'package:flutter/material.dart';
 import 'package:tagaddod_ui_kit/colors/semantic/bg_colors.dart';
-import 'package:tagaddod_ui_kit/colors/semantic/icon_colors.dart';
 import 'package:tagaddod_ui_kit/colors/semantic/text_colors.dart';
 import 'package:tagaddod_ui_kit/typography/semantics/body_styles.dart';
 import 'package:tagaddod_ui_kit/utils/button_type.dart';
 import 'package:tagaddod_ui_kit/widgets/app_icon.dart';
 import 'package:tagaddod_ui_kit/widgets/app_text.dart';
 
-class AppOutlinedButton extends StatelessWidget {
+class AppTextButton extends StatelessWidget {
   final ButtonType buttonType;
   final TextStyle _btnTextStyle;
   final bool isLoading;
   final String btnText;
   final String? iconPath;
-  final Color? backgroundColor;
-  final Color? disabledBackgroundColor;
   final Color? disabledTextColor;
-  final BorderRadius? borderRadius;
-  final Color? borderColor;
   final Color? textColor;
-
+  final BorderRadius? borderRadius;
   final double width;
   final double _height;
 
   final void Function()? onTap;
 
   //private constructor
-  const AppOutlinedButton._({
+  const AppTextButton._({
     required this.isLoading,
     required this.btnText,
     this.onTap,
     this.iconPath,
     this.width = 80,
-    this.backgroundColor,
-    this.borderRadius,
-    this.disabledBackgroundColor,
     this.disabledTextColor,
-    this.borderColor,
     this.textColor,
+    this.borderRadius,
     this.buttonType = ButtonType.defaultButton,
   })  : _btnTextStyle = BodyStyles.bodySmSemiBold,
         _height = 40;
 
-  AppOutlinedButton.medium(
+  AppTextButton.medium(
       {super.key,
       required this.btnText,
       this.isLoading = false,
       this.onTap,
       this.iconPath,
-      this.backgroundColor,
-      this.disabledBackgroundColor,
       this.disabledTextColor = TextColors.colorTextDisabled,
-      Color? borderColor,
-      this.borderRadius,
-      this.width = 80,
+      this.width = 64,
       Color? textColor,
+      this.borderRadius,
       this.buttonType = ButtonType.defaultButton})
       : _btnTextStyle = BodyStyles.bodySmSemiBold,
         _height = 40,
-        borderColor = borderColor ?? getDefaultBorderColor(buttonType),
         textColor = textColor ?? getDefaultTextColor(buttonType);
 
-  AppOutlinedButton.large(
+  AppTextButton.large(
       {super.key,
       required this.btnText,
       this.isLoading = false,
       this.onTap,
       this.iconPath,
-      this.backgroundColor,
-      Color? borderColor,
       Color? textColor,
-      this.disabledBackgroundColor,
-      this.disabledTextColor = TextColors.colorTextDisabled,
       this.borderRadius,
-      this.width = 109,
+      this.disabledTextColor = TextColors.colorTextDisabled,
+      this.width = 69,
       this.buttonType = ButtonType.defaultButton})
       : _btnTextStyle = BodyStyles.bodyMdSemiBold,
         _height = 56,
-        borderColor = borderColor ?? getDefaultBorderColor(buttonType),
         textColor = textColor ?? getDefaultTextColor(buttonType);
 
   @override
@@ -92,12 +76,6 @@ class AppOutlinedButton extends StatelessWidget {
           child: Ink(
             width: width,
             height: _height,
-            decoration: BoxDecoration(
-              borderRadius: borderRadius ?? BorderRadius.circular(8),
-              border: Border.all(
-                  color: onTap == null ? disabledTextColor! : borderColor!),
-              color: onTap == null ? disabledBackgroundColor : backgroundColor,
-            ),
             child: isLoading
                 ? Center(
                     child: SizedBox(
@@ -182,20 +160,5 @@ Color getDefaultTextColor(ButtonType buttonType) {
 
     case ButtonType.criticalButton:
       return TextColors.colorTextCritical;
-  }
-}
-
-Color getDefaultBorderColor(ButtonType buttonType) {
-  switch (buttonType) {
-    case ButtonType.defaultButton:
-      return IconColors.colorIconLink;
-    case ButtonType.successButton:
-      return IconColors.colorIconSuccess;
-
-    case ButtonType.neutralButton:
-      return IconColors.colorIcon;
-
-    case ButtonType.criticalButton:
-      return IconColors.colorIconCritical;
   }
 }
