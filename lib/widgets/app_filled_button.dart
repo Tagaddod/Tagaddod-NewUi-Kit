@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tagaddod_ui_kit/colors/primtives/colors.dart';
 import 'package:tagaddod_ui_kit/colors/semantic/bg_colors.dart';
 import 'package:tagaddod_ui_kit/colors/semantic/border_colors.dart';
 import 'package:tagaddod_ui_kit/colors/semantic/text_colors.dart';
@@ -14,7 +13,9 @@ class AppFilledButton extends StatelessWidget {
   final bool isLoading;
   final String btnText;
   final String? iconPath;
-  final AppColors? backgroundColor;
+  final Color? backgroundColor;
+  final Color? disabledBackgroundColor;
+  final Color? disabledTextColor;
   final BorderRadius? borderRadius;
   final Border? borderColor;
   Color? textColor;
@@ -33,6 +34,8 @@ class AppFilledButton extends StatelessWidget {
     this.width = 80,
     this.backgroundColor,
     this.borderRadius,
+    this.disabledBackgroundColor,
+    this.disabledTextColor,
     this.borderColor,
     this.textColor,
     this.buttonType = ButtonType.defaultButton,
@@ -46,6 +49,8 @@ class AppFilledButton extends StatelessWidget {
       this.onTap,
       this.iconPath,
       this.backgroundColor,
+      this.disabledBackgroundColor = BgColors.colorBgFillDisabled,
+      this.disabledTextColor = TextColors.colorTextDisabled,
       this.borderColor,
       this.borderRadius,
       this.width = 80,
@@ -64,6 +69,8 @@ class AppFilledButton extends StatelessWidget {
       this.backgroundColor,
       this.borderColor,
       Color? textColor,
+      this.disabledBackgroundColor = BgColors.colorBgFillDisabled,
+      this.disabledTextColor = TextColors.colorTextDisabled,
       this.borderRadius,
       this.width = 109,
       this.buttonType = ButtonType.defaultButton})
@@ -75,52 +82,78 @@ class AppFilledButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //we should get style of each component in here
-    return InkWell(
-      splashColor: AppColors.colorWhite,
-      onTap: onTap,
-      child: Container(
-        width: width,
-        height: _height,
-        decoration: getButtonTypeDecoration(buttonType).copyWith(
-          borderRadius: borderRadius,
-          border: borderColor,
-          color: backgroundColor,
-        ),
-        constraints: BoxConstraints(
-          minWidth: 80,
-          minHeight: 40,
-          maxHeight: _height,
-        ),
-        child: isLoading
-            ? Center(
-                child: SizedBox(
-                  width: 18,
-                  height: 18,
-                  child: CircularProgressIndicator(
-                    color: textColor,
-                  ),
-                ),
-              )
-            : Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  //icon
-                  if (iconPath != null)
-                    AppIcon(
-                      svgIconPath: iconPath!,
-                      colorFilter:
-                          ColorFilter.mode(textColor!, BlendMode.srcIn),
+    return Center(
+      child: Material(
+        color: Colors.white.withOpacity(0.0),
+        child: InkWell(
+          splashColor: const Color.fromARGB(255, 154, 19, 19),
+          onTap: onTap,
+          child: Container(
+            width: width,
+            height: _height,
+            decoration: getButtonTypeDecoration(buttonType).copyWith(
+              borderRadius: borderRadius,
+              border: borderColor,
+              color: onTap == null ? disabledBackgroundColor : backgroundColor,
+            ),
+            constraints: BoxConstraints(
+              minWidth: 80,
+              minHeight: 40,
+              maxHeight: _height,
+            ),
+            child: isLoading
+                ? Center(
+                    child: SizedBox(
+                      width: 18,
+                      height: 18,
+                      child: CircularProgressIndicator(
+                        color: textColor,
+                      ),
                     ),
-                  SizedBox(
-                    width: iconPath != null ? 5 : 0,
+                  )
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      //icon
+                      if (iconPath != null)
+                        AppIcon(
+                          svgIconPath: iconPath!,
+                          colorFilter:
+                              ColorFilter.mode(textColor!, BlendMode.srcIn),
+                        ),
+                      SizedBox(
+                        width: iconPath != null ? 5 : 0,
+                      ),
+                      //text
+                      getTextButtonWidget(),
+                    ],
                   ),
-                  //text
-                  getTextButtonWidget(_btnTextStyle, btnText, textColor!),
-                ],
-              ),
+          ),
+        ),
       ),
     );
+  }
+
+  AppText getTextButtonWidget() {
+    switch (_btnTextStyle) {
+      case BodyStyles.bodySmSemiBold:
+        return AppText.bodySmSemiBold(
+          text: btnText,
+          textColor: onTap == null ? disabledTextColor : textColor,
+        );
+      case BodyStyles.bodyMdSemiBold:
+        return AppText.bodyMdSemiBold(
+          text: btnText,
+          textColor: onTap == null ? disabledTextColor : textColor,
+        );
+
+      default:
+        return AppText.bodySmSemiBold(
+          text: btnText,
+          textColor: onTap == null ? disabledTextColor : textColor,
+        );
+    }
   }
 }
 
@@ -161,28 +194,6 @@ BoxDecoration getButtonTypeDecoration(ButtonType buttonType) {
           color: BgColors.colorBgFill,
           borderRadius: BorderRadius.circular(8),
           border: Border.all(color: BorderColors.colorBorder));
-  }
-}
-
-AppText getTextButtonWidget(
-    TextStyle btnTextStyle, String btnText, Color textColor) {
-  switch (btnTextStyle) {
-    case BodyStyles.bodySmSemiBold:
-      return AppText.bodySmSemiBold(
-        text: btnText,
-        textColor: textColor,
-      );
-    case BodyStyles.bodyMdSemiBold:
-      return AppText.bodyMdSemiBold(
-        text: btnText,
-        textColor: textColor,
-      );
-
-    default:
-      return AppText.bodySmSemiBold(
-        text: btnText,
-        textColor: textColor,
-      );
   }
 }
 
