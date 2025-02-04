@@ -38,6 +38,7 @@ dependencies:
   flutter_tabler_icons: ^1.27.0
   auto_size_text: ^3.0.0
   flutter_svg: ^2.0.17
+  flutter_screenutil: ^5.9.3
 dev_dependencies:
   flutter_test:
     sdk: flutter
