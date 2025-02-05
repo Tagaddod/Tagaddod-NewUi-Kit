@@ -1,162 +1,118 @@
 import 'package:flutter/material.dart';
 import 'package:tagaddod_ui_kit/colors/semantic/bg_colors.dart';
-import 'package:tagaddod_ui_kit/colors/semantic/text_colors.dart';
-import 'package:tagaddod_ui_kit/typography/semantics/body_styles.dart';
+import 'package:tagaddod_ui_kit/colors/semantic/icon_colors.dart';
 import 'package:tagaddod_ui_kit/utils/button_type.dart';
 import 'package:tagaddod_ui_kit/widgets/app_icon.dart';
-import 'package:tagaddod_ui_kit/widgets/app_text.dart';
 
-class AppTextButton extends StatelessWidget {
+class AppStandardIconButton extends StatelessWidget {
   final ButtonType buttonType;
-  final TextStyle _btnTextStyle;
-  final bool isLoading;
-  final String btnText;
-  final String? iconPath;
-  final Color? disabledTextColor;
-  final Color? textColor;
-  final BorderRadius? borderRadius;
+  final String iconPath;
+  final Color? backgroundColor;
+  final Color? disabledBackgroundColor;
+  final Color? disabledIconColor;
+  Color? iconColor;
   final double width;
-  final double _height;
-
+  final double height;
+  final double? iconWidth;
+  final double? iconHeight;
   final void Function()? onTap;
+  final Color? splashColor;
 
   //private constructor
-  const AppTextButton._({
-    required this.isLoading,
-    required this.btnText,
+  AppStandardIconButton._({
     this.onTap,
-    this.iconPath,
-    this.width = 80,
-    this.disabledTextColor,
-    this.textColor,
-    this.borderRadius,
+    required this.iconPath,
+    this.width = 40,
+    this.height = 40,
+    this.backgroundColor,
+    this.disabledBackgroundColor,
+    this.disabledIconColor = IconColors.colorIconDisabled,
+    this.iconColor,
     this.buttonType = ButtonType.defaultButton,
-  })  : _btnTextStyle = BodyStyles.bodySmSemiBold,
-        _height = 40;
+    this.iconHeight,
+    this.iconWidth,
+    this.splashColor = BgColors.colorBgSurfaceActive,
+  });
 
-  AppTextButton.medium(
-      {super.key,
-      required this.btnText,
-      this.isLoading = false,
-      this.onTap,
-      this.iconPath,
-      this.disabledTextColor = TextColors.colorTextDisabled,
-      this.width = 64,
-      Color? textColor,
-      this.borderRadius,
-      this.buttonType = ButtonType.defaultButton})
-      : _btnTextStyle = BodyStyles.bodySmSemiBold,
-        _height = 40,
-        textColor = textColor ?? getDefaultTextColor(buttonType);
+  AppStandardIconButton.medium({
+    super.key,
+    this.onTap,
+    required this.iconPath,
+    this.backgroundColor,
+    this.disabledBackgroundColor,
+    Color? borderColor,
+    this.width = 40,
+    this.height = 40,
+    Color? iconColor,
+    double? iconHeight,
+    double? iconWidth,
+    this.buttonType = ButtonType.defaultButton,
+    this.disabledIconColor = IconColors.colorIconDisabled,
+    this.splashColor = BgColors.colorBgSurfaceActive,
+  })  : iconColor = iconColor ?? getDefaultIconColor(buttonType),
+        iconWidth = iconWidth ?? 20,
+        iconHeight = iconHeight ?? 20;
 
-  AppTextButton.large(
+  AppStandardIconButton.large(
       {super.key,
-      required this.btnText,
-      this.isLoading = false,
       this.onTap,
-      this.iconPath,
-      Color? textColor,
-      this.borderRadius,
-      this.disabledTextColor = TextColors.colorTextDisabled,
-      this.width = 69,
+      required this.iconPath,
+      this.backgroundColor,
+      Color? borderColor,
+      Color? iconColor,
+      double? iconHeight,
+      double? iconWidth,
+      this.disabledBackgroundColor,
+      this.disabledIconColor = IconColors.colorIconDisabled,
+      this.width = 56,
+      this.height = 56,
+      this.splashColor = BgColors.colorBgSurfaceActive,
       this.buttonType = ButtonType.defaultButton})
-      : _btnTextStyle = BodyStyles.bodyMdSemiBold,
-        _height = 56,
-        textColor = textColor ?? getDefaultTextColor(buttonType);
+      : iconColor = iconColor ?? getDefaultIconColor(buttonType),
+        iconWidth = iconWidth ?? 32,
+        iconHeight = iconHeight ?? 32;
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: InkWell(
-        highlightColor: Colors.transparent,
-        splashColor: getHighlightColor(),
-        borderRadius: borderRadius ?? BorderRadius.circular(8),
-        onTap: isLoading ? null : onTap,
-        child: Ink(
-          width: width,
-          height: _height,
-          child: isLoading
-              ? Center(
-                  child: SizedBox(
-                    width: 18,
-                    height: 18,
-                    child: CircularProgressIndicator(
-                      color: textColor,
-                      strokeWidth: 3,
-                    ),
-                  ),
-                )
-              : Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    //icon
-                    if (iconPath != null)
-                      AppIcon(
-                        svgIconPath: iconPath!,
-                        colorFilter: ColorFilter.mode(
-                            onTap == null ? disabledTextColor! : textColor!,
-                            BlendMode.srcIn),
-                      ),
-                    if (iconPath != null) const SizedBox(width: 5),
-                    //text
-
-                    Flexible(child: getTextButtonWidget()),
-                  ],
-                ),
+    return InkWell(
+      splashColor: splashColor,
+      highlightColor: Colors.transparent,
+      customBorder: const CircleBorder(),
+      onTap: onTap,
+      child: Ink(
+        width: width,
+        height: height,
+        decoration: BoxDecoration(
+          color: onTap == null ? disabledBackgroundColor : backgroundColor,
+        ),
+        child: Center(
+          child: AppIcon(
+            svgIconPath: iconPath,
+            width: iconWidth,
+            height: iconHeight,
+            colorFilter: ColorFilter.mode(
+                onTap == null ? disabledIconColor! : iconColor!,
+                BlendMode.srcIn),
+          ),
         ),
       ),
     );
   }
 
-  AppText getTextButtonWidget() {
-    switch (_btnTextStyle) {
-      case BodyStyles.bodySmSemiBold:
-        return AppText.bodySmSemiBold(
-          text: btnText,
-          textColor: onTap == null ? disabledTextColor : textColor,
-        );
-      case BodyStyles.bodyMdSemiBold:
-        return AppText.bodyMdSemiBold(
-          text: btnText,
-          textColor: onTap == null ? disabledTextColor : textColor,
-        );
-
-      default:
-        return AppText.bodySmSemiBold(
-          text: btnText,
-          textColor: onTap == null ? disabledTextColor : textColor,
-        );
-    }
-  }
-
-  //get highlight color
-  Color getHighlightColor() {
-    switch (buttonType) {
-      case ButtonType.defaultButton:
-        return BgColors.colorBgFillBrandSecondary;
-      case ButtonType.successButton:
-        return BgColors.colorBgFillSuccessSecondary;
-      case ButtonType.criticalButton:
-        return BgColors.colorBgFillCriticalSecondary;
-      case ButtonType.neutralButton:
-        return BgColors.colorBgSurfaceSecondary;
-    }
-  }
-}
 //get Default Text Color
+}
 
-Color getDefaultTextColor(ButtonType buttonType) {
+Color getDefaultIconColor(ButtonType buttonType) {
   switch (buttonType) {
     case ButtonType.defaultButton:
-      return TextColors.colorTextLink;
+      return IconColors.colorIconLink;
     case ButtonType.successButton:
-      return TextColors.colorTextSuccess;
+      return IconColors.colorIconSuccess;
 
     case ButtonType.neutralButton:
-      return TextColors.colorText;
+      return IconColors.colorIcon;
 
     case ButtonType.criticalButton:
-      return TextColors.colorTextCritical;
+      return IconColors.colorIconCritical;
   }
 }
