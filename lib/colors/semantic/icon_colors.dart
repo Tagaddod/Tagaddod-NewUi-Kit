@@ -23,7 +23,7 @@ class IconColors {
   static const colorIconCriticalActive = AppColors.colorRed1400;
 
   static const colorIconWarning = AppColors.colorOrange1100;
-  static const colorIconWariningDark = AppColors.colorOrange1200;
+  static const colorIconWarningDark = AppColors.colorOrange1200;
 
   static const colorIconMagic = AppColors.colorPurple1200;
   static const colorIconMagicHover = AppColors.colorPurple1300;

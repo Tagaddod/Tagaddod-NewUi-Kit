@@ -6,6 +6,7 @@ class BgColors {
   static const colorBgWhite = AppColors.colorWhite;
   static const colorBg = AppColors.colorGray400;
   static const colorBgLight = AppColors.colorGray300;
+
   //Surface
   static const colorBgSurface = AppColors.colorGray100;
   static const colorBgSurfaceHover = AppColors.colorGray300;
@@ -38,14 +39,14 @@ class BgColors {
   static const colorBgFillCriticalHover = AppColors.colorRed1300;
   static const colorBgFillCriticalActive = AppColors.colorRed1400;
   static const colorBgFillCriticalSecondary = AppColors.colorRed400;
-  static const colorBgFillCriticalSecondaryHover = AppColors.colorRed500;
-  static const colorBgFillCriticalSecondaryActive = AppColors.colorRed700;
+  static const colorBgFillCriticalSecondaryHover = AppColors.colorRed600;
+  static const colorBgFillCriticalSecondaryActive = AppColors.colorRed800;
 
   static const colorBgFillWarning = AppColors.colorOrange1000;
   static const colorBgFillWarningHover = AppColors.colorOrange1100;
   static const colorBgFillWarningActive = AppColors.colorOrange1200;
   static const colorBgFillWarningSecondary = AppColors.colorOrange400;
-  static const colorBgFillWarningSecondaryHover = AppColors.colorOrange500;
+  static const colorBgFillWarningSecondaryHover = AppColors.colorOrange600;
   static const colorBgFillWarningSecondaryActive = AppColors.colorOrange700;
 
   static const colorBgFillMagic = AppColors.colorPurple1200;
@@ -55,10 +56,11 @@ class BgColors {
   static const colorBgFillMagicSecondaryHover = AppColors.colorPurple600;
   static const colorBgFillMagicSecondaryActive = AppColors.colorPurple800;
 
-  static Color colorBgByOverlay20 = const Color(0xffFFFFFF);
-  static Color colorBgOverlayDark12 = const Color(0xffE4E3E4);
-  static Color colorBgOverlayDark60 = const Color(0xff737378);
-  static Color colorBgOverlayDark70 = const Color(0xff5c5c61);
-  static Color colorBgOverlayDark85 = const Color(0xff39393f);
-  static const colorBgOverlayBrand12 = Color(0xffe7ebff);
+  static Color colorBgByOverlay20 = AppColors.colorGray100.withOpacity(0.2);
+  static Color colorBgOverlayDark12 = AppColors.colorGray1600.withOpacity(0.12);
+  static Color colorBgOverlayDark60 = AppColors.colorGray1600.withOpacity(0.6);
+  static Color colorBgOverlayDark70 = AppColors.colorGray1600.withOpacity(0.7);
+  static Color colorBgOverlayDark85 = AppColors.colorGray1600.withOpacity(0.85);
+  static Color colorBgOverlayBrand12 =
+      AppColors.colorGray1200.withOpacity(0.12);
 }

@@ -7,6 +7,7 @@ class BorderColors {
   static const colorBorderHover = AppColors.colorGray1100;
   static const colorBorderActive = AppColors.colorGray1300;
   static const colorBorderDisabled = AppColors.colorGray800;
+
   static const colorBorderBrand = AppColors.colorBlue1200;
   static const colorBorderBrandHover = AppColors.colorBlue1300;
   static const colorBorderBrandActive = AppColors.colorBlue1400;
@@ -16,8 +17,8 @@ class BorderColors {
   static const colorBorderSuccessActive = AppColors.colorGreen1300;
 
   static const colorBorderCritical = AppColors.colorRed1200;
-  static const colorBorderCirticalhover = AppColors.colorRed1200;
-  static const colorBorderCriticalActive = AppColors.colorRed1200;
+  static const colorBorderCriticalHover = AppColors.colorRed1300;
+  static const colorBorderCriticalActive = AppColors.colorRed1400;
 
   static const colorBorderWarning = AppColors.colorOrange1000;
 
