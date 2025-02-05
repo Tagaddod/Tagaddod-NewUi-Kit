@@ -11,7 +11,6 @@ class AppFilledIconButton extends StatelessWidget {
   final String iconPath;
   final Color? backgroundColor;
   final Color? disabledBackgroundColor;
-
   final Color? disabledIconColor;
   final BorderRadius? borderRadius;
   final Border? borderColor;
@@ -82,31 +81,29 @@ class AppFilledIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: InkWell(
-        splashColor: getHighlightColor(),
-        customBorder: isCircle ? const CircleBorder() : null,
-        highlightColor: Colors.transparent,
-        borderRadius: borderRadius ?? BorderRadius.circular(8),
-        onTap: onTap,
-        child: Ink(
-          width: width,
-          height: height,
-          decoration: getButtonTypeDecoration(buttonType).copyWith(
-              borderRadius:
-                  isCircle ? null : borderRadius ?? BorderRadius.circular(8),
-              border: borderColor,
-              shape: isCircle ? BoxShape.circle : BoxShape.rectangle,
-              color: onTap == null ? disabledBackgroundColor : backgroundColor),
-          child: Center(
-            child: AppIcon(
-              svgIconPath: iconPath,
-              width: iconWidth,
-              height: iconHeight,
-              colorFilter: ColorFilter.mode(
-                  onTap == null ? disabledIconColor! : iconColor!,
-                  BlendMode.srcIn),
-            ),
+    return InkWell(
+      splashColor: getHighlightColor(),
+      customBorder: isCircle ? const CircleBorder() : null,
+      highlightColor: Colors.transparent,
+      borderRadius: borderRadius ?? BorderRadius.circular(8),
+      onTap: onTap,
+      child: Ink(
+        width: width,
+        height: height,
+        decoration: getButtonTypeDecoration(buttonType).copyWith(
+            borderRadius:
+                isCircle ? null : borderRadius ?? BorderRadius.circular(8),
+            border: borderColor,
+            shape: isCircle ? BoxShape.circle : BoxShape.rectangle,
+            color: onTap == null ? disabledBackgroundColor : backgroundColor),
+        child: Center(
+          child: AppIcon(
+            svgIconPath: iconPath,
+            width: iconWidth,
+            height: iconHeight,
+            colorFilter: ColorFilter.mode(
+                onTap == null ? disabledIconColor! : iconColor!,
+                BlendMode.srcIn),
           ),
         ),
       ),

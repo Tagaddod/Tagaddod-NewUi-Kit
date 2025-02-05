@@ -19,7 +19,7 @@ class BgColors {
   static const colorBgFill = AppColors.colorGray100;
   static const colorBgFillHover = AppColors.colorGray300;
   static const colorBgFillActive = AppColors.colorGray500;
-  static const colorBgFillDisabled = AppColors.colorGray700;
+  static const colorBgFillDisabled = AppColors.colorGray900;
 
   static const colorBgFillBrand = AppColors.colorBlue1200;
   static const colorBgFillBrandHover = AppColors.colorBlue1300;

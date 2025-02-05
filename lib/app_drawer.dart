@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:tagaddod_ui_kit/samples/icon_button/sample_app_filled_icon_button.dart';
+import 'package:tagaddod_ui_kit/samples/icon_button/sample_app_outlined_icon_button.dart';
 import 'package:tagaddod_ui_kit/samples/sample_app_filled_button.dart';
-import 'package:tagaddod_ui_kit/samples/sample_app_filled_icon_button.dart';
 import 'package:tagaddod_ui_kit/samples/sample_app_outlined_button.dart';
 import 'package:tagaddod_ui_kit/samples/sample_app_text_button.dart';
 import 'package:tagaddod_ui_kit/samples/sample_app_tonal_button.dart';
@@ -59,6 +60,13 @@ class AppDrawer extends StatelessWidget {
               Navigator.pop(context);
             },
           ),
+          ListTile(
+            title: const Text("App outline icon Button"),
+            onTap: () {
+              onSelectWidget(getAppOutlinedIconButton(context));
+              Navigator.pop(context);
+            },
+          ),
         ],
       ),
     );
@@ -87,6 +95,10 @@ Widget getAppTextButton(BuildContext context) {
 
 Widget getAppFilledIconButton(BuildContext context) {
   return const SampleAppFilledIconButton();
+}
+
+Widget getAppOutlinedIconButton(BuildContext context) {
+  return const SampleAppOutlinedIconButton();
 }
 
 class PlaceholderWidget extends StatelessWidget {

@@ -1,155 +1,119 @@
 import 'package:flutter/material.dart';
 import 'package:tagaddod_ui_kit/colors/semantic/bg_colors.dart';
+import 'package:tagaddod_ui_kit/colors/semantic/border_colors.dart';
 import 'package:tagaddod_ui_kit/colors/semantic/icon_colors.dart';
-import 'package:tagaddod_ui_kit/colors/semantic/text_colors.dart';
-import 'package:tagaddod_ui_kit/typography/semantics/body_styles.dart';
 import 'package:tagaddod_ui_kit/utils/button_type.dart';
 import 'package:tagaddod_ui_kit/widgets/app_icon.dart';
-import 'package:tagaddod_ui_kit/widgets/app_text.dart';
 
-class AppOutlinedButton extends StatelessWidget {
+class AppOutlinedIconButton extends StatelessWidget {
   final ButtonType buttonType;
-  final TextStyle _btnTextStyle;
-  final bool isLoading;
-  final String btnText;
-  final String? iconPath;
+  final String iconPath;
   final Color? backgroundColor;
   final Color? disabledBackgroundColor;
-  final Color? disabledTextColor;
+  final Color? disabledIconColor;
+  final Color? disabledBorderColor;
   final BorderRadius? borderRadius;
   final Color? borderColor;
-  final Color? textColor;
-
+  Color? iconColor;
   final double width;
-  final double _height;
-
+  final double height;
+  bool isCircle;
+  final double? iconWidth;
+  final double? iconHeight;
   final void Function()? onTap;
 
   //private constructor
-  const AppOutlinedButton._({
-    required this.isLoading,
-    required this.btnText,
-    this.onTap,
-    this.iconPath,
-    this.width = 80,
-    this.backgroundColor,
-    this.borderRadius,
-    this.disabledBackgroundColor,
-    this.disabledTextColor,
-    this.borderColor,
-    this.textColor,
-    this.buttonType = ButtonType.defaultButton,
-  })  : _btnTextStyle = BodyStyles.bodySmSemiBold,
-        _height = 40;
+  AppOutlinedIconButton._(
+      {this.onTap,
+      required this.iconPath,
+      this.width = 40,
+      this.height = 40,
+      this.backgroundColor,
+      this.borderRadius,
+      this.disabledBackgroundColor,
+      this.borderColor,
+      this.iconColor,
+      this.buttonType = ButtonType.defaultButton,
+      this.disabledIconColor = IconColors.colorIconDisabled,
+      this.disabledBorderColor = BorderColors.colorBorderDisabled,
+      this.iconHeight,
+      this.iconWidth,
+      this.isCircle = false});
 
-  AppOutlinedButton.medium(
+  AppOutlinedIconButton.medium(
       {super.key,
-      required this.btnText,
-      this.isLoading = false,
       this.onTap,
-      this.iconPath,
+      required this.iconPath,
       this.backgroundColor,
       this.disabledBackgroundColor,
-      this.disabledTextColor = TextColors.colorTextDisabled,
+      this.disabledIconColor = IconColors.colorIconDisabled,
+      this.disabledBorderColor = BorderColors.colorBorderDisabled,
       Color? borderColor,
       this.borderRadius,
-      this.width = 80,
-      Color? textColor,
+      this.width = 40,
+      this.height = 40,
+      Color? iconColor,
+      double? iconHeight,
+      double? iconWidth,
+      this.isCircle = false,
       this.buttonType = ButtonType.defaultButton})
-      : _btnTextStyle = BodyStyles.bodySmSemiBold,
-        _height = 40,
+      : iconColor = iconColor ?? getDefaultIconColor(buttonType),
         borderColor = borderColor ?? getDefaultBorderColor(buttonType),
-        textColor = textColor ?? getDefaultTextColor(buttonType);
+        iconWidth = iconWidth ?? 20,
+        iconHeight = iconHeight ?? 20;
 
-  AppOutlinedButton.large(
+  AppOutlinedIconButton.large(
       {super.key,
-      required this.btnText,
-      this.isLoading = false,
       this.onTap,
-      this.iconPath,
+      required this.iconPath,
       this.backgroundColor,
       Color? borderColor,
-      Color? textColor,
+      Color? iconColor,
+      double? iconHeight,
+      double? iconWidth,
+      this.isCircle = false,
+      this.disabledBorderColor = BorderColors.colorBorderDisabled,
       this.disabledBackgroundColor,
-      this.disabledTextColor = TextColors.colorTextDisabled,
+      this.disabledIconColor = IconColors.colorIconDisabled,
       this.borderRadius,
-      this.width = 109,
+      this.width = 56,
+      this.height = 56,
       this.buttonType = ButtonType.defaultButton})
-      : _btnTextStyle = BodyStyles.bodyMdSemiBold,
-        _height = 56,
+      : iconColor = iconColor ?? getDefaultIconColor(buttonType),
         borderColor = borderColor ?? getDefaultBorderColor(buttonType),
-        textColor = textColor ?? getDefaultTextColor(buttonType);
+        iconWidth = iconWidth ?? 32,
+        iconHeight = iconHeight ?? 32;
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: InkWell(
-        highlightColor: Colors.transparent,
-        splashColor: getHighlightColor(),
-        borderRadius: borderRadius ?? BorderRadius.circular(8),
-        onTap: isLoading ? null : onTap,
-        child: Ink(
-          width: width,
-          height: _height,
-          decoration: BoxDecoration(
-            borderRadius: borderRadius ?? BorderRadius.circular(8),
+    return InkWell(
+      splashColor: getHighlightColor(),
+      customBorder: isCircle ? const CircleBorder() : null,
+      highlightColor: Colors.transparent,
+      borderRadius: borderRadius ?? BorderRadius.circular(8),
+      onTap: onTap,
+      child: Ink(
+        width: width,
+        height: height,
+        decoration: BoxDecoration(
+            borderRadius:
+                isCircle ? null : borderRadius ?? BorderRadius.circular(8),
             border: Border.all(
-                color: onTap == null ? disabledTextColor! : borderColor!),
+                color: onTap == null ? disabledBorderColor! : borderColor!),
             color: onTap == null ? disabledBackgroundColor : backgroundColor,
+            shape: isCircle ? BoxShape.circle : BoxShape.rectangle),
+        child: Center(
+          child: AppIcon(
+            svgIconPath: iconPath,
+            width: iconWidth,
+            height: iconHeight,
+            colorFilter: ColorFilter.mode(
+                onTap == null ? disabledIconColor! : iconColor!,
+                BlendMode.srcIn),
           ),
-          child: isLoading
-              ? Center(
-                  child: SizedBox(
-                    width: 18,
-                    height: 18,
-                    child: CircularProgressIndicator(
-                      color: textColor,
-                      strokeWidth: 3,
-                    ),
-                  ),
-                )
-              : Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    //icon
-                    if (iconPath != null)
-                      AppIcon(
-                        svgIconPath: iconPath!,
-                        colorFilter: ColorFilter.mode(
-                            onTap == null ? disabledTextColor! : textColor!,
-                            BlendMode.srcIn),
-                      ),
-                    if (iconPath != null) const SizedBox(width: 5),
-                    //text
-
-                    Flexible(child: getTextButtonWidget()),
-                  ],
-                ),
         ),
       ),
     );
-  }
-
-  AppText getTextButtonWidget() {
-    switch (_btnTextStyle) {
-      case BodyStyles.bodySmSemiBold:
-        return AppText.bodySmSemiBold(
-          text: btnText,
-          textColor: onTap == null ? disabledTextColor : textColor,
-        );
-      case BodyStyles.bodyMdSemiBold:
-        return AppText.bodyMdSemiBold(
-          text: btnText,
-          textColor: onTap == null ? disabledTextColor : textColor,
-        );
-
-      default:
-        return AppText.bodySmSemiBold(
-          text: btnText,
-          textColor: onTap == null ? disabledTextColor : textColor,
-        );
-    }
   }
 
   //get highlight color
@@ -168,32 +132,28 @@ class AppOutlinedButton extends StatelessWidget {
 }
 //get Default Text Color
 
-Color getDefaultTextColor(ButtonType buttonType) {
+Color getDefaultIconColor(ButtonType buttonType) {
   switch (buttonType) {
     case ButtonType.defaultButton:
-      return TextColors.colorTextLink;
+      return IconColors.colorIconLink;
     case ButtonType.successButton:
-      return TextColors.colorTextSuccess;
-
-    case ButtonType.neutralButton:
-      return TextColors.colorText;
-
+      return IconColors.colorIconSuccess;
     case ButtonType.criticalButton:
-      return TextColors.colorTextCritical;
+      return IconColors.colorIconCritical;
+    case ButtonType.neutralButton:
+      return IconColors.colorIcon;
   }
 }
 
 Color getDefaultBorderColor(ButtonType buttonType) {
   switch (buttonType) {
     case ButtonType.defaultButton:
-      return IconColors.colorIconLink;
+      return BorderColors.colorBorderBrand;
     case ButtonType.successButton:
-      return IconColors.colorIconSuccess;
-
+      return BorderColors.colorBorderSuccess;
+    case ButtonType.criticalButton:
+      return BorderColors.colorBorderCritical;
     case ButtonType.neutralButton:
       return IconColors.colorIcon;
-
-    case ButtonType.criticalButton:
-      return IconColors.colorIconCritical;
   }
 }
