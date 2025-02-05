@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tagaddod_ui_kit/utils/button_type.dart';
-import 'package:tagaddod_ui_kit/widgets/app_tonal_button.dart';
+import 'package:tagaddod_ui_kit/widgets/button/app_tonal_button.dart';
 
 class SampleAppTonalButton extends StatelessWidget {
   const SampleAppTonalButton({

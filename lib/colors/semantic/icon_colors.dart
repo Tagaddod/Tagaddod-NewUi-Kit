@@ -1,7 +1,7 @@
 import 'package:tagaddod_ui_kit/colors/primtives/colors.dart';
 
 class IconColors {
-  static const colorIcon = AppColors.colorGray1200;
+  static const colorIcon = AppColors.colorGray1600;
   static const colorIconSecondary = AppColors.colorGray1100;
   static const colorIconDisabled = AppColors.colorGray1000;
 

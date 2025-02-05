@@ -18,7 +18,7 @@ class AppFilledButton extends StatelessWidget {
   final Color? disabledTextColor;
   final BorderRadius? borderRadius;
   final Border? borderColor;
-  Color? textColor;
+  final Color? textColor;
 
   final double width;
   final double _height;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tagaddod_ui_kit/samples/sample_app_filled_button.dart';
+import 'package:tagaddod_ui_kit/samples/sample_app_filled_icon_button.dart';
 import 'package:tagaddod_ui_kit/samples/sample_app_outlined_button.dart';
 import 'package:tagaddod_ui_kit/samples/sample_app_text_button.dart';
 import 'package:tagaddod_ui_kit/samples/sample_app_tonal_button.dart';
@@ -51,6 +52,13 @@ class AppDrawer extends StatelessWidget {
               Navigator.pop(context);
             },
           ),
+          ListTile(
+            title: const Text("App filled icon Button"),
+            onTap: () {
+              onSelectWidget(getAppFilledIconButton(context));
+              Navigator.pop(context);
+            },
+          ),
         ],
       ),
     );
@@ -75,6 +83,10 @@ Widget getAppOutlinedButton(BuildContext context) {
 //get appFilled button
 Widget getAppTextButton(BuildContext context) {
   return const SampleAppTextButton();
+}
+
+Widget getAppFilledIconButton(BuildContext context) {
+  return const SampleAppFilledIconButton();
 }
 
 class PlaceholderWidget extends StatelessWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tagaddod_ui_kit/utils/button_type.dart';
-import 'package:tagaddod_ui_kit/widgets/app_filled_button.dart';
+import 'package:tagaddod_ui_kit/widgets/button/app_filled_button.dart';
 
 class SampleAppFilledButton extends StatelessWidget {
   const SampleAppFilledButton({
