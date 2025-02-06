@@ -5,7 +5,7 @@ class AppIcon extends StatelessWidget {
   final String svgIconPath;
   final double? width;
   final double? height;
-  final Color? color;
+
   final BoxFit fit;
   final AlignmentGeometry alignment;
 
@@ -16,7 +16,6 @@ class AppIcon extends StatelessWidget {
       this.alignment = Alignment.center,
       this.width,
       this.height,
-      this.color,
       this.colorFilter,
       this.fit = BoxFit.contain});
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tagaddod_ui_kit/samples/icon_button/sample_app_filled_icon_button.dart';
 import 'package:tagaddod_ui_kit/samples/icon_button/sample_app_outlined_icon_button.dart';
 import 'package:tagaddod_ui_kit/samples/icon_button/sample_app_standard_icon_button.dart';
@@ -7,6 +8,7 @@ import 'package:tagaddod_ui_kit/samples/sample_app_filled_button.dart';
 import 'package:tagaddod_ui_kit/samples/sample_app_outlined_button.dart';
 import 'package:tagaddod_ui_kit/samples/sample_app_text_button.dart';
 import 'package:tagaddod_ui_kit/samples/sample_app_tonal_button.dart';
+import 'package:tagaddod_ui_kit/samples/text_field/sample_text_field.dart';
 
 class AppDrawer extends StatelessWidget {
   final Function(Widget) onSelectWidget;
@@ -83,10 +85,22 @@ class AppDrawer extends StatelessWidget {
               Navigator.pop(context);
             },
           ),
+          ListTile(
+            title: const Text("App Text Field"),
+            onTap: () {
+              onSelectWidget(getAppTextField(context));
+              Navigator.pop(context);
+            },
+          ),
         ],
       ),
     );
   }
+}
+
+//get app text fields
+Widget getAppTextField(BuildContext context) {
+  return const SampleAppTextField();
 }
 
 //get appFilled button
