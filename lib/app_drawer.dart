@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tagaddod_ui_kit/samples/icon_button/sample_app_filled_icon_button.dart';
 import 'package:tagaddod_ui_kit/samples/icon_button/sample_app_outlined_icon_button.dart';
 import 'package:tagaddod_ui_kit/samples/icon_button/sample_app_standard_icon_button.dart';
@@ -9,6 +8,8 @@ import 'package:tagaddod_ui_kit/samples/sample_app_outlined_button.dart';
 import 'package:tagaddod_ui_kit/samples/sample_app_text_button.dart';
 import 'package:tagaddod_ui_kit/samples/sample_app_tonal_button.dart';
 import 'package:tagaddod_ui_kit/samples/text_field/sample_text_field.dart';
+import 'package:tagaddod_ui_kit/widgets/app_modal_dialog/app_modal_dialog.dart';
+import 'package:tagaddod_ui_kit/widgets/button/app_filled_button.dart';
 
 class AppDrawer extends StatelessWidget {
   final Function(Widget) onSelectWidget;
@@ -92,10 +93,34 @@ class AppDrawer extends StatelessWidget {
               Navigator.pop(context);
             },
           ),
+          //modal
+          ListTile(
+            title: const Text("App Modal Dialog"),
+            onTap: () {
+              Navigator.pop(context);
+              showModalBottomSheet(
+                context: context,
+                builder: (context) => getAppModalDialog(context),
+              );
+            },
+          ),
         ],
       ),
     );
   }
+}
+
+//get app modal dialog
+Widget getAppModalDialog(BuildContext context) {
+  return AppModalDialog(
+    modalHeaderTitle: "Title",
+    bodyWidget: const Center(child: Text("This IS My Modal Body widget")),
+    footerWidget: AppFilledButton.large(
+      btnText: "Label",
+      width: MediaQuery.sizeOf(context).width * 0.7,
+      onTap: () {},
+    ),
+  );
 }
 
 //get app text fields
