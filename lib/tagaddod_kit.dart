@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tagaddod_ui_kit/app_drawer.dart';
+import 'package:tagaddod_ui_kit/widgets/top_app_bar.dart';
 
 class TagaddodKit extends StatefulWidget {
   const TagaddodKit({super.key});
@@ -20,7 +21,11 @@ class _TagaddodKitState extends State<TagaddodKit> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Tagaddod Kit")),
+      appBar: const TopAppBar(
+        title: Text(
+          "UI kit",
+        ),
+      ),
       drawer: AppDrawer(
         onSelectWidget: _updateWidget,
       ),

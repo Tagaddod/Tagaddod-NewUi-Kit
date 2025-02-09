@@ -17,7 +17,7 @@ class AppFilledButton extends StatelessWidget {
   final Color? disabledBackgroundColor;
   final Color? disabledTextColor;
   final BorderRadius? borderRadius;
-  final Border? borderColor;
+  final Color? borderColor;
   final Color? textColor;
 
   final double width;
@@ -41,6 +41,7 @@ class AppFilledButton extends StatelessWidget {
     this.buttonType = ButtonType.defaultButton,
   })  : _btnTextStyle = BodyStyles.bodySmSemiBold,
         _height = 40;
+
   AppFilledButton.medium(
       {super.key,
       required this.btnText,
@@ -58,6 +59,7 @@ class AppFilledButton extends StatelessWidget {
       : _btnTextStyle = BodyStyles.bodySmSemiBold,
         _height = 40,
         textColor = textColor ?? getDefaultTextColor(buttonType);
+
   AppFilledButton.large(
       {super.key,
       required this.btnText,
@@ -91,7 +93,8 @@ class AppFilledButton extends StatelessWidget {
           height: _height,
           decoration: getButtonTypeDecoration(buttonType).copyWith(
             borderRadius: borderRadius,
-            border: borderColor,
+            border:
+                borderColor == null ? null : Border.all(color: borderColor!),
             color: onTap == null ? disabledBackgroundColor : backgroundColor,
           ),
           child: isLoading
