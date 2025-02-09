@@ -7,6 +7,7 @@ import 'package:tagaddod_ui_kit/samples/icon_button/sample_app_standard_icon_but
 import 'package:tagaddod_ui_kit/samples/icon_button/sample_app_tonal_icon_button.dart';
 import 'package:tagaddod_ui_kit/samples/sample_app_filled_button.dart';
 import 'package:tagaddod_ui_kit/samples/sample_app_outlined_button.dart';
+import 'package:tagaddod_ui_kit/samples/sample_app_switch.dart';
 import 'package:tagaddod_ui_kit/samples/sample_app_text_button.dart';
 import 'package:tagaddod_ui_kit/samples/sample_app_tonal_button.dart';
 import 'package:tagaddod_ui_kit/samples/text_field/sample_text_field.dart';
@@ -124,6 +125,14 @@ class AppDrawer extends StatelessWidget {
                 Navigator.pop(context);
               },
             ),
+            //sample switch button
+            ListTile(
+              title: const Text("App Switch "),
+              onTap: () {
+                onSelectWidget(getAppSwitch(context));
+                Navigator.pop(context);
+              },
+            ),
           ],
         ),
       ),
@@ -132,6 +141,10 @@ class AppDrawer extends StatelessWidget {
 
   Widget getAppCheckBox(BuildContext context) {
     return const SampleAppCheckBox();
+  }
+
+  Widget getAppSwitch(BuildContext context) {
+    return SampleAppSwitch();
   }
 }
 
