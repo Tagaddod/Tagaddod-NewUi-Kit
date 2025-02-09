@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tagaddod_ui_kit/samples/badges/sample_app_badge.dart';
+import 'package:tagaddod_ui_kit/samples/checkbox/sample_app_check_box.dart';
 import 'package:tagaddod_ui_kit/samples/icon_button/sample_app_filled_icon_button.dart';
 import 'package:tagaddod_ui_kit/samples/icon_button/sample_app_outlined_icon_button.dart';
 import 'package:tagaddod_ui_kit/samples/icon_button/sample_app_standard_icon_button.dart';
@@ -19,95 +21,123 @@ class AppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: Column(
-        children: [
-          const DrawerHeader(
-            decoration: BoxDecoration(color: Colors.blue),
-            child: Center(
-              child: Text(
-                "Select a Button",
-                style: TextStyle(color: Colors.white, fontSize: 20),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(color: Colors.blue),
+              child: Center(
+                child: Text(
+                  "Select a Button",
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
               ),
             ),
-          ),
-          ListTile(
-            title: const Text("App Filled Button"),
-            onTap: () {
-              onSelectWidget(getAppFilledButton(context));
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            title: const Text("App Tonal Button"),
-            onTap: () {
-              onSelectWidget(getAppTonalButton(context));
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            title: const Text("App Outlined Button"),
-            onTap: () {
-              onSelectWidget(getAppOutlinedButton(context));
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            title: const Text("App Text Button"),
-            onTap: () {
-              onSelectWidget(getAppTextButton(context));
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            title: const Text("App filled icon Button"),
-            onTap: () {
-              onSelectWidget(getAppFilledIconButton(context));
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            title: const Text("App tonal icon Button"),
-            onTap: () {
-              onSelectWidget(getAppTonalIconButton(context));
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            title: const Text("App outline icon Button"),
-            onTap: () {
-              onSelectWidget(getAppOutlinedIconButton(context));
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            title: const Text("App standard icon Button"),
-            onTap: () {
-              onSelectWidget(getAppStandardIconButton(context));
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            title: const Text("App Text Field"),
-            onTap: () {
-              onSelectWidget(getAppTextField(context));
-              Navigator.pop(context);
-            },
-          ),
-          //modal
-          ListTile(
-            title: const Text("App Modal Dialog"),
-            onTap: () {
-              Navigator.pop(context);
-              showModalBottomSheet(
-                context: context,
-                builder: (context) => getAppModalDialog(context),
-              );
-            },
-          ),
-        ],
+            ListTile(
+              title: const Text("App Filled Button"),
+              onTap: () {
+                onSelectWidget(getAppFilledButton(context));
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: const Text("App Tonal Button"),
+              onTap: () {
+                onSelectWidget(getAppTonalButton(context));
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: const Text("App Outlined Button"),
+              onTap: () {
+                onSelectWidget(getAppOutlinedButton(context));
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: const Text("App Text Button"),
+              onTap: () {
+                onSelectWidget(getAppTextButton(context));
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: const Text("App filled icon Button"),
+              onTap: () {
+                onSelectWidget(getAppFilledIconButton(context));
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: const Text("App tonal icon Button"),
+              onTap: () {
+                onSelectWidget(getAppTonalIconButton(context));
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: const Text("App outline icon Button"),
+              onTap: () {
+                onSelectWidget(getAppOutlinedIconButton(context));
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: const Text("App standard icon Button"),
+              onTap: () {
+                onSelectWidget(getAppStandardIconButton(context));
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: const Text("App Text Field"),
+              onTap: () {
+                onSelectWidget(getAppTextField(context));
+                Navigator.pop(context);
+              },
+            ),
+            //modal
+            ListTile(
+              title: const Text("App Modal Dialog"),
+              onTap: () {
+                Navigator.pop(context);
+                showModalBottomSheet(
+                  context: context,
+                  builder: (context) => getAppModalDialog(context),
+                );
+              },
+            ),
+            //app badge
+            ListTile(
+              title: const Text("App Badge "),
+              onTap: () {
+                onSelectWidget(getAppBadge(context));
+                Navigator.pop(context);
+              },
+            ),
+
+            //app check bo
+            ListTile(
+              title: const Text("App Check Box"),
+              onTap: () {
+                onSelectWidget(getAppCheckBox(context));
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
+
+  Widget getAppCheckBox(BuildContext context) {
+    return const SampleAppCheckBox();
+  }
+}
+
+//get App Badge
+Widget getAppBadge(BuildContext context) {
+  return const SampleAppBadge();
 }
 
 //get app modal dialog
