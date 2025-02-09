@@ -16,7 +16,7 @@ class AppTonalButton extends StatelessWidget {
   final Color? disabledBackgroundColor;
   final Color? disabledTextColor;
   final BorderRadius? borderRadius;
-  final Border? borderColor;
+  final Color? borderColor;
   Color? textColor;
 
   final double width;
@@ -90,7 +90,8 @@ class AppTonalButton extends StatelessWidget {
           height: _height,
           decoration: getButtonTypeDecoration(buttonType).copyWith(
             borderRadius: borderRadius,
-            border: borderColor,
+            border:
+                borderColor == null ? null : Border.all(color: borderColor!),
             color: onTap == null ? disabledBackgroundColor : backgroundColor,
           ),
           child: isLoading
