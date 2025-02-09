@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tagaddod_ui_kit/colors/primtives/colors.dart';
 import 'package:tagaddod_ui_kit/samples/badges/sample_app_badge.dart';
 import 'package:tagaddod_ui_kit/samples/checkbox/sample_app_check_box.dart';
 import 'package:tagaddod_ui_kit/samples/icon_button/sample_app_filled_icon_button.dart';
@@ -11,7 +12,9 @@ import 'package:tagaddod_ui_kit/samples/sample_app_switch.dart';
 import 'package:tagaddod_ui_kit/samples/sample_app_text_button.dart';
 import 'package:tagaddod_ui_kit/samples/sample_app_tonal_button.dart';
 import 'package:tagaddod_ui_kit/samples/text_field/sample_text_field.dart';
+import 'package:tagaddod_ui_kit/widgets/app_divider.dart';
 import 'package:tagaddod_ui_kit/widgets/app_modal_dialog/app_modal_dialog.dart';
+import 'package:tagaddod_ui_kit/widgets/app_text.dart';
 import 'package:tagaddod_ui_kit/widgets/button/app_filled_button.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -133,6 +136,16 @@ class AppDrawer extends StatelessWidget {
                 Navigator.pop(context);
               },
             ),
+
+            //Divider
+            //sample switch button
+            ListTile(
+              title: const Text("Divider"),
+              onTap: () {
+                onSelectWidget(getDivider(context));
+                Navigator.pop(context);
+              },
+            ),
           ],
         ),
       ),
@@ -145,6 +158,23 @@ class AppDrawer extends StatelessWidget {
 
   Widget getAppSwitch(BuildContext context) {
     return SampleAppSwitch();
+  }
+
+  Widget getDivider(BuildContext context) {
+    return const Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        AppText.bodyLg(text: "Divider Samples"),
+        AppDivider(),
+        SizedBox(
+          height: 20,
+        ),
+        AppDivider(
+          color: AppColors.colorRed1000,
+        ),
+      ],
+    );
   }
 }
 
