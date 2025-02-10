@@ -6,6 +6,8 @@ import 'package:tagaddod_ui_kit/samples/icon_button/sample_app_filled_icon_butto
 import 'package:tagaddod_ui_kit/samples/icon_button/sample_app_outlined_icon_button.dart';
 import 'package:tagaddod_ui_kit/samples/icon_button/sample_app_standard_icon_button.dart';
 import 'package:tagaddod_ui_kit/samples/icon_button/sample_app_tonal_icon_button.dart';
+import 'package:tagaddod_ui_kit/samples/number_container/sample_number_container.dart';
+import 'package:tagaddod_ui_kit/samples/number_counter/sample_number_counter.dart';
 import 'package:tagaddod_ui_kit/samples/sample_app_filled_button.dart';
 import 'package:tagaddod_ui_kit/samples/sample_app_outlined_button.dart';
 import 'package:tagaddod_ui_kit/samples/sample_app_switch.dart';
@@ -146,6 +148,20 @@ class AppDrawer extends StatelessWidget {
                 Navigator.pop(context);
               },
             ),
+            ListTile(
+              title: const Text("number counter"),
+              onTap: () {
+                onSelectWidget(getNumberCounter(context));
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: const Text("number container"),
+              onTap: () {
+                onSelectWidget(getNumberContainer(context));
+                Navigator.pop(context);
+              },
+            ),
           ],
         ),
       ),
@@ -199,6 +215,14 @@ Widget getAppModalDialog(BuildContext context) {
 //get app text fields
 Widget getAppTextField(BuildContext context) {
   return const SampleAppTextField();
+}
+
+Widget getNumberCounter(BuildContext context) {
+  return const SampleNumberCounter();
+}
+
+Widget getNumberContainer(BuildContext context) {
+  return const SampleNumberContainer();
 }
 
 //get appFilled button
