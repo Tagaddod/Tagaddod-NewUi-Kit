@@ -18,6 +18,7 @@ class _SampleNumberCounterState extends State<SampleNumberCounter> {
       children: [
         NumberCounter(
           textEditingController: controller,
+          errorText: "Error msg",
           initialValue: value,
           maxValue: 10,
           minValue: 2,

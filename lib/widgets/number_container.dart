@@ -3,11 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tagaddod_ui_kit/colors/semantic/bg_colors.dart';
 import 'package:tagaddod_ui_kit/colors/semantic/border_colors.dart';
 import 'package:tagaddod_ui_kit/colors/semantic/text_colors.dart';
-import 'package:tagaddod_ui_kit/typography/semantics/body_styles.dart';
+import 'package:tagaddod_ui_kit/widgets/app_text.dart';
 
 class NumberContainer extends StatelessWidget {
   final String value;
-  final TextStyle? textStyle;
   final Color? borderColor;
   final Color? backgroundColor;
   final Color? textColor;
@@ -18,7 +17,6 @@ class NumberContainer extends StatelessWidget {
 
   const NumberContainer(
       {required this.value,
-      this.textStyle,
       this.backgroundColor,
       this.borderWidth = 1,
       this.borderColor,
@@ -40,12 +38,8 @@ class NumberContainer extends StatelessWidget {
               width: borderWidth ?? 1.w,
               color: borderColor ?? BorderColors.colorBorderSecondary)),
       child: Center(
-        child: Text(
-          value,
-          style: textStyle ??
-              BodyStyles.bodyMdSemiBold
-                  .copyWith(color: textColor ?? TextColors.colorText),
-        ),
+        child: AppText.bodyMdSemiBold(
+            text: value, textColor: textColor ?? TextColors.colorText),
       ),
     );
   }
