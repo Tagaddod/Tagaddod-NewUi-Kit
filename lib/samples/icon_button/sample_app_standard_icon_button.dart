@@ -29,6 +29,7 @@ class SampleAppStandardIconButton extends StatelessWidget {
               iconPath: "assets/svg/add.svg",
               buttonType: ButtonType.criticalButton,
               onTap: () {},
+              isCircle: true,
             ),
             const SizedBox(
               height: 5,
@@ -63,6 +64,7 @@ class SampleAppStandardIconButton extends StatelessWidget {
             AppStandardIconButton.large(
               iconPath: "assets/svg/add.svg",
               buttonType: ButtonType.defaultButton,
+              isCircle: true,
               onTap: () {},
             ),
             const SizedBox(
