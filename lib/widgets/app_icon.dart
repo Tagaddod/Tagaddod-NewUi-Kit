@@ -24,12 +24,34 @@ class AppIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      child: SvgPicture.asset(svgIconPath,
-          alignment: alignment,
-          fit: fit,
-          width: width,
-          height: height,
-          colorFilter: colorFilter),
+      child: SvgPicture.asset(
+        svgIconPath,
+        alignment: alignment,
+        fit: fit,
+        width: width ?? 16,
+        height: height ?? 16,
+        colorFilter: colorFilter,
+      ),
+    );
+  }
+
+  AppIcon copyWith({
+    String? svgIconPath,
+    double? width,
+    double? height,
+    VoidCallback? onTap,
+    BoxFit? fit,
+    AlignmentGeometry? alignment,
+    ColorFilter? colorFilter,
+  }) {
+    return AppIcon(
+      svgIconPath: svgIconPath ?? this.svgIconPath,
+      width: width ?? this.width,
+      height: height ?? this.height,
+      onTap: onTap ?? this.onTap,
+      fit: fit ?? this.fit,
+      alignment: alignment ?? this.alignment,
+      colorFilter: colorFilter ?? this.colorFilter,
     );
   }
 }

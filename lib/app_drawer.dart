@@ -6,8 +6,10 @@ import 'package:tagaddod_ui_kit/samples/icon_button/sample_app_filled_icon_butto
 import 'package:tagaddod_ui_kit/samples/icon_button/sample_app_outlined_icon_button.dart';
 import 'package:tagaddod_ui_kit/samples/icon_button/sample_app_standard_icon_button.dart';
 import 'package:tagaddod_ui_kit/samples/icon_button/sample_app_tonal_icon_button.dart';
+import 'package:tagaddod_ui_kit/samples/sample_app_bottom_nav_bar.dart';
 import 'package:tagaddod_ui_kit/samples/sample_app_filled_button.dart';
 import 'package:tagaddod_ui_kit/samples/sample_app_outlined_button.dart';
+import 'package:tagaddod_ui_kit/samples/sample_app_radio_button.dart';
 import 'package:tagaddod_ui_kit/samples/sample_app_switch.dart';
 import 'package:tagaddod_ui_kit/samples/sample_app_text_button.dart';
 import 'package:tagaddod_ui_kit/samples/sample_app_tonal_button.dart';
@@ -146,6 +148,22 @@ class AppDrawer extends StatelessWidget {
                 Navigator.pop(context);
               },
             ),
+            //sample app radio  button
+            ListTile(
+              title: const Text("App Radio Button "),
+              onTap: () {
+                onSelectWidget(getAppRadioButton(context));
+                Navigator.pop(context);
+              },
+            ),
+            //bottom navigation bar
+            ListTile(
+              title: const Text("App Bottom Navigation Bar"),
+              onTap: () {
+                onSelectWidget(getAppBottomNavigationBar(context));
+                Navigator.pop(context);
+              },
+            ),
           ],
         ),
       ),
@@ -175,6 +193,20 @@ class AppDrawer extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  Widget getAppRadioButton(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        SampleAppRadioButton(),
+      ],
+    );
+  }
+
+  Widget getAppBottomNavigationBar(BuildContext context) {
+    return SampleAppBottomNavBar();
   }
 }
 

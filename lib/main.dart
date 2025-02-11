@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tagaddod_ui_kit/tagaddod_kit.dart';
+import 'package:tagaddod_ui_kit/typography/primitives/typography.dart'
+    as typography;
 
 void main() async {
   await ScreenUtil.ensureScreenSize();
@@ -31,6 +33,7 @@ class MyApp extends StatelessWidget {
               debugShowCheckedModeBanner: false,
               theme: ThemeData(
                 useMaterial3: true,
+                fontFamily: typography.Typography.fontFamilySansArabic,
               ),
               home: const TagaddodKit(),
             ),

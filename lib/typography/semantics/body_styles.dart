@@ -52,6 +52,6 @@ class BodyStyles {
   static const bodySmSemiBold = TextStyle(
     fontSize: Typography.fontSize350,
     fontWeight: Typography.fontWeightSemiBold,
-    height: 1.5,
+    height: 1,
   );
 }

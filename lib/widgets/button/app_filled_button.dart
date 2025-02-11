@@ -26,7 +26,7 @@ class AppFilledButton extends StatelessWidget {
   final void Function()? onTap;
 
   //private constructor
-  AppFilledButton._({
+  const AppFilledButton._({
     required this.isLoading,
     required this.btnText,
     this.onTap,
@@ -127,7 +127,9 @@ class AppFilledButton extends StatelessWidget {
                           ),
                         if (iconPath != null) const SizedBox(width: 5),
                         //text
-                        Flexible(child: getTextButtonWidget()),
+                        Flexible(
+                          child: getTextButtonWidget(),
+                        ),
                       ],
                     ),
                   ),

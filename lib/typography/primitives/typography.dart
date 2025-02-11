@@ -6,7 +6,7 @@ class Typography {
 
   static const fontWeightRegular = FontWeight.w400;
   static const fontWeightMedium = FontWeight.w500;
-  static const fontWeightSemiBold = FontWeight.w600;
+  static const fontWeightSemiBold = FontWeight.w700;
   static const fontWeightBold = FontWeight.w700;
 
   static const fontSize250 = 10.0;

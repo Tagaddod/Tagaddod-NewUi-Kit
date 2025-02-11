@@ -29,6 +29,6 @@ class CaptionStyles {
   static const captionSmSemiBold = TextStyle(
     fontSize: Typography.fontSize250,
     fontWeight: Typography.fontWeightSemiBold,
-    height: 1.5,
+    height: 1,
   );
 }
