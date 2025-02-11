@@ -15,41 +15,46 @@ class AppStandardIconButton extends StatelessWidget {
   final double height;
   final double? iconWidth;
   final double? iconHeight;
+  bool isCircle;
   final void Function()? onTap;
   final Color? splashColor;
+  final BorderRadius? borderRadius;
 
   //private constructor
-  AppStandardIconButton._({
-    this.onTap,
-    required this.iconPath,
-    this.width = 40,
-    this.height = 40,
-    this.backgroundColor,
-    this.disabledBackgroundColor,
-    this.disabledIconColor = IconColors.colorIconDisabled,
-    this.iconColor,
-    this.buttonType = ButtonType.defaultButton,
-    this.iconHeight,
-    this.iconWidth,
-    this.splashColor = BgColors.colorBgSurfaceActive,
-  });
+  AppStandardIconButton._(
+      {this.onTap,
+      required this.iconPath,
+      this.width = 40,
+      this.height = 40,
+      this.backgroundColor,
+      this.disabledBackgroundColor,
+      this.disabledIconColor = IconColors.colorIconDisabled,
+      this.iconColor,
+      this.buttonType = ButtonType.defaultButton,
+      this.iconHeight,
+      this.iconWidth,
+      this.borderRadius,
+      this.splashColor = BgColors.colorBgSurfaceActive,
+      this.isCircle = false});
 
-  AppStandardIconButton.medium({
-    super.key,
-    this.onTap,
-    required this.iconPath,
-    this.backgroundColor,
-    this.disabledBackgroundColor,
-    Color? borderColor,
-    this.width = 40,
-    this.height = 40,
-    Color? iconColor,
-    double? iconHeight,
-    double? iconWidth,
-    this.buttonType = ButtonType.defaultButton,
-    this.disabledIconColor = IconColors.colorIconDisabled,
-    this.splashColor = BgColors.colorBgSurfaceActive,
-  })  : iconColor = iconColor ?? getDefaultIconColor(buttonType),
+  AppStandardIconButton.medium(
+      {super.key,
+      this.onTap,
+      required this.iconPath,
+      this.backgroundColor,
+      this.borderRadius,
+      this.disabledBackgroundColor,
+      Color? borderColor,
+      this.width = 40,
+      this.height = 40,
+      Color? iconColor,
+      double? iconHeight,
+      double? iconWidth,
+      this.buttonType = ButtonType.defaultButton,
+      this.disabledIconColor = IconColors.colorIconDisabled,
+      this.splashColor = BgColors.colorBgSurfaceActive,
+      this.isCircle = false})
+      : iconColor = iconColor ?? getDefaultIconColor(buttonType),
         iconWidth = iconWidth ?? 20,
         iconHeight = iconHeight ?? 20;
 
@@ -61,12 +66,14 @@ class AppStandardIconButton extends StatelessWidget {
       Color? borderColor,
       Color? iconColor,
       double? iconHeight,
+      this.borderRadius,
       double? iconWidth,
       this.disabledBackgroundColor,
       this.disabledIconColor = IconColors.colorIconDisabled,
       this.width = 56,
       this.height = 56,
       this.splashColor = BgColors.colorBgSurfaceActive,
+      this.isCircle = false,
       this.buttonType = ButtonType.defaultButton})
       : iconColor = iconColor ?? getDefaultIconColor(buttonType),
         iconWidth = iconWidth ?? 32,
@@ -77,14 +84,17 @@ class AppStandardIconButton extends StatelessWidget {
     return InkWell(
       splashColor: splashColor,
       highlightColor: Colors.transparent,
-      customBorder: const CircleBorder(),
+      customBorder: isCircle ? const CircleBorder() : null,
+      borderRadius: borderRadius ?? BorderRadius.circular(8),
       onTap: onTap,
       child: Ink(
         width: width,
         height: height,
         decoration: BoxDecoration(
-          color: onTap == null ? disabledBackgroundColor : backgroundColor,
-        ),
+            borderRadius:
+                isCircle ? null : borderRadius ?? BorderRadius.circular(8),
+            shape: isCircle ? BoxShape.circle : BoxShape.rectangle,
+            color: onTap == null ? disabledBackgroundColor : backgroundColor),
         child: Center(
           child: AppIcon(
             svgIconPath: iconPath,
