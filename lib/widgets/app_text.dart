@@ -254,6 +254,7 @@ class AppText extends StatelessWidget {
       style: AppTextStyles.getStyle(_appTextStatus).copyWith(
         color: textColor,
         letterSpacing: letterSpacing,
+        leadingDistribution: TextLeadingDistribution.even,
         height: height,
         decoration: decoration,
       ),

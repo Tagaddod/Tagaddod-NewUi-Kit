@@ -19,7 +19,7 @@ class SampleAppTonalButton extends StatelessWidget {
             const Text("App Tonal button Medium"),
             AppTonalButton.medium(
               btnText: "Default Button",
-              iconPath: "assets/svg/add.svg",
+              iconPath: "assets/svg/Prefix.svg",
               buttonType: ButtonType.defaultButton,
               width: MediaQuery.sizeOf(context).width * 0.5,
               onTap: () {},
@@ -64,7 +64,7 @@ class SampleAppTonalButton extends StatelessWidget {
           children: [
             AppTonalButton.large(
               btnText: "Default Button",
-              iconPath: "assets/svg/add.svg",
+              iconPath: "assets/svg/Prefix.svg",
               buttonType: ButtonType.defaultButton,
               width: MediaQuery.sizeOf(context).width * 0.5,
               onTap: () {},
@@ -98,7 +98,7 @@ class SampleAppTonalButton extends StatelessWidget {
             ),
             AppTonalButton.large(
               btnText: "disabled Button",
-              iconPath: "assets/svg/add.svg",
+              iconPath: "assets/svg/Prefix.svg",
               buttonType: ButtonType.defaultButton,
               width: MediaQuery.sizeOf(context).width * 0.5,
               onTap: null,
@@ -108,7 +108,7 @@ class SampleAppTonalButton extends StatelessWidget {
             ),
             AppTonalButton.large(
               btnText: "Loading Button",
-              iconPath: "assets/svg/add.svg",
+              iconPath: "assets/svg/Prefix.svg",
               buttonType: ButtonType.defaultButton,
               isLoading: true,
               width: MediaQuery.sizeOf(context).width * 0.5,

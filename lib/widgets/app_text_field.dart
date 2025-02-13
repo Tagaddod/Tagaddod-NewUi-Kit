@@ -27,13 +27,15 @@ class AppTextField extends StatefulWidget {
   final String? Function(String?)? validator;
   final double _height;
   final String? errorSvgIconPath;
+  final bool expands;
   final double width;
+  final int? minLines;
+
+  final int? maxLines;
   final bool isEnabled;
   const AppTextField._({
     super.key,
     required this.labelText,
-    this.textEditingController,
-    this.isOptionalEnabled = false,
     this.onChanged,
     this.errorText,
     this.validator,
@@ -45,13 +47,18 @@ class AppTextField extends StatefulWidget {
     this.borderRadius,
     this.hintText,
     this.width = 200,
-    this.isEnabled = true,
     this.keyboardType,
-    this.obscureText = false,
-    this.readOnly = false,
   })  : _size = TextFieldSize.medium,
-        _btnTextStyle = BodyStyles.bodySm,
-        _height = 40;
+        _btnTextStyle = BodyStyles.bodySmSemiBold,
+        _height = 40,
+        isEnabled = true,
+        obscureText = false,
+        isOptionalEnabled = false,
+        textEditingController = null,
+        expands = false,
+        minLines = 1,
+        readOnly = false,
+        maxLines = 1;
 
   const AppTextField.medium(
       {super.key,
@@ -64,7 +71,10 @@ class AppTextField extends StatefulWidget {
       this.borderRadius,
       this.helperText,
       this.autovalidateMode,
+      this.expands = false,
       this.prefix,
+      this.minLines,
+      this.maxLines,
       this.suffix,
       this.hintText,
       this.keyboardType,
@@ -74,30 +84,33 @@ class AppTextField extends StatefulWidget {
       this.obscureText = false,
       this.readOnly = false})
       : _size = TextFieldSize.medium,
-        _btnTextStyle = BodyStyles.bodySm,
+        _btnTextStyle = BodyStyles.bodySmSemiBold,
         _height = 40;
 
-  const AppTextField.large(
-      {super.key,
-      required this.labelText,
-      this.textEditingController,
-      this.isOptionalEnabled = false,
-      this.onChanged,
-      this.errorText,
-      this.borderRadius,
-      this.validator,
-      this.prefix,
-      this.autovalidateMode,
-      this.suffix,
-      this.isEnabled = true,
-      this.errorSvgIconPath,
-      this.hintText,
-      this.width = 200,
-      this.keyboardType,
-      this.obscureText = false,
-      this.readOnly = false,
-      this.helperText})
-      : _size = TextFieldSize.large,
+  const AppTextField.large({
+    super.key,
+    required this.labelText,
+    this.textEditingController,
+    this.isOptionalEnabled = false,
+    this.onChanged,
+    this.errorText,
+    this.borderRadius,
+    this.validator,
+    this.helperText,
+    this.prefix,
+    this.suffix,
+    this.minLines,
+    this.maxLines,
+    this.autovalidateMode,
+    this.isEnabled = true,
+    this.errorSvgIconPath,
+    this.hintText,
+    this.width = 200,
+    this.keyboardType,
+    this.obscureText = false,
+    this.readOnly = false,
+    this.expands = false,
+  })  : _size = TextFieldSize.large,
         _btnTextStyle = BodyStyles.bodyMdSemiBold,
         _height = 56;
 
@@ -108,10 +121,21 @@ class AppTextField extends StatefulWidget {
 class _AppTextFieldState extends State<AppTextField> {
   late TextEditingController _textEditingController;
   final ValueNotifier<String?> errorNotifier = ValueNotifier<String?>(null);
+  bool _isFocused = false;
+  final bool _isEmpty = true;
 
+  late FocusNode _focusNode;
   @override
   initState() {
     super.initState();
+    _focusNode = FocusNode();
+
+    // Listen for focus changes
+    _focusNode.addListener(() {
+      setState(() {
+        _isFocused = _focusNode.hasFocus;
+      });
+    });
     _textEditingController =
         widget.textEditingController ?? TextEditingController();
     errorNotifier.value = widget.errorText ??
@@ -123,9 +147,11 @@ class _AppTextFieldState extends State<AppTextField> {
   @override
   void dispose() {
     _textEditingController.removeListener(_validateInput);
+
     if (widget.textEditingController == null) {
       _textEditingController.dispose();
     }
+    _focusNode.dispose();
     errorNotifier.dispose();
     super.dispose();
   }
@@ -161,102 +187,117 @@ class _AppTextFieldState extends State<AppTextField> {
           ),
         ),
 
-        const SizedBox(height: 5),
-        //text field
         SizedBox(
-          height: widget._height,
-          width: widget.width,
-          child: ValueListenableBuilder<String?>(
-              valueListenable: errorNotifier,
-              builder: (context, error, child) {
-                bool isError = error != null ||
-                    (widget.errorText != null && widget.errorText!.isNotEmpty);
-
-                return TextFormField(
-                  controller: _textEditingController,
-                  autovalidateMode: widget.autovalidateMode,
-                  validator: widget.validator,
-                  onTapOutside: (event) {
-                    FocusManager.instance.primaryFocus?.unfocus();
-                  },
-                  onChanged: (value) {
-                    _validateInput();
-                    if (widget.onChanged != null) {
-                      widget.onChanged!(value);
-                    }
-                  },
-                  keyboardType: widget.keyboardType,
-                  obscureText: widget.obscureText,
-                  readOnly: widget.readOnly,
-                  decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 12, vertical: 12),
-                    errorText: null,
-                    hintText: widget.hintText,
-                    errorStyle: const TextStyle(
-                      color: Colors.transparent,
-                      fontSize: 0,
-                    ),
-                    hintStyle: widget.isEnabled
-                        ? widget._btnTextStyle == BodyStyles.bodySm
-                            ? BodyStyles.bodySm
-                                .copyWith(color: TextColors.colorTextSecondary)
-                            : BodyStyles.bodyMd
-                        : BodyStyles.bodySm,
-                    isDense: true,
-                    prefix: widget.prefix,
-                    suffix: widget.suffix,
-                    disabledBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(
-                        color: BgColors.colorBgSurfaceDisabled,
-                      ),
-                      borderRadius:
-                          BorderRadius.circular(widget.borderRadius ?? 8.0),
-                    ),
-                    border: OutlineInputBorder(
-                      borderSide:
-                          const BorderSide(color: BorderColors.colorBorder),
-                      borderRadius:
-                          BorderRadius.circular(widget.borderRadius ?? 8.0),
-                    ),
-                    focusedErrorBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                          color: BorderColors.colorBorderCritical,
-                        ),
-                        borderRadius:
-                            BorderRadius.circular(widget.borderRadius ?? 8.0)),
-                    errorBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                          color: BorderColors.colorBorderCritical,
-                        ),
-                        borderRadius:
-                            BorderRadius.circular(widget.borderRadius ?? 8.0)),
-                    fillColor: isError
+            height: widget._btnTextStyle == BodyStyles.bodySmSemiBold ? 5 : 0),
+        //text field
+        ValueListenableBuilder<String?>(
+            valueListenable: errorNotifier,
+            builder: (context, error, child) {
+              bool isError = error != null ||
+                  (widget.errorText != null && widget.errorText!.isNotEmpty);
+              return Container(
+                height: widget._height,
+                width: widget.width,
+                margin: EdgeInsets.zero,
+                padding: EdgeInsets.zero,
+                decoration: BoxDecoration(
+                    borderRadius:
+                        BorderRadius.circular(widget.borderRadius ?? 8),
+                    color: isError
                         ? BgColors.colorBgFillCriticalSecondary
                         : !widget.isEnabled || widget.readOnly
                             ? BgColors.colorBgSurfaceDisabled
                             : BgColors.colorBgSurface,
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(
-                          color: BorderColors.colorBorderBrand),
-                      borderRadius:
-                          BorderRadius.circular(widget.borderRadius ?? 8.0),
+                    border: Border.all(
+                      color: errorNotifier.value != null
+                          ? BorderColors.colorBorderCritical // Error state
+                          : _isFocused
+                              ? BorderColors.colorBorderBrand // Focused state
+                              : BorderColors.colorBorder, // Default state)),
+                      width: 1,
+                    )),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    if (widget.prefix != null) ...[
+                      Padding(
+                        padding: const EdgeInsets.only(left: 12),
+                        child: widget.prefix!,
+                      ),
+                      const SizedBox(width: 6),
+                    ],
+                    if (widget.prefix == null) const SizedBox(width: 12),
+                    Expanded(
+                      child: TextFormField(
+                        controller: _textEditingController,
+                        autovalidateMode: widget.autovalidateMode,
+                        validator: widget.validator,
+                        focusNode: _focusNode,
+                        onTapOutside: (event) {
+                          FocusManager.instance.primaryFocus?.unfocus();
+                        },
+                        onChanged: (value) {
+                          _validateInput();
+                          if (widget.onChanged != null) {
+                            widget.onChanged!(value);
+                          }
+                        },
+                        keyboardType: widget.keyboardType,
+                        obscureText: widget.obscureText,
+                        maxLines: null,
+                        minLines: null,
+                        expands: true,
+                        readOnly: widget.readOnly,
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(
+                              horizontal: 0,
+                              vertical: widget._btnTextStyle ==
+                                      BodyStyles.bodySmSemiBold
+                                  ? 5
+                                  : 10),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide.none,
+                          ),
+                          isDense: true,
+                          constraints:
+                              BoxConstraints(maxHeight: widget._height),
+                          errorText: null,
+                          hintText: widget.hintText,
+                          errorStyle: const TextStyle(
+                            color: Colors.transparent,
+                            fontSize: 0,
+                          ),
+                          hintStyle: widget.isEnabled
+                              ? widget._btnTextStyle ==
+                                      BodyStyles.bodySmSemiBold
+                                  ? BodyStyles.bodySm.copyWith(
+                                      color: TextColors.colorTextSecondary)
+                                  : BodyStyles.bodyMd
+                              : BodyStyles.bodySm,
+                          fillColor: isError
+                              ? BgColors.colorBgFillCriticalSecondary
+                              : !widget.isEnabled || widget.readOnly
+                                  ? BgColors.colorBgSurfaceDisabled
+                                  : BgColors.colorBgSurface,
+                          enabled: widget.isEnabled,
+                          filled: true,
+                        ),
+                      ),
                     ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                          color: widget.readOnly
-                              ? Colors.transparent
-                              : BorderColors.colorBorder),
-                      borderRadius:
-                          BorderRadius.circular(widget.borderRadius ?? 8.0),
-                    ),
-                    enabled: widget.isEnabled,
-                    filled: true,
-                  ),
-                );
-              }),
-        ),
-        if (widget.helperText != null)
+                    if (widget.suffix != null) ...[
+                      widget.suffix!,
+                      const SizedBox(width: 12),
+                    ],
+                  ],
+                ),
+              );
+            }),
+        if (widget.helperText != null) ...[
+          const SizedBox(
+            height: 5,
+          ),
           SizedBox(
             width: widget.width,
             child: AppText.bodySm(
@@ -264,7 +305,10 @@ class _AppTextFieldState extends State<AppTextField> {
               textColor: TextColors.colorTextSecondary,
             ),
           ),
-        const SizedBox(height: 5),
+        ],
+
+        SizedBox(
+            height: widget._btnTextStyle == BodyStyles.bodySmSemiBold ? 7 : 6),
 
         ValueListenableBuilder<String?>(
             valueListenable: errorNotifier,
@@ -277,15 +321,19 @@ class _AppTextFieldState extends State<AppTextField> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     AppIcon(
-                      svgIconPath:
-                          widget.errorSvgIconPath ?? "assets/svg/error.svg",
+                      svgIconPath: widget.errorSvgIconPath ??
+                          "assets/svg/alert-circle (1).svg",
+                      height: 20,
+                      width: 20,
                       colorFilter: const ColorFilter.mode(
                           BorderColors.colorBorderCritical, BlendMode.srcIn),
                     ),
-                    const SizedBox(width: 8),
+                    const SizedBox(width: 6),
                     AppText.bodySm(
                       text: error,
+                      height: 1.8,
                       textColor: TextColors.colorTextCritical,
+                      textAlign: TextAlign.center,
                     ),
                   ],
                 ),
@@ -297,8 +345,8 @@ class _AppTextFieldState extends State<AppTextField> {
 
   AppText getTextButtonWidget() {
     switch (widget._btnTextStyle) {
-      case BodyStyles.bodySm:
-        return AppText.bodySm(
+      case BodyStyles.bodySmSemiBold:
+        return AppText.bodySmSemiBold(
           text: widget.labelText,
           textColor: widget.isEnabled ? null : TextColors.colorTextDisabled,
         );

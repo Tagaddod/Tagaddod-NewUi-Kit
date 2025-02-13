@@ -26,7 +26,14 @@ class _SampleAppCheckBoxState extends State<SampleAppCheckBox> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
-                const AppText.bodyLg(text: "Play with This"),
+                const AppText.bodyLg(
+                  text: "Play with This",
+                  height: 0.9,
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
                 AppCheckBox(
                   value: value,
                   tristate: true,
@@ -38,6 +45,9 @@ class _SampleAppCheckBoxState extends State<SampleAppCheckBox> {
             );
           },
         ),
+        const SizedBox(
+          height: 20,
+        ),
 
         //disabled Check Box
         const Row(
@@ -46,11 +56,17 @@ class _SampleAppCheckBoxState extends State<SampleAppCheckBox> {
           mainAxisSize: MainAxisSize.min,
           children: [
             AppText.bodyLg(text: "Disabled Default Check Box"),
+            SizedBox(
+              width: 10,
+            ),
             AppCheckBox(
               value: false,
               tristate: true,
             ),
           ],
+        ),
+        const SizedBox(
+          height: 20,
         ),
         //disabled with value true
         const Row(
@@ -59,11 +75,17 @@ class _SampleAppCheckBoxState extends State<SampleAppCheckBox> {
           mainAxisSize: MainAxisSize.min,
           children: [
             AppText.bodyLg(text: "Disabled Checked Check Box"),
+            SizedBox(
+              width: 10,
+            ),
             AppCheckBox(
               value: true,
               tristate: true,
             ),
           ],
+        ),
+        const SizedBox(
+          height: 20,
         ),
 
         //disabled with value null
@@ -73,6 +95,9 @@ class _SampleAppCheckBoxState extends State<SampleAppCheckBox> {
           mainAxisSize: MainAxisSize.min,
           children: [
             AppText.bodyLg(text: "Disabled Inderminate Check Box"),
+            SizedBox(
+              width: 10,
+            ),
             AppCheckBox(
               value: null,
               tristate: true,

@@ -18,7 +18,7 @@ class SampleAppFilledIconButton extends StatelessWidget {
           children: [
             const Text("App filled icon button Medium"),
             AppFilledIconButton.medium(
-              iconPath: "assets/svg/add.svg",
+              iconPath: "assets/svg/Prefix.svg",
               buttonType: ButtonType.defaultButton,
               onTap: () {},
             ),
@@ -26,7 +26,7 @@ class SampleAppFilledIconButton extends StatelessWidget {
               height: 5,
             ),
             AppFilledIconButton.medium(
-              iconPath: "assets/svg/add.svg",
+              iconPath: "assets/svg/Prefix.svg",
               buttonType: ButtonType.criticalButton,
               onTap: () {},
               isCircle: true,
@@ -35,7 +35,7 @@ class SampleAppFilledIconButton extends StatelessWidget {
               height: 5,
             ),
             AppFilledIconButton.medium(
-              iconPath: "assets/svg/add.svg",
+              iconPath: "assets/svg/Prefix.svg",
               buttonType: ButtonType.neutralButton,
               onTap: () {},
               isCircle: true,
@@ -44,7 +44,7 @@ class SampleAppFilledIconButton extends StatelessWidget {
               height: 5,
             ),
             AppFilledIconButton.medium(
-              iconPath: "assets/svg/add.svg",
+              iconPath: "assets/svg/Prefix.svg",
               buttonType: ButtonType.successButton,
               onTap: null,
             ),
@@ -63,7 +63,7 @@ class SampleAppFilledIconButton extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             AppFilledIconButton.large(
-              iconPath: "assets/svg/add.svg",
+              iconPath: "assets/svg/Prefix.svg",
               buttonType: ButtonType.defaultButton,
               onTap: () {},
             ),
@@ -71,7 +71,7 @@ class SampleAppFilledIconButton extends StatelessWidget {
               height: 5,
             ),
             AppFilledIconButton.large(
-              iconPath: "assets/svg/add.svg",
+              iconPath: "assets/svg/Prefix.svg",
               buttonType: ButtonType.criticalButton,
               onTap: () {},
               isCircle: true,
@@ -80,7 +80,7 @@ class SampleAppFilledIconButton extends StatelessWidget {
               height: 5,
             ),
             AppFilledIconButton.large(
-              iconPath: "assets/svg/add.svg",
+              iconPath: "assets/svg/Prefix.svg",
               buttonType: ButtonType.neutralButton,
               onTap: () {},
               isCircle: true,
@@ -89,7 +89,7 @@ class SampleAppFilledIconButton extends StatelessWidget {
               height: 5,
             ),
             AppFilledIconButton.large(
-              iconPath: "assets/svg/add.svg",
+              iconPath: "assets/svg/Prefix.svg",
               buttonType: ButtonType.successButton,
               onTap: () {},
             ),

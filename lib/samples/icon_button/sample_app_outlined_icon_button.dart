@@ -18,7 +18,7 @@ class SampleAppOutlinedIconButton extends StatelessWidget {
           children: [
             const Text("App outline icon button Medium"),
             AppOutlinedIconButton.medium(
-              iconPath: "assets/svg/add.svg",
+              iconPath: "assets/svg/Prefix.svg",
               buttonType: ButtonType.defaultButton,
               onTap: () {},
             ),
@@ -26,7 +26,7 @@ class SampleAppOutlinedIconButton extends StatelessWidget {
               height: 5,
             ),
             AppOutlinedIconButton.medium(
-              iconPath: "assets/svg/add.svg",
+              iconPath: "assets/svg/Prefix.svg",
               buttonType: ButtonType.criticalButton,
               onTap: () {},
               isCircle: true,
@@ -35,7 +35,7 @@ class SampleAppOutlinedIconButton extends StatelessWidget {
               height: 5,
             ),
             AppOutlinedIconButton.medium(
-              iconPath: "assets/svg/add.svg",
+              iconPath: "assets/svg/Prefix.svg",
               buttonType: ButtonType.neutralButton,
               onTap: () {},
               isCircle: true,
@@ -44,7 +44,7 @@ class SampleAppOutlinedIconButton extends StatelessWidget {
               height: 5,
             ),
             AppOutlinedIconButton.medium(
-              iconPath: "assets/svg/add.svg",
+              iconPath: "assets/svg/Prefix.svg",
               buttonType: ButtonType.successButton,
               onTap: null,
             ),
@@ -63,7 +63,7 @@ class SampleAppOutlinedIconButton extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             AppOutlinedIconButton.large(
-              iconPath: "assets/svg/add.svg",
+              iconPath: "assets/svg/Prefix.svg",
               buttonType: ButtonType.defaultButton,
               onTap: () {},
             ),
@@ -71,7 +71,7 @@ class SampleAppOutlinedIconButton extends StatelessWidget {
               height: 5,
             ),
             AppOutlinedIconButton.large(
-              iconPath: "assets/svg/add.svg",
+              iconPath: "assets/svg/Prefix.svg",
               buttonType: ButtonType.criticalButton,
               onTap: () {},
               isCircle: true,
@@ -80,7 +80,7 @@ class SampleAppOutlinedIconButton extends StatelessWidget {
               height: 5,
             ),
             AppOutlinedIconButton.large(
-              iconPath: "assets/svg/add.svg",
+              iconPath: "assets/svg/Prefix.svg",
               buttonType: ButtonType.neutralButton,
               onTap: () {},
               isCircle: true,
@@ -89,7 +89,7 @@ class SampleAppOutlinedIconButton extends StatelessWidget {
               height: 5,
             ),
             AppOutlinedIconButton.large(
-              iconPath: "assets/svg/add.svg",
+              iconPath: "assets/svg/Prefix.svg",
               buttonType: ButtonType.successButton,
               onTap: () {},
             ),

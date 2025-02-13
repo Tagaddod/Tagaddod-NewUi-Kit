@@ -14,6 +14,8 @@ class AppBadge extends StatelessWidget {
   final double? borderRadius;
   final double? width;
   final double _height;
+  final Offset? smalloffsetTrim;
+  final Offset? mediumoffsetTrim;
   final String? svgIconPath;
   final String? textLabel;
   const AppBadge._({
@@ -22,6 +24,8 @@ class AppBadge extends StatelessWidget {
         _badgeSize = AppBadgeSize.small,
         borderRadius = null,
         isStrong = false,
+        smalloffsetTrim = null,
+        mediumoffsetTrim = null,
         _height = 24,
         width = 66,
         svgIconPath = null,
@@ -32,6 +36,8 @@ class AppBadge extends StatelessWidget {
       this.badgeType = AppBadgeType.defaultBadge,
       this.width,
       this.svgIconPath,
+      this.smalloffsetTrim,
+      this.mediumoffsetTrim,
       this.textLabel,
       this.borderRadius})
       : _badgeSize = AppBadgeSize.small,
@@ -41,6 +47,8 @@ class AppBadge extends StatelessWidget {
       this.isStrong = false,
       this.width,
       this.svgIconPath,
+      this.smalloffsetTrim,
+      this.mediumoffsetTrim,
       this.textLabel,
       this.badgeType = AppBadgeType.defaultBadge,
       this.borderRadius})
@@ -63,7 +71,8 @@ class AppBadge extends StatelessWidget {
             BorderRadius.circular(borderRadius ?? Dimensions.borderRadiusFull),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 6),
+        padding: EdgeInsets.symmetric(
+            horizontal: _badgeSize == AppBadgeSize.small ? 6 : 8),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -77,16 +86,29 @@ class AppBadge extends StatelessWidget {
               ),
             if (svgIconPath != null) const SizedBox(width: 4),
             //text
-
             Flexible(
               child: _badgeSize == AppBadgeSize.small
-                  ? AppText.captionLgSemiBold(
-                      text: textLabel ?? "",
-                      textColor: getTextColor(),
+                  ? Transform.translate(
+                      offset: smalloffsetTrim ??
+                          const Offset(0,
+                              2), //added for adding more trimming vertically to align text with icon ahmed amr request
+                      child: AppText.captionLgSemiBold(
+                        text: textLabel ?? "",
+                        textColor: getTextColor(),
+                        textAlign: TextAlign.center,
+                        height: 1,
+                      ),
                     )
-                  : AppText.bodySmSemiBold(
-                      text: textLabel ?? "", textColor: getTextColor()),
-            )
+                  : Transform.translate(
+                      offset: mediumoffsetTrim ?? const Offset(0, 2),
+                      child: AppText.bodySmSemiBold(
+                        text: textLabel ?? "",
+                        textColor: getTextColor(),
+                        textAlign: TextAlign.center,
+                        height: 1,
+                      ),
+                    ),
+            ),
           ],
         ),
       ),

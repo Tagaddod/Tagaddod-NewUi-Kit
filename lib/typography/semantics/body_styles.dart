@@ -22,7 +22,7 @@ class BodyStyles {
   static const bodyMd = TextStyle(
     fontSize: Typography.fontSize400,
     fontWeight: Typography.fontWeightRegular,
-    height: 1.5,
+    height: 1.2,
   );
 
   static const bodyMdMedium = TextStyle(
@@ -40,7 +40,7 @@ class BodyStyles {
   static const bodySm = TextStyle(
     fontSize: Typography.fontSize350,
     fontWeight: Typography.fontWeightRegular,
-    height: 1.5,
+    height: 1.4,
   );
 
   static const bodySmMedium = TextStyle(
@@ -52,6 +52,5 @@ class BodyStyles {
   static const bodySmSemiBold = TextStyle(
     fontSize: Typography.fontSize350,
     fontWeight: Typography.fontWeightSemiBold,
-    height: 1,
   );
 }

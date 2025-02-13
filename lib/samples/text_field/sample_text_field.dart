@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tagaddod_ui_kit/widgets/app_text_field.dart';
+import 'package:tagaddod_ui_kit/widgets/button/app_text_button.dart';
 
 class SampleAppTextField extends StatelessWidget {
   const SampleAppTextField({super.key});
@@ -31,6 +32,7 @@ class MediumTextFieldSample extends StatefulWidget {
 
 class _MediumTextFieldSampleState extends State<MediumTextFieldSample> {
   final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -42,6 +44,23 @@ class _MediumTextFieldSampleState extends State<MediumTextFieldSample> {
         AppTextField.medium(
           labelText: "Rest Medium Text Field",
           hintText: "Value",
+          prefix: const Icon(
+            Icons.search,
+            color: Colors.grey,
+          ),
+          suffix: const Icon(
+            Icons.search,
+            color: Colors.grey,
+          ),
+          width: MediaQuery.sizeOf(context).width * 0.5,
+        ),
+        const SizedBox(
+          height: 15,
+        ),
+        AppTextField.medium(
+          labelText: "Rest Medium Text Field",
+          hintText: "Value",
+          prefix: const Text("Label::::"),
           width: MediaQuery.sizeOf(context).width * 0.5,
         ),
         const SizedBox(
@@ -76,9 +95,7 @@ class _MediumTextFieldSampleState extends State<MediumTextFieldSample> {
         const SizedBox(
           height: 15,
         ),
-        const SizedBox(
-          height: 15,
-        ),
+
         //read only
         AppTextField.medium(
           labelText: "Read Only Medium Text Field",
@@ -112,6 +129,11 @@ class LargeTextFieldSample extends StatelessWidget {
           labelText: "Rest Large Text Field",
           hintText: "Value",
           helperText: "Help Text",
+          prefix: const Icon(Icons.search),
+          suffix: const Icon(
+            Icons.search,
+            color: Colors.grey,
+          ),
           width: MediaQuery.sizeOf(context).width * 0.5,
         ),
         const SizedBox(

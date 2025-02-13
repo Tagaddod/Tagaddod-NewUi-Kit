@@ -100,6 +100,23 @@ class AppDrawer extends StatelessWidget {
                 Navigator.pop(context);
               },
             ),
+            //app badge
+            ListTile(
+              title: const Text("App Badge "),
+              onTap: () {
+                onSelectWidget(getAppBadge(context));
+                Navigator.pop(context);
+              },
+            ),
+
+            //app check bo
+            ListTile(
+              title: const Text("App Check Box"),
+              onTap: () {
+                onSelectWidget(getAppCheckBox(context));
+                Navigator.pop(context);
+              },
+            ),
             ListTile(
               title: const Text("App Text Field"),
               onTap: () {
@@ -118,23 +135,7 @@ class AppDrawer extends StatelessWidget {
                 );
               },
             ),
-            //app badge
-            ListTile(
-              title: const Text("App Badge "),
-              onTap: () {
-                onSelectWidget(getAppBadge(context));
-                Navigator.pop(context);
-              },
-            ),
 
-            //app check bo
-            ListTile(
-              title: const Text("App Check Box"),
-              onTap: () {
-                onSelectWidget(getAppCheckBox(context));
-                Navigator.pop(context);
-              },
-            ),
             //sample switch button
             ListTile(
               title: const Text("App Switch "),
