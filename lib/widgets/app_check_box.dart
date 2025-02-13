@@ -51,19 +51,23 @@ class AppCheckBox extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          splashColor: BgColors.colorBgOverlayBrand12,
+          splashColor:
+              onChanged == null ? null : BgColors.colorBgOverlayBrand12,
           borderRadius: BorderRadius.circular(24),
-          onTap: () {
-            if (onChanged != null) {
-              if (tristate) {
-                // Handle tristate toggling
-                onChanged!(
-                    value == null ? false : (value == false ? true : null));
-              } else {
-                onChanged!(!(value ?? false));
-              }
-            }
-          },
+          onTap: onChanged == null
+              ? null
+              : () {
+                  if (onChanged != null) {
+                    if (tristate) {
+                      // Handle tristate toggling
+                      onChanged!(value == null
+                          ? false
+                          : (value == false ? true : null));
+                    } else {
+                      onChanged!(!(value ?? false));
+                    }
+                  }
+                },
           child: Center(
             child: Container(
               width: size,
