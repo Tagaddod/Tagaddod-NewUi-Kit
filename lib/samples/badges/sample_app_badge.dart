@@ -90,6 +90,21 @@ class SampleSmallAppBadges extends StatelessWidget {
           const AppSmallState(
             text: "Critical",
           ),
+          const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Directionality(
+              textDirection: TextDirection.rtl,
+              child: Row(
+                children: [
+                  AppText.bodySmSemiBold(text: "RTL"),
+                  SizedBox(width: 10),
+                  AppSmallState(
+                    text: "Critical",
+                  ),
+                ],
+              ),
+            ),
+          ),
         ]);
   }
 }
