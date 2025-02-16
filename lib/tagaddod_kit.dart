@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:tagaddod_ui_kit/app_drawer.dart';
-import 'package:tagaddod_ui_kit/widgets/top_app_bar.dart';
 
 class TagaddodKit extends StatefulWidget {
   const TagaddodKit({super.key});
@@ -23,11 +22,7 @@ class _TagaddodKitState extends State<TagaddodKit> {
     return MaterialApp(
       theme: ThemeData(fontFamily: 'tajawal'),
       home: Scaffold(
-        appBar: const TopAppBar(
-          title: Text(
-            "UI kit",
-          ),
-        ),
+        appBar: AppBar(),
         drawer: AppDrawer(
           onSelectWidget: _updateWidget,
         ),

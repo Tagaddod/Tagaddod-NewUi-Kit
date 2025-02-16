@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tagaddod_ui_kit/colors/semantic/text_colors.dart';
 import 'package:tagaddod_ui_kit/typography/semantics/body_styles.dart';
 
@@ -34,21 +33,32 @@ class TopAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-      child: AppBar(
-        title: title,
-        leading: prefix,
-        centerTitle: centerTitle,
-        titleSpacing: titleSpacing,
-        titleTextStyle: titleTextStyle ??
-            BodyStyles.bodyLgSemiBold.copyWith(color: TextColors.colorText),
-        shape: shape,
-        backgroundColor: backgroundColor,
-        systemOverlayStyle: systemUiOverlayStyle,
-        automaticallyImplyLeading: automaticallyImplyLeading,
-        actions: suffix == null ? [] : [suffix!],
-      ),
+    return AppBar(
+      title: title,
+      leading: prefix != null
+          ? Padding(
+              padding: const EdgeInsetsDirectional.only(
+                  start: 15, top: 8, bottom: 8),
+              child: prefix,
+            )
+          : prefix,
+      centerTitle: centerTitle,
+      titleSpacing: titleSpacing ?? (prefix == null ? 16 : 8),
+      titleTextStyle: titleTextStyle ??
+          BodyStyles.bodyLgSemiBold.copyWith(color: TextColors.colorText),
+      shape: shape,
+      backgroundColor: backgroundColor ?? TextColors.colorTextOnBgFill,
+      systemOverlayStyle: systemUiOverlayStyle,
+      automaticallyImplyLeading: automaticallyImplyLeading,
+      actions: suffix == null
+          ? []
+          : [
+              Padding(
+                padding: const EdgeInsetsDirectional.only(
+                    end: 15, top: 8, bottom: 8),
+                child: suffix!,
+              )
+            ],
     );
   }
 

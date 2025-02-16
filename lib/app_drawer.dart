@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:tagaddod_ui_kit/colors/primtives/colors.dart';
+import 'package:tagaddod_ui_kit/samples/app_bar/sample_top_app_bar.dart';
 import 'package:tagaddod_ui_kit/samples/badges/sample_app_badge.dart';
 import 'package:tagaddod_ui_kit/samples/checkbox/sample_app_check_box.dart';
 import 'package:tagaddod_ui_kit/samples/icon_button/sample_app_filled_icon_button.dart';
 import 'package:tagaddod_ui_kit/samples/icon_button/sample_app_outlined_icon_button.dart';
 import 'package:tagaddod_ui_kit/samples/icon_button/sample_app_standard_icon_button.dart';
 import 'package:tagaddod_ui_kit/samples/icon_button/sample_app_tonal_icon_button.dart';
-
-import 'package:tagaddod_ui_kit/samples/sample_app_bottom_nav_bar.dart';
-
 import 'package:tagaddod_ui_kit/samples/number_container/sample_number_container.dart';
 import 'package:tagaddod_ui_kit/samples/number_counter/sample_number_counter.dart';
-
+import 'package:tagaddod_ui_kit/samples/sample_app_bottom_nav_bar.dart';
 import 'package:tagaddod_ui_kit/samples/sample_app_filled_button.dart';
 import 'package:tagaddod_ui_kit/samples/sample_app_outlined_button.dart';
 import 'package:tagaddod_ui_kit/samples/sample_app_radio_button.dart';
@@ -186,6 +184,14 @@ class AppDrawer extends StatelessWidget {
                 Navigator.pop(context);
               },
             ),
+            ListTile(
+              title: const Text("top app bar"),
+              onTap: () {
+                onSelectWidget(getTopAppBar(context));
+
+                Navigator.pop(context);
+              },
+            ),
           ],
         ),
       ),
@@ -261,6 +267,10 @@ Widget getNumberCounter(BuildContext context) {
 
 Widget getNumberContainer(BuildContext context) {
   return const SampleNumberContainer();
+}
+
+Widget getTopAppBar(BuildContext context) {
+  return const SampleTopAppBar();
 }
 
 //get appFilled button
