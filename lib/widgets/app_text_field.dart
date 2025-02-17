@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:tagaddod_ui_kit/colors/semantic/bg_colors.dart';
 import 'package:tagaddod_ui_kit/colors/semantic/border_colors.dart';
 import 'package:tagaddod_ui_kit/colors/semantic/text_colors.dart';
@@ -19,10 +18,12 @@ class AppTextField extends StatefulWidget {
   final bool readOnly;
   final String? hintText;
   final String? helperText;
+  final double? lineHeight;
   final Widget? prefix;
   final Widget? suffix;
   final Function(String)? onChanged;
   final String? errorText;
+  final String? optionalText;
   final AutovalidateMode? autovalidateMode;
   final String? Function(String?)? validator;
   final double _height;
@@ -38,11 +39,13 @@ class AppTextField extends StatefulWidget {
     required this.labelText,
     this.onChanged,
     this.errorText,
+    this.lineHeight,
     this.validator,
     this.autovalidateMode,
     this.helperText,
     this.prefix,
     this.errorSvgIconPath,
+    this.optionalText,
     this.suffix,
     this.borderRadius,
     this.hintText,
@@ -66,10 +69,12 @@ class AppTextField extends StatefulWidget {
       this.textEditingController,
       this.validator,
       this.onChanged,
+      this.lineHeight,
       this.isOptionalEnabled = false,
       this.errorText,
       this.borderRadius,
       this.helperText,
+      this.optionalText,
       this.autovalidateMode,
       this.expands = false,
       this.prefix,
@@ -100,7 +105,9 @@ class AppTextField extends StatefulWidget {
     this.prefix,
     this.suffix,
     this.minLines,
+    this.lineHeight,
     this.maxLines,
+    this.optionalText,
     this.autovalidateMode,
     this.isEnabled = true,
     this.errorSvgIconPath,
@@ -177,18 +184,30 @@ class _AppTextFieldState extends State<AppTextField> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               getTextButtonWidget(),
+              const SizedBox(
+                width: 2,
+              ),
               if (widget.isOptionalEnabled)
                 Text(
-                  " (Optional)",
-                  style: BodyStyles.bodySm
-                      .copyWith(color: TextColors.colorTextSecondary),
+                  widget.optionalText ?? "(Optional)",
+                  style: widget._btnTextStyle == BodyStyles.bodySmSemiBold
+                      ? BodyStyles.bodySm
+                          .copyWith(color: TextColors.colorTextSecondary)
+                      : BodyStyles.bodyMd.copyWith(
+                          color: TextColors.colorTextSecondary, height: 1.5),
                 )
             ],
           ),
         ),
 
         SizedBox(
-            height: widget._btnTextStyle == BodyStyles.bodySmSemiBold ? 5 : 0),
+            height: widget._btnTextStyle == BodyStyles.bodySmSemiBold
+                ? Directionality.of(context).name == 'ltr'
+                    ? 5
+                    : 3
+                : Directionality.of(context).name == 'ltr'
+                    ? 5
+                    : 2),
         //text field
         ValueListenableBuilder<String?>(
             valueListenable: errorNotifier,
@@ -222,7 +241,7 @@ class _AppTextFieldState extends State<AppTextField> {
                   children: [
                     if (widget.prefix != null) ...[
                       Padding(
-                        padding: const EdgeInsets.only(left: 12),
+                        padding: const EdgeInsetsDirectional.only(start: 12),
                         child: widget.prefix!,
                       ),
                       const SizedBox(width: 6),
@@ -254,8 +273,10 @@ class _AppTextFieldState extends State<AppTextField> {
                               horizontal: 0,
                               vertical: widget._btnTextStyle ==
                                       BodyStyles.bodySmSemiBold
-                                  ? 5
-                                  : 10),
+                                  ? Directionality.of(context).name == 'ltr'
+                                      ? 6
+                                      : 0
+                                  : 12),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
                             borderSide: BorderSide.none,
@@ -273,7 +294,8 @@ class _AppTextFieldState extends State<AppTextField> {
                               ? widget._btnTextStyle ==
                                       BodyStyles.bodySmSemiBold
                                   ? BodyStyles.bodySm.copyWith(
-                                      color: TextColors.colorTextSecondary)
+                                      color: TextColors.colorTextSecondary,
+                                      height: 1.6)
                                   : BodyStyles.bodyMd
                               : BodyStyles.bodySm,
                           fillColor: isError
@@ -329,11 +351,13 @@ class _AppTextFieldState extends State<AppTextField> {
                           BorderColors.colorBorderCritical, BlendMode.srcIn),
                     ),
                     const SizedBox(width: 6),
+                    //TODO: check again on english
                     AppText.bodySm(
                       text: error,
-                      height: 1.8,
                       textColor: TextColors.colorTextCritical,
                       textAlign: TextAlign.center,
+                      height:
+                          Directionality.of(context).name == 'ltr' ? null : 1.5,
                     ),
                   ],
                 ),
@@ -348,17 +372,20 @@ class _AppTextFieldState extends State<AppTextField> {
       case BodyStyles.bodySmSemiBold:
         return AppText.bodySmSemiBold(
           text: widget.labelText,
+          height: widget.lineHeight,
           textColor: widget.isEnabled ? null : TextColors.colorTextDisabled,
         );
       case BodyStyles.bodyMdSemiBold:
         return AppText.bodyMdSemiBold(
           text: widget.labelText,
+          height: widget.lineHeight,
           textColor: widget.isEnabled ? null : TextColors.colorTextDisabled,
         );
 
       default:
         return AppText.bodySm(
           text: widget.labelText,
+          height: widget.lineHeight,
           textColor: widget.isEnabled ? null : TextColors.colorTextDisabled,
         );
     }

@@ -80,8 +80,6 @@ class AppFilledButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //we should get style of each component in here
-
     return Center(
       child: InkWell(
         splashColor: getHighlightColor(),
@@ -128,7 +126,15 @@ class AppFilledButton extends StatelessWidget {
                         if (iconPath != null) const SizedBox(width: 5),
                         //text
                         Flexible(
-                          child: getTextButtonWidget(),
+                          child: Transform.translate(
+                              offset: _btnTextStyle == BodyStyles.bodySmSemiBold
+                                  ? Directionality.of(context).name == 'ltr'
+                                      ? const Offset(0, 0)
+                                      : const Offset(0, 1.6)
+                                  : Directionality.of(context).name == 'ltr'
+                                      ? const Offset(0, 0)
+                                      : const Offset(0, 2),
+                              child: getTextButtonWidget(context)),
                         ),
                       ],
                     ),
@@ -139,17 +145,19 @@ class AppFilledButton extends StatelessWidget {
     );
   }
 
-  AppText getTextButtonWidget() {
+  AppText getTextButtonWidget(BuildContext context) {
     switch (_btnTextStyle) {
       case BodyStyles.bodySmSemiBold:
         return AppText.bodySmSemiBold(
           text: btnText,
           textColor: onTap == null ? disabledTextColor : textColor,
+          height: 0,
         );
       case BodyStyles.bodyMdSemiBold:
         return AppText.bodyMdSemiBold(
           text: btnText,
           textColor: onTap == null ? disabledTextColor : textColor,
+          height: Directionality.of(context).name == 'ltr' ? 0.2 : 1.5,
         );
 
       default:

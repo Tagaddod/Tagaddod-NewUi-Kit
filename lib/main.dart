@@ -1,6 +1,5 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tagaddod_ui_kit/tagaddod_kit.dart';
 import 'package:tagaddod_ui_kit/typography/primitives/typography.dart'
@@ -20,23 +19,30 @@ class MyApp extends StatelessWidget {
         designSize: const Size(360, 690),
         minTextAdapt: true,
         builder: (_, child) {
-          final String defaultLocale = Platform.localeName;
-          return Directionality(
-            textDirection: defaultLocale == 'ar_EG'
-                ? TextDirection.rtl
-                : TextDirection.ltr,
-            child: MaterialApp(
-              locale: defaultLocale == 'ar_EG'
-                  ? const Locale('ar', 'EG')
-                  : const Locale('en', 'US'),
-              title: 'Flutter Demo',
-              debugShowCheckedModeBanner: false,
-              theme: ThemeData(
-                useMaterial3: true,
-                fontFamily: typography.Typography.fontFamilySansArabic,
-              ),
-              home: const TagaddodKit(),
+          return MaterialApp(
+            locale: const Locale('en'),
+            builder: (context, child) {
+              return Directionality(
+                textDirection: TextDirection.ltr,
+                child: child!,
+              );
+            },
+            localizationsDelegates: const [
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            title: 'Flutter Demo',
+            debugShowCheckedModeBanner: false,
+            supportedLocales: const [
+              Locale('ar'),
+              Locale('en'),
+            ],
+            theme: ThemeData(
+              useMaterial3: true,
+              fontFamily: typography.Typography.fontFamilySansEnglish,
             ),
+            home: const TagaddodKit(),
           );
         });
   }

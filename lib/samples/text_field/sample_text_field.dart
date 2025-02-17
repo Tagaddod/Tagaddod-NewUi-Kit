@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tagaddod_ui_kit/typography/semantics/body_styles.dart';
 import 'package:tagaddod_ui_kit/widgets/app_text_field.dart';
-import 'package:tagaddod_ui_kit/widgets/button/app_text_button.dart';
 
 class SampleAppTextField extends StatelessWidget {
   const SampleAppTextField({super.key});
@@ -42,15 +42,18 @@ class _MediumTextFieldSampleState extends State<MediumTextFieldSample> {
           style: TextStyle(fontSize: 20),
         ),
         AppTextField.medium(
-          labelText: "Rest Medium Text Field",
+          labelText: "Label",
           hintText: "Value",
+          isOptionalEnabled: true,
           prefix: const Icon(
             Icons.search,
             color: Colors.grey,
+            size: 16,
           ),
           suffix: const Icon(
             Icons.search,
             color: Colors.grey,
+            size: 16,
           ),
           width: MediaQuery.sizeOf(context).width * 0.5,
         ),
@@ -60,7 +63,10 @@ class _MediumTextFieldSampleState extends State<MediumTextFieldSample> {
         AppTextField.medium(
           labelText: "Rest Medium Text Field",
           hintText: "Value",
-          prefix: const Text("Label::::"),
+          prefix: Text(
+            "Label",
+            style: BodyStyles.bodySmSemiBold.copyWith(height: 2.5),
+          ),
           width: MediaQuery.sizeOf(context).width * 0.5,
         ),
         const SizedBox(
@@ -129,10 +135,27 @@ class LargeTextFieldSample extends StatelessWidget {
           labelText: "Rest Large Text Field",
           hintText: "Value",
           helperText: "Help Text",
-          prefix: const Icon(Icons.search),
+          prefix: const Icon(
+            Icons.search,
+            size: 16,
+            color: Colors.grey,
+          ),
           suffix: const Icon(
             Icons.search,
             color: Colors.grey,
+            size: 16,
+          ),
+          width: MediaQuery.sizeOf(context).width * 0.5,
+        ),
+        const SizedBox(
+          height: 15,
+        ),
+        AppTextField.large(
+          labelText: "Rest Medium Text Field",
+          hintText: "Value",
+          prefix: Text(
+            "Labelyz",
+            style: BodyStyles.bodyMdSemiBold.copyWith(height: 2.9),
           ),
           width: MediaQuery.sizeOf(context).width * 0.5,
         ),

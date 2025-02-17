@@ -2,7 +2,7 @@ import 'dart:ui';
 
 class Typography {
   static const fontFamilySansEnglish = 'Outfit';
-  static const fontFamilySansArabic = 'DIN Next LT W23';
+  static const fontFamilySansArabic = 'Tajawal';
 
   static const fontWeightRegular = FontWeight.w400;
   static const fontWeightMedium = FontWeight.w500;

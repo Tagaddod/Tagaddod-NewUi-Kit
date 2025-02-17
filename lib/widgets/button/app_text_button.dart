@@ -101,7 +101,16 @@ class AppTextButton extends StatelessWidget {
                     if (iconPath != null) const SizedBox(width: 5),
                     //text
 
-                    Flexible(child: getTextButtonWidget()),
+                    Flexible(
+                        child: Transform.translate(
+                            offset: _btnTextStyle == BodyStyles.bodySmSemiBold
+                                ? Directionality.of(context).name == 'ltr'
+                                    ? const Offset(0, 0)
+                                    : const Offset(0, 1.6)
+                                : Directionality.of(context).name == 'ltr'
+                                    ? const Offset(0, 0)
+                                    : const Offset(0, 2),
+                            child: getTextButtonWidget(context))),
                   ],
                 ),
         ),
@@ -109,7 +118,7 @@ class AppTextButton extends StatelessWidget {
     );
   }
 
-  AppText getTextButtonWidget() {
+  AppText getTextButtonWidget(BuildContext context) {
     switch (_btnTextStyle) {
       case BodyStyles.bodySmSemiBold:
         return AppText.bodySmSemiBold(
@@ -120,6 +129,7 @@ class AppTextButton extends StatelessWidget {
         return AppText.bodyMdSemiBold(
           text: btnText,
           textColor: onTap == null ? disabledTextColor : textColor,
+          height: Directionality.of(context).name == 'ltr' ? 0.2 : 1.5,
         );
 
       default:

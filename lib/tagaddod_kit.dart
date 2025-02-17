@@ -20,19 +20,16 @@ class _TagaddodKitState extends State<TagaddodKit> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(fontFamily: 'tajawal'),
-      home: Scaffold(
-        appBar: const TopAppBar(
-          title: Text(
-            "UI kit",
-          ),
+    return Scaffold(
+      appBar: const TopAppBar(
+        title: Text(
+          "UI kit",
         ),
-        drawer: AppDrawer(
-          onSelectWidget: _updateWidget,
-        ),
-        body: Center(child: _selectedWidget),
       ),
+      drawer: AppDrawer(
+        onSelectWidget: _updateWidget,
+      ),
+      body: Center(child: _selectedWidget),
     );
   }
 }
