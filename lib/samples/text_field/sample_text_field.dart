@@ -88,7 +88,7 @@ class _MediumTextFieldSampleState extends State<MediumTextFieldSample> {
           child: AppTextField.medium(
             labelText: "Error  Text Field",
             hintText: "Value",
-            autovalidateMode: AutovalidateMode.always,
+
             validator: (value) {
               return value == null || value.isEmpty
                   ? 'Please enter some text'
