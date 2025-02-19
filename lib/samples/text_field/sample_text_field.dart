@@ -177,7 +177,6 @@ class LargeTextFieldSample extends StatelessWidget {
           labelText: "Error  Text Field",
           hintText: "Value",
           width: MediaQuery.sizeOf(context).width * 0.5,
-          autovalidateMode: AutovalidateMode.always,
           validator: (value) {
             return value == null || value.isEmpty
                 ? 'Please enter some text'

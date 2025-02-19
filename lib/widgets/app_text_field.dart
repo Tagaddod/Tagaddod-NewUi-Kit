@@ -260,7 +260,8 @@ class _AppTextFieldState extends State<AppTextField> {
                     Expanded(
                       child: TextFormField(
                         controller: _textEditingController,
-                        autovalidateMode: widget.autovalidateMode,
+                        autovalidateMode:
+                            widget.autovalidateMode ?? AutovalidateMode.always,
                         // showCursor: true,
                         validator: widget.validator,
                         focusNode: _focusNode,
@@ -275,9 +276,9 @@ class _AppTextFieldState extends State<AppTextField> {
                         },
                         keyboardType: widget.keyboardType,
                         obscureText: widget.obscureText,
-                        maxLines: null,
-                        minLines: null,
-                        expands: true,
+                        maxLines: widget.maxLines ?? 1,
+                        minLines: widget.minLines,
+                        expands: widget.expands,
                         readOnly: widget.readOnly,
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.symmetric(
