@@ -2,28 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tagaddod_ui_kit/colors/primtives/colors.dart';
 import 'package:tagaddod_ui_kit/colors/semantic/bg_colors.dart';
+import 'package:tagaddod_ui_kit/dimensions/primitives/dimensions.dart';
 
 class AppBottomSheet extends StatelessWidget {
   final Widget body;
-  final bool showHeader;
+  final bool showDragHandler;
   final CrossAxisAlignment? crossAxisAlignment;
   final MainAxisAlignment? mainAxisAlignment;
   final MainAxisSize? mainAxisSize;
   final VerticalDirection? verticalDirection;
   final TextDirection? textDirection;
-  final Color? headerColor;
+  final Color? dragHandlerColor;
   final Color? headerBackgroundColor;
-
+  final EdgeInsets? contentPadding;
+  final Color? contentBackgroundColor;
+  final double? borderRadius;
   const AppBottomSheet(
       {required this.body,
       this.mainAxisAlignment,
       this.mainAxisSize,
       this.crossAxisAlignment,
-      this.showHeader = true,
+      this.showDragHandler = true,
       this.textDirection,
       this.verticalDirection,
       this.headerBackgroundColor,
-      this.headerColor,
+      this.dragHandlerColor,
+      this.contentPadding,
+      this.contentBackgroundColor,
+      this.borderRadius,
       super.key});
 
   @override
@@ -36,20 +42,37 @@ class AppBottomSheet extends StatelessWidget {
       verticalDirection: verticalDirection ?? VerticalDirection.down,
       children: [
         Container(
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(Dimensions.borderRadiusFull),
+                topRight: Radius.circular(Dimensions.borderRadiusFull)),
+            color: headerBackgroundColor ?? BgColors.colorBgFill,
+          ),
           width: double.infinity,
-          color: headerBackgroundColor ?? BgColors.colorBgFill,
-          child: Center(
-            child: Container(
-              margin: EdgeInsets.symmetric(vertical: 16.h),
-              height: 4.h,
-              width: 32.w,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(100.r),
-                  color: headerColor ?? AppColors.colorGray1100),
-            ),
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 16.h),
+            child: showDragHandler
+                ? Center(
+                    child: Container(
+                      height: 4,
+                      width: 32,
+                      decoration: BoxDecoration(
+                          borderRadius:
+                              BorderRadius.circular(Dimensions.borderRadius100),
+                          color: dragHandlerColor ?? AppColors.colorGray1100),
+                    ),
+                  )
+                : const SizedBox(),
           ),
         ),
-        body
+        Expanded(
+          child: Container(
+            width: double.infinity,
+            color: contentBackgroundColor ?? BgColors.colorBgFillBrandSecondary,
+            padding: contentPadding ?? const EdgeInsets.all(16),
+            child: body,
+          ),
+        ),
       ],
     );
   }

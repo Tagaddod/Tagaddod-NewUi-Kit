@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tagaddod_ui_kit/colors/semantic/bg_colors.dart';
 import 'package:tagaddod_ui_kit/colors/semantic/border_colors.dart';
 import 'package:tagaddod_ui_kit/colors/semantic/text_colors.dart';
@@ -29,13 +28,13 @@ class NumberContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: width ?? 26.w,
-      height: height ?? 27.h,
+      width: width ?? 26,
+      height: height ?? 28,
       decoration: BoxDecoration(
           color: backgroundColor ?? BgColors.colorBg,
-          borderRadius: BorderRadius.circular(borderRadius ?? 3.r),
+          borderRadius: BorderRadius.circular(borderRadius ?? 3),
           border: Border.all(
-              width: borderWidth ?? 1.w,
+              width: borderWidth ?? 18,
               color: borderColor ?? BorderColors.colorBorderSecondary)),
       child: Center(
         child: AppText.bodyMdSemiBold(

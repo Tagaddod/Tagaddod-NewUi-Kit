@@ -7,7 +7,7 @@ class SampleNumberContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Column(
-      children: [NumberContainer(value: '4')],
+      children: [SizedBox(height: 20), NumberContainer(value: '4')],
     );
   }
 }
