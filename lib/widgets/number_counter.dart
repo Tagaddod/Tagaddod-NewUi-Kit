@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tagaddod_ui_kit/assests/assets.dart';
+import 'package:tagaddod_ui_kit/colors/semantic/bg_colors.dart';
 import 'package:tagaddod_ui_kit/colors/semantic/border_colors.dart';
 import 'package:tagaddod_ui_kit/colors/semantic/text_colors.dart';
 import 'package:tagaddod_ui_kit/typography/semantics/body_styles.dart';
@@ -26,7 +26,7 @@ class NumberCounter extends StatelessWidget {
   final TextStyle? textStyle;
   final Color? cursorColor;
   final int fractionDigits;
-  final double? textInputWidth;
+  final double? width;
   final double? cursorHeight;
   final double? borderRadius;
   final Color? borderColor;
@@ -39,6 +39,7 @@ class NumberCounter extends StatelessWidget {
   final double? errorIconWidth;
   final double? errorIconHeight;
   final bool validateTextInput;
+  final Color? backgroundColor;
 
   NumberCounter(
       {super.key,
@@ -46,7 +47,7 @@ class NumberCounter extends StatelessWidget {
       required this.initialValue,
       this.minValue = 0,
       this.maxValue,
-      this.textInputWidth,
+      this.width,
       this.onDecrease,
       this.onIncrease,
       this.onChanged,
@@ -73,6 +74,7 @@ class NumberCounter extends StatelessWidget {
       this.errorTextStyle,
       this.errorIconHeight,
       this.errorIconWidth,
+      this.backgroundColor,
       this.validateTextInput = true});
 
   @override
@@ -88,10 +90,14 @@ class NumberCounter extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
+          width: width ?? 127,
+          padding: hasContainer
+              ? const EdgeInsets.symmetric(horizontal: 8, vertical: 8)
+              : null,
           decoration: hasContainer
               ? BoxDecoration(
-                  borderRadius: BorderRadius.circular(borderRadius ?? 8.r),
+                  color: backgroundColor ?? BgColors.colorBgFill,
+                  borderRadius: BorderRadius.circular(borderRadius ?? 8),
                   border: Border.all(
                       color: hasError
                           ? errorBorderColor ?? BorderColors.colorBorderCritical
@@ -105,10 +111,9 @@ class NumberCounter extends StatelessWidget {
                 iconPath: AppAssets.plus,
                 buttonType: ButtonType.defaultButton,
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8.w),
-                child: SizedBox(
-                  width: textInputWidth ?? 24.w,
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: TextField(
                     controller: textEditingController
                       ..text = initialValue.toStringAsFixed(fractionDigits),
@@ -139,21 +144,21 @@ class NumberCounter extends StatelessWidget {
         ),
         hasError
             ? Padding(
-                padding: EdgeInsets.only(top: 10.h),
+                padding: const EdgeInsets.only(top: 10),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     AppIcon(
                       svgIconPath: errorIconPath ?? AppAssets.alertCircle,
-                      width: errorIconWidth ?? 20.w,
-                      height: errorIconHeight ?? 20.h,
+                      width: errorIconWidth ?? 20,
+                      height: errorIconHeight ?? 20,
                       colorFilter: ColorFilter.mode(
                           errorIconColor ?? BorderColors.colorBorderCritical,
                           BlendMode.srcIn),
                     ),
-                    SizedBox(
-                      width: 8.w,
+                    const SizedBox(
+                      width: 8,
                     ),
                     AppText.bodySm(
                       text: errorText,
