@@ -26,48 +26,56 @@ class AppRadioButton<T> extends StatelessWidget {
     debugPrint(selected.value.toString());
     return ValueListenableBuilder<bool>(
       valueListenable: selected,
-      builder: (context, value, child) => InkWell(
-        splashColor: selected.value
-            ? BgColors.colorBgFillBrand
-            : BgColors.colorBgSurface,
-        radius: 5,
-        borderRadius: BorderRadius.circular(splashRadius ?? 25),
-        onTap: onChanged != null
-            ? () {
-                if (onChanged != null) {
-                  onChanged!(selected.value);
-                }
-              }
-            : null,
-        child: Container(
-          width: 20,
-          height: 20,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(
-                color: onChanged == null
-                    ? BorderColors.colorBorderDisabled
-                    : selected.value
-                        ? BgColors.colorBgFillBrand
-                        : BorderColors.colorBorderActive,
-                width: borderWidth ?? 1),
-          ),
-          child: selected.value
-              ? Center(
-                  child: Container(
-                    width: 12,
-                    height: 12,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
+      builder: (context, value, child) => SizedBox(
+        width: 32,
+        height: 32,
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            splashColor: selected.value
+                ? BgColors.colorBgOverlayBrand12
+                : BgColors.colorBgSurface,
+            borderRadius: BorderRadius.circular(splashRadius ?? 25),
+            onTap: onChanged != null
+                ? () {
+                    if (onChanged != null) {
+                      onChanged!(selected.value);
+                    }
+                  }
+                : null,
+            child: Center(
+              child: Container(
+                width: 20,
+                height: 20,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
                       color: onChanged == null
                           ? BorderColors.colorBorderDisabled
-                          : BgColors
-                              .colorBgFillBrand, // Inner circle color when selected
-                      //outer circle
-                    ),
-                  ),
-                )
-              : null,
+                          : selected.value
+                              ? BgColors.colorBgFillBrand
+                              : BorderColors.colorBorderActive,
+                      width: borderWidth ?? (selected.value ? 2 : 1)),
+                ),
+                child: selected.value
+                    ? Center(
+                        child: Container(
+                          width: 10,
+                          height: 10,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: onChanged == null
+                                ? BorderColors.colorBorderDisabled
+                                : BgColors
+                                    .colorBgFillBrand, // Inner circle color when selected
+                            //outer circle
+                          ),
+                        ),
+                      )
+                    : null,
+              ),
+            ),
+          ),
         ),
       ),
     );

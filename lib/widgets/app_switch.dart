@@ -48,12 +48,14 @@ class AppSwitch extends StatelessWidget {
               : Colors.transparent)),
       activeTrackColor: activeTrackColor ??
           (onChanged == null
-              ? BgColors.colorBgSurfaceDisabled
+              ? BgColors.colorBgFillDisabled
               : BgColors.colorBgFillBrand),
       inactiveTrackColor: inactiveTrackColor ??
-          (onChanged == null && value == true
+          (onChanged != null && value == false
               ? BgColors.colorBgSurfaceSecondary
-              : BgColors.colorBgSurfaceSecondary),
+              : (onChanged == null && value == true
+                  ? BgColors.colorBgFillDisabled
+                  : BgColors.colorBgSurfaceDisabled)),
       thumbColor: WidgetStateProperty.resolveWith((states) {
         if (states.contains(WidgetState.disabled)) {
           return thumbColor ??

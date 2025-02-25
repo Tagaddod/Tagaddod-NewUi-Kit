@@ -16,6 +16,9 @@ class SampleAppRadioButton extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const AppText.bodyLg(text: "Test This"),
+            const SizedBox(
+              width: 10,
+            ),
             ValueListenableBuilder<bool>(
               valueListenable: radioValue,
               builder: (context, value, child) => AppRadioButton<bool>(
