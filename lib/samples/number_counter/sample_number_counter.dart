@@ -22,7 +22,7 @@ class _SampleNumberCounterState extends State<SampleNumberCounter> {
           height: 20,
         ),
         NumberCounter(
-          fractionDigits: 1,
+          width: 200,
           hasContainer: false,
           textEditingController: controller1,
           errorText: "Error msg",
@@ -30,7 +30,7 @@ class _SampleNumberCounterState extends State<SampleNumberCounter> {
           maxValue: 10,
           minValue: 2,
           onChanged: (v) {
-            value1 = double.tryParse(v) ?? 0;
+            value1 = double.tryParse(v) ?? 2;
             setState(() {});
           },
           onIncrease: () {
@@ -46,13 +46,14 @@ class _SampleNumberCounterState extends State<SampleNumberCounter> {
           height: 50,
         ),
         NumberCounter(
+          width: 200,
           textEditingController: controller2,
           errorText: "Error msg",
           initialValue: value2,
           maxValue: 10,
           minValue: 2,
           onChanged: (v) {
-            value2 = double.tryParse(v) ?? 0;
+            value2 = double.tryParse(v) ?? 2;
             setState(() {});
           },
           onIncrease: () {

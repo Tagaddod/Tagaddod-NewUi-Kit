@@ -12,6 +12,7 @@ import 'package:tagaddod_ui_kit/widgets/icon_button/app_tonal_icon_button.dart';
 class NumberCounter extends StatelessWidget {
   TextEditingController textEditingController;
   double initialValue;
+
   final double? maxValue;
   final double minValue;
   final Function()? onIncrease, onDecrease, onTap, onEditingComplete;
@@ -25,7 +26,6 @@ class NumberCounter extends StatelessWidget {
   final Brightness? keyboardAppearance;
   final TextStyle? textStyle;
   final Color? cursorColor;
-  final int fractionDigits;
   final double? width;
   final double? cursorHeight;
   final double? borderRadius;
@@ -51,7 +51,6 @@ class NumberCounter extends StatelessWidget {
       this.onDecrease,
       this.onIncrease,
       this.onChanged,
-      this.fractionDigits = 0,
       this.readOnly = false,
       this.onSubmitted,
       this.cursorColor,
@@ -116,7 +115,7 @@ class NumberCounter extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: TextField(
                     controller: textEditingController
-                      ..text = initialValue.toStringAsFixed(fractionDigits),
+                      ..text = initialValue.toString(),
                     onChanged: onChanged,
                     readOnly: readOnly,
                     textAlign: TextAlign.center,
