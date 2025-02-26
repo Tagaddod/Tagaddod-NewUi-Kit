@@ -29,18 +29,6 @@ class _SampleNumberCounterState extends State<SampleNumberCounter> {
           initialValue: value1,
           maxValue: 10,
           minValue: 2,
-          onChanged: (v) {
-            value1 = double.tryParse(v) ?? 2;
-            setState(() {});
-          },
-          onIncrease: () {
-            value1++;
-            setState(() {});
-          },
-          onDecrease: () {
-            value1--;
-            setState(() {});
-          },
         ),
         SizedBox(
           height: 50,
@@ -52,18 +40,6 @@ class _SampleNumberCounterState extends State<SampleNumberCounter> {
           initialValue: value2,
           maxValue: 10,
           minValue: 2,
-          onChanged: (v) {
-            value2 = double.tryParse(v) ?? 2;
-            setState(() {});
-          },
-          onIncrease: () {
-            value2++;
-            setState(() {});
-          },
-          onDecrease: () {
-            value2--;
-            setState(() {});
-          },
         )
       ],
     );

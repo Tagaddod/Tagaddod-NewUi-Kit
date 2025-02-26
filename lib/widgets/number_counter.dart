@@ -9,10 +9,11 @@ import 'package:tagaddod_ui_kit/widgets/app_icon.dart';
 import 'package:tagaddod_ui_kit/widgets/app_text.dart';
 import 'package:tagaddod_ui_kit/widgets/icon_button/app_tonal_icon_button.dart';
 
-class NumberCounter extends StatelessWidget {
+class NumberCounter extends StatefulWidget {
   TextEditingController textEditingController;
   double initialValue;
-
+  final double incrementRate;
+  final double decrementRate;
   final double? maxValue;
   final double minValue;
   final Function()? onIncrease, onDecrease, onTap, onEditingComplete;
@@ -74,39 +75,63 @@ class NumberCounter extends StatelessWidget {
       this.errorIconHeight,
       this.errorIconWidth,
       this.backgroundColor,
+      this.decrementRate = 1,
+      this.incrementRate = 1,
       this.validateTextInput = true});
 
   @override
+  State<NumberCounter> createState() => _NumberCounterState();
+}
+
+class _NumberCounterState extends State<NumberCounter> {
+  @override
+  void initState() {
+    widget.textEditingController.text = widget.initialValue.toString();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    bool isIncreaseButtonActive =
-        maxValue == null ? true : (initialValue < maxValue!);
-    bool isDecreaseButtonActive = (initialValue > minValue);
-    bool hasError = validateTextInput &&
-        (maxValue == null
-            ? (initialValue < minValue)
-            : (initialValue > maxValue! || initialValue < minValue));
+    bool isIncreaseButtonActive = widget.maxValue == null
+        ? true
+        : (widget.initialValue < widget.maxValue!);
+    bool isDecreaseButtonActive = (widget.initialValue > widget.minValue);
+    bool hasError = widget.validateTextInput &&
+        (widget.maxValue == null
+            ? (widget.initialValue < widget.minValue)
+            : (widget.initialValue > widget.maxValue! ||
+                widget.initialValue < widget.minValue));
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          width: width ?? 127,
-          padding: hasContainer
+          width: widget.width ?? 127,
+          padding: widget.hasContainer
               ? const EdgeInsets.symmetric(horizontal: 8, vertical: 8)
               : null,
-          decoration: hasContainer
+          decoration: widget.hasContainer
               ? BoxDecoration(
-                  color: backgroundColor ?? BgColors.colorBgFill,
-                  borderRadius: BorderRadius.circular(borderRadius ?? 8),
+                  color: widget.backgroundColor ?? BgColors.colorBgFill,
+                  borderRadius: BorderRadius.circular(widget.borderRadius ?? 8),
                   border: Border.all(
                       color: hasError
-                          ? errorBorderColor ?? BorderColors.colorBorderCritical
-                          : borderColor ?? BorderColors.colorBorder))
+                          ? widget.errorBorderColor ??
+                              BorderColors.colorBorderCritical
+                          : widget.borderColor ?? BorderColors.colorBorder))
               : null,
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               AppTonalIconButton.medium(
-                onTap: isIncreaseButtonActive ? onIncrease : null,
+                onTap: isIncreaseButtonActive
+                    ? () {
+                        widget.initialValue += widget.incrementRate;
+                        widget.textEditingController.text =
+                            widget.initialValue.toString();
+                        if (widget.onIncrease != null) widget.onIncrease!();
+                        setState(() {});
+                      }
+                    : null,
                 iconPath: AppAssets.plus,
                 buttonType: ButtonType.defaultButton,
               ),
@@ -114,27 +139,39 @@ class NumberCounter extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: TextField(
-                    controller: textEditingController
-                      ..text = initialValue.toString(),
-                    onChanged: onChanged,
-                    readOnly: readOnly,
+                    controller: widget.textEditingController,
+                    onChanged: (v) {
+                      widget.textEditingController.text = v;
+                      widget.initialValue = double.parse(v);
+                      if (widget.onChanged != null) widget.onChanged!(v);
+                      setState(() {});
+                    },
+                    readOnly: widget.readOnly,
                     textAlign: TextAlign.center,
                     textAlignVertical: TextAlignVertical.center,
-                    decoration: inputDecoration,
-                    keyboardType: textInputType ?? TextInputType.number,
-                    keyboardAppearance: keyboardAppearance,
-                    style: textStyle ?? BodyStyles.bodyLg,
-                    onTap: onTap,
-                    onTapOutside: onTapOutside,
-                    onEditingComplete: onEditingComplete,
-                    onSubmitted: onSubmitted,
-                    cursorColor: cursorColor,
-                    cursorHeight: cursorHeight,
+                    decoration: widget.inputDecoration,
+                    keyboardType: widget.textInputType ?? TextInputType.number,
+                    keyboardAppearance: widget.keyboardAppearance,
+                    style: widget.textStyle ?? BodyStyles.bodyLg,
+                    onTap: widget.onTap,
+                    onTapOutside: widget.onTapOutside,
+                    onEditingComplete: widget.onEditingComplete,
+                    onSubmitted: widget.onSubmitted,
+                    cursorColor: widget.cursorColor,
+                    cursorHeight: widget.cursorHeight,
                   ),
                 ),
               ),
               AppTonalIconButton.medium(
-                onTap: isDecreaseButtonActive ? onDecrease : null,
+                onTap: isDecreaseButtonActive
+                    ? () {
+                        widget.initialValue -= widget.decrementRate;
+                        widget.textEditingController.text =
+                            widget.initialValue.toString();
+                        if (widget.onDecrease != null) widget.onDecrease!();
+                        setState(() {});
+                      }
+                    : null,
                 iconPath: AppAssets.minus,
                 buttonType: ButtonType.defaultButton,
               ),
@@ -149,19 +186,22 @@ class NumberCounter extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     AppIcon(
-                      svgIconPath: errorIconPath ?? AppAssets.alertCircle,
-                      width: errorIconWidth ?? 20,
-                      height: errorIconHeight ?? 20,
+                      svgIconPath:
+                          widget.errorIconPath ?? AppAssets.alertCircle,
+                      width: widget.errorIconWidth ?? 20,
+                      height: widget.errorIconHeight ?? 20,
                       colorFilter: ColorFilter.mode(
-                          errorIconColor ?? BorderColors.colorBorderCritical,
+                          widget.errorIconColor ??
+                              BorderColors.colorBorderCritical,
                           BlendMode.srcIn),
                     ),
                     const SizedBox(
                       width: 8,
                     ),
                     AppText.bodySm(
-                      text: errorText,
-                      textColor: errorTextColor ?? TextColors.colorTextCritical,
+                      text: widget.errorText,
+                      textColor:
+                          widget.errorTextColor ?? TextColors.colorTextCritical,
                     )
                   ],
                 ),
