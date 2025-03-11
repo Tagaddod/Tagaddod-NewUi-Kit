@@ -3,7 +3,6 @@ import 'package:tagaddod_ui_kit/colors/semantic/icon_colors.dart';
 import 'package:tagaddod_ui_kit/colors/semantic/text_colors.dart';
 import 'package:tagaddod_ui_kit/typography/semantics/caption_styles.dart';
 import 'package:tagaddod_ui_kit/widgets/app_icon.dart';
-import 'package:tagaddod_ui_kit/widgets/app_text.dart';
 
 class AppBottomNavigationBar extends StatelessWidget {
   final List<AppBottomNavigationBarItem> items;
@@ -73,7 +72,7 @@ class AppBottomNavigationBar extends StatelessWidget {
           const IconThemeData(color: TextColors.colorTextLink),
       unselectedIconTheme: unselectedIconTheme ??
           const IconThemeData(color: TextColors.colorTextSecondary),
-      selectedItemColor: selectedItemColor,
+      selectedItemColor: selectedItemColor ?? TextColors.colorTextLink,
       unselectedItemColor: unselectedItemColor ?? TextColors.colorTextSecondary,
       showUnselectedLabels: showUnselectedLabels,
       showSelectedLabels: showSelectedLabels,
