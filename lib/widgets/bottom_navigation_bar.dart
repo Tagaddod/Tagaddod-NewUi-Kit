@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tagaddod_ui_kit/colors/semantic/icon_colors.dart';
 import 'package:tagaddod_ui_kit/colors/semantic/text_colors.dart';
+import 'package:tagaddod_ui_kit/typography/primitives/typography.dart'
+    as typography;
 import 'package:tagaddod_ui_kit/typography/semantics/caption_styles.dart';
 import 'package:tagaddod_ui_kit/widgets/app_icon.dart';
 
@@ -51,11 +53,20 @@ class AppBottomNavigationBar extends StatelessWidget {
     return BottomNavigationBar(
       items: items
           .map((e) => BottomNavigationBarItem(
-                icon: e.icon.copyWith(
-                    colorFilter: selectedIndex == items.indexOf(e)
-                        ? null
-                        : const ColorFilter.mode(
-                            IconColors.colorIconSecondary, BlendMode.srcIn)),
+                icon: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    e.icon.copyWith(
+                        colorFilter: selectedIndex == items.indexOf(e)
+                            ? null
+                            : const ColorFilter.mode(
+                                IconColors.colorIconSecondary,
+                                BlendMode.srcIn)),
+                    const SizedBox(
+                      height: 3,
+                    )
+                  ],
+                ),
                 label: e.label,
               ))
           .toList(),
@@ -81,7 +92,9 @@ class AppBottomNavigationBar extends StatelessWidget {
               .copyWith(color: TextColors.colorTextLink),
       unselectedLabelStyle: unselectedLabelStyle ??
           const TextStyle(
-            color: TextColors.colorText,
+            color: TextColors.colorTextSecondary,
+            fontSize: typography.Typography.fontSize250,
+            fontWeight: typography.Typography.fontWeightRegular,
           ),
       mouseCursor: mouseCursor,
     );
