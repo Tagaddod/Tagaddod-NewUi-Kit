@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:tagaddod_ui_kit/colors/primtives/colors.dart';
 import 'package:tagaddod_ui_kit/samples/app_bar/sample_top_app_bar.dart';
 import 'package:tagaddod_ui_kit/samples/badges/sample_app_badge.dart';
+import 'package:tagaddod_ui_kit/samples/bar_percent_indicator/sample_bar_percent_indicator.dart';
 import 'package:tagaddod_ui_kit/samples/checkbox/sample_app_check_box.dart';
+import 'package:tagaddod_ui_kit/samples/circle_percent_indicator/sample_circle_percent_indicator.dart';
 import 'package:tagaddod_ui_kit/samples/icon_button/sample_app_filled_icon_button.dart';
 import 'package:tagaddod_ui_kit/samples/icon_button/sample_app_outlined_icon_button.dart';
 import 'package:tagaddod_ui_kit/samples/icon_button/sample_app_standard_icon_button.dart';
@@ -13,9 +15,11 @@ import 'package:tagaddod_ui_kit/samples/sample_app_bottom_nav_bar.dart';
 import 'package:tagaddod_ui_kit/samples/sample_app_filled_button.dart';
 import 'package:tagaddod_ui_kit/samples/sample_app_outlined_button.dart';
 import 'package:tagaddod_ui_kit/samples/sample_app_radio_button.dart';
+import 'package:tagaddod_ui_kit/samples/sample_app_stepper/sample_app_stepper.dart';
 import 'package:tagaddod_ui_kit/samples/sample_app_switch.dart';
 import 'package:tagaddod_ui_kit/samples/sample_app_text_button.dart';
 import 'package:tagaddod_ui_kit/samples/sample_app_tonal_button.dart';
+import 'package:tagaddod_ui_kit/samples/sample_toast_message/sample_toast_message.dart';
 import 'package:tagaddod_ui_kit/samples/text_field/sample_text_field.dart';
 import 'package:tagaddod_ui_kit/widgets/app_divider.dart';
 import 'package:tagaddod_ui_kit/widgets/app_modal_dialog/app_modal_dialog.dart';
@@ -192,10 +196,58 @@ class AppDrawer extends StatelessWidget {
                 Navigator.pop(context);
               },
             ),
+            ListTile(
+              title: const Text("bar percent indicator"),
+              onTap: () {
+                onSelectWidget(getProgressPercentageBar(context));
+
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: const Text("circle percent indicator "),
+              onTap: () {
+                onSelectWidget(getCirclePercentIndicator(context));
+
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: const Text("show Toast messages "),
+              onTap: () {
+                onSelectWidget(showToast(context));
+
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: const Text("App stepper "),
+              onTap: () {
+                onSelectWidget(getAppStepper(context));
+
+                Navigator.pop(context);
+              },
+            ),
           ],
         ),
       ),
     );
+  }
+
+  Widget getAppStepper(BuildContext context) {
+    return const SampleAppStepper();
+  }
+
+  Widget showToast(BuildContext context) {
+    return const SampleToastMessage();
+  }
+
+  Widget getCirclePercentIndicator(BuildContext context) {
+    return const SampleCirclePercentIndicator();
+  }
+
+  Widget getProgressPercentageBar(BuildContext context) {
+    return const SampleBarPercentIndicator();
   }
 
   Widget getAppCheckBox(BuildContext context) {
