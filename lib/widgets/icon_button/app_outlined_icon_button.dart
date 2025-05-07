@@ -88,6 +88,7 @@ class AppOutlinedIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       borderRadius: borderRadius ?? BorderRadius.circular(8),
+      color: Colors.transparent,
       child: InkWell(
         splashColor: getHighlightColor(),
         customBorder: isCircle ? const CircleBorder() : null,

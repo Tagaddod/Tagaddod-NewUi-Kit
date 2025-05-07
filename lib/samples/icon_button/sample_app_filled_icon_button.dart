@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tagaddod_ui_kit/colors/semantic/bg_colors.dart';
 import 'package:tagaddod_ui_kit/utils/button_type.dart';
 import 'package:tagaddod_ui_kit/widgets/icon_button/app_filled_icon_button.dart';
 
@@ -20,6 +21,8 @@ class SampleAppFilledIconButton extends StatelessWidget {
             AppFilledIconButton.medium(
               iconPath: "assets/svg/Prefix.svg",
               buttonType: ButtonType.defaultButton,
+              isCircle: true,
+              backgroundColor: BgColors.colorBgByOverlay20,
               onTap: () {},
             ),
             const SizedBox(

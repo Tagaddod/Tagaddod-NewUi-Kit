@@ -9,11 +9,11 @@ import 'package:tagaddod_ui_kit/widgets/app_icon.dart';
 class AppFilledIconButton extends StatelessWidget {
   final ButtonType buttonType;
   final String iconPath;
-  final Color? backgroundColor;
+  final Color? backgroundColor, splashColor;
   final Color? disabledBackgroundColor;
   final Color? disabledIconColor;
   final BorderRadius? borderRadius;
-  final Border? borderColor;
+  final Color? borderColor;
   Color? iconColor;
   final double width;
   final double height;
@@ -29,6 +29,7 @@ class AppFilledIconButton extends StatelessWidget {
       this.width = 40,
       this.height = 40,
       this.backgroundColor,
+      this.splashColor,
       this.borderRadius,
       this.disabledBackgroundColor,
       this.disabledIconColor,
@@ -44,6 +45,7 @@ class AppFilledIconButton extends StatelessWidget {
       this.onTap,
       required this.iconPath,
       this.backgroundColor,
+      this.splashColor,
       this.disabledBackgroundColor = BgColors.colorBgFillDisabled,
       this.disabledIconColor = IconColors.colorIconOnBgFill,
       this.borderColor,
@@ -62,6 +64,7 @@ class AppFilledIconButton extends StatelessWidget {
   AppFilledIconButton.large(
       {super.key,
       this.onTap,
+      this.splashColor,
       required this.iconPath,
       this.backgroundColor,
       this.borderColor,
@@ -83,8 +86,9 @@ class AppFilledIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       borderRadius: borderRadius ?? BorderRadius.circular(8),
+      color: Colors.transparent,
       child: InkWell(
-        splashColor: getHighlightColor(),
+        splashColor: splashColor ?? getHighlightColor(),
         customBorder: isCircle ? const CircleBorder() : null,
         highlightColor: Colors.transparent,
         borderRadius: borderRadius ?? BorderRadius.circular(8),
@@ -95,7 +99,7 @@ class AppFilledIconButton extends StatelessWidget {
           decoration: getButtonTypeDecoration(buttonType).copyWith(
               borderRadius:
                   isCircle ? null : borderRadius ?? BorderRadius.circular(8),
-              border: borderColor,
+              border: Border.all(color: borderColor ?? Colors.transparent),
               shape: isCircle ? BoxShape.circle : BoxShape.rectangle,
               color: onTap == null ? disabledBackgroundColor : backgroundColor),
           child: Center(
