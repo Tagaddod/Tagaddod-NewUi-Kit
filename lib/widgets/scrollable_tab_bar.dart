@@ -12,6 +12,7 @@ class ScrollableTabBar extends StatelessWidget {
   final EdgeInsetsGeometry? margin;
   final EdgeInsetsGeometry? paddingInside;
   final double? width, height;
+  final TextAlign textAlign;
 
   final double borderRadius;
   final Color activeColor,
@@ -32,6 +33,7 @@ class ScrollableTabBar extends StatelessWidget {
       this.height,
       this.inactiveColor = BgColors.colorBgSurfaceHover,
       this.margin,
+      this.textAlign = TextAlign.center,
       this.borderRadius = 8,
       this.indicatorColor = AppColors.colorGray1600,
       this.borderColor = BorderColors.colorBorderSecondary,
@@ -59,6 +61,7 @@ class ScrollableTabBar extends StatelessWidget {
                   border: Border.all(color: borderColor)),
               child: Text(
                 tabs[index],
+                textAlign: textAlign,
                 style: BodyStyles.bodySmMedium.copyWith(
                   color: isSelected ? activeTextColor : inactiveTextColor,
                 ),

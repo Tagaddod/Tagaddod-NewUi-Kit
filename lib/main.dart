@@ -24,9 +24,24 @@ class MyApp extends StatelessWidget {
             child: MaterialApp(
               locale: const Locale('en'),
               builder: (context, child) {
-                return Directionality(
-                  textDirection: TextDirection.ltr,
-                  child: child!,
+                final locale = Localizations.localeOf(context);
+                final isArabic = locale.languageCode == 'ar';
+                final textDirection =
+                    isArabic ? TextDirection.rtl : TextDirection.ltr;
+                final fontFamily = isArabic
+                    ? typography.Typography.fontFamilySansArabic
+                    : typography.Typography.fontFamilySansEnglish;
+
+                return Theme(
+                  data: ThemeData(
+                    useMaterial3: true,
+                    fontFamily: fontFamily,
+                    colorScheme: Theme.of(context).colorScheme,
+                  ),
+                  child: Directionality(
+                    textDirection: textDirection,
+                    child: child!,
+                  ),
                 );
               },
               localizationsDelegates: const [
@@ -40,11 +55,7 @@ class MyApp extends StatelessWidget {
                 Locale('ar'),
                 Locale('en'),
               ],
-              theme: ThemeData(
-                useMaterial3: true,
-                fontFamily: typography.Typography.fontFamilySansEnglish,
-              ),
-              home: TagaddodKit(),
+              home: const TagaddodKit(),
             ),
           );
         });
