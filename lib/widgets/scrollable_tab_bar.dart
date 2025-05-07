@@ -9,6 +9,11 @@ class ScrollableTabBar extends StatelessWidget {
   final List<String> tabs;
   final int selectedIndex;
   final ValueChanged<int> onTabSelected;
+  final EdgeInsetsGeometry? margin;
+  final EdgeInsetsGeometry? paddingInside;
+  final double? width, height;
+
+  final double borderRadius;
   final Color activeColor,
       indicatorColor,
       inactiveColor,
@@ -21,8 +26,13 @@ class ScrollableTabBar extends StatelessWidget {
       required this.tabs,
       required this.selectedIndex,
       required this.onTabSelected,
+      this.paddingInside,
       this.activeColor = Colors.black,
+      this.width,
+      this.height,
       this.inactiveColor = BgColors.colorBgSurfaceHover,
+      this.margin,
+      this.borderRadius = 8,
       this.indicatorColor = AppColors.colorGray1600,
       this.borderColor = BorderColors.colorBorderSecondary,
       this.activeTextColor = TextColors.colorTextOnBgFill,
@@ -39,11 +49,13 @@ class ScrollableTabBar extends StatelessWidget {
           return GestureDetector(
             onTap: () => onTabSelected(index),
             child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 4),
-              padding: const EdgeInsets.all(12),
+              width: width,
+              height: height,
+              margin: margin ?? const EdgeInsets.symmetric(horizontal: 4),
+              padding: paddingInside ?? const EdgeInsets.all(12),
               decoration: BoxDecoration(
                   color: isSelected ? indicatorColor : Colors.transparent,
-                  borderRadius: BorderRadius.circular(120),
+                  borderRadius: BorderRadius.circular(borderRadius),
                   border: Border.all(color: borderColor)),
               child: Text(
                 tabs[index],
