@@ -5,4 +5,5 @@ abstract class AppAssets {
   static const String close = "assets/svg/close.svg";
   static const String check = "assets/svg/check.svg";
   static const String appLogoSvg = "assets/svg/Logo.svg";
+  static const String back = "assets/svg/back.svg";
 }

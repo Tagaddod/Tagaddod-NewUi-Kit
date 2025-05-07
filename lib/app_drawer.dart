@@ -20,6 +20,7 @@ import 'package:tagaddod_ui_kit/samples/sample_app_switch.dart';
 import 'package:tagaddod_ui_kit/samples/sample_app_text_button.dart';
 import 'package:tagaddod_ui_kit/samples/sample_app_tonal_button.dart';
 import 'package:tagaddod_ui_kit/samples/sample_scrollable_tab_bar.dart';
+import 'package:tagaddod_ui_kit/samples/sample_stepper_flow.dart';
 import 'package:tagaddod_ui_kit/samples/sample_toast_message/sample_toast_message.dart';
 import 'package:tagaddod_ui_kit/samples/text_field/sample_text_field.dart';
 import 'package:tagaddod_ui_kit/widgets/app_divider.dart';
@@ -237,10 +238,22 @@ class AppDrawer extends StatelessWidget {
                 Navigator.pop(context);
               },
             ),
+            ListTile(
+              title: const Text("Stepper flow  "),
+              onTap: () {
+                onSelectWidget(getStepperFlow(context));
+
+                Navigator.pop(context);
+              },
+            ),
           ],
         ),
       ),
     );
+  }
+
+  Widget getStepperFlow(BuildContext context) {
+    return SampleStepperFlow();
   }
 
   Widget getScrollableTabBar(BuildContext context) {
