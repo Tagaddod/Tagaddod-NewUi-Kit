@@ -141,7 +141,8 @@ class _NumberCounterState extends State<NumberCounter> {
                   child: TextField(
                     controller: widget.textEditingController,
                     onChanged: (v) {
-                      widget.textEditingController.text = v;
+                      if (v.isEmpty) return;
+
                       widget.initialValue = double.parse(v);
                       if (widget.onChanged != null) widget.onChanged!(v);
                       setState(() {});
