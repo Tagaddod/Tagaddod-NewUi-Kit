@@ -21,12 +21,12 @@ class BgColors {
   static const colorBgFillActive = AppColors.colorGray500;
   static const colorBgFillDisabled = AppColors.colorGray900;
 
-  static const colorBgFillBrand = AppColors.colorBlue1200;
-  static const colorBgFillBrandHover = AppColors.colorBlue1300;
-  static const colorBgFillBrandActive = AppColors.colorBlue1400;
-  static const colorBgFillBrandSecondary = AppColors.colorBlue400;
-  static const colorBgFillBrandSecondaryHover = AppColors.colorBlue500;
-  static const colorBgFillBrandSecondaryActive = AppColors.colorBlue700;
+  static const colorBgFillBrand = AppColors.colorGray1600;
+  static const colorBgFillBrandHover = AppColors.colorGray1500;
+  static const colorBgFillBrandActive = AppColors.colorGray1600;
+  static const colorBgFillBrandSecondary = AppColors.colorGray500;
+  static const colorBgFillBrandSecondaryHover = AppColors.colorGray600;
+  static const colorBgFillBrandSecondaryActive = AppColors.colorGray700;
 
   static const colorBgFillSuccess = AppColors.colorGreen1100;
   static const colorBgFillSuccessHover = AppColors.colorGreen1200;
@@ -62,5 +62,5 @@ class BgColors {
   static Color colorBgOverlayDark70 = AppColors.colorGray1600.withOpacity(0.7);
   static Color colorBgOverlayDark85 = AppColors.colorGray1600.withOpacity(0.85);
   static Color colorBgOverlayBrand12 =
-      AppColors.colorGray1200.withOpacity(0.12);
+      AppColors.colorGray1600.withOpacity(0.12);
 }

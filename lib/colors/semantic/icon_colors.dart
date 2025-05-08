@@ -5,9 +5,9 @@ class IconColors {
   static const colorIconSecondary = AppColors.colorGray1100;
   static const colorIconDisabled = AppColors.colorGray1000;
 
-  static const colorIconLink = AppColors.colorBlue1200;
-  static const colorIconLinkHover = AppColors.colorBlue1300;
-  static const colorIconLinkActive = AppColors.colorBlue1400;
+  static const colorIconLink = AppColors.colorGray1600;
+  static const colorIconLinkHover = AppColors.colorGray1500;
+  static const colorIconLinkActive = AppColors.colorGray1600;
 
   static const colorIconOnBgFill = AppColors.colorGray100;
   static const colorIconOnBgFillHover = AppColors.colorGray300;

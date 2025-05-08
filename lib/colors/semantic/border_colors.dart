@@ -8,9 +8,9 @@ class BorderColors {
   static const colorBorderActive = AppColors.colorGray1300;
   static const colorBorderDisabled = AppColors.colorGray800;
 
-  static const colorBorderBrand = AppColors.colorBlue1200;
-  static const colorBorderBrandHover = AppColors.colorBlue1300;
-  static const colorBorderBrandActive = AppColors.colorBlue1400;
+  static const colorBorderBrand = AppColors.colorGray1600;
+  static const colorBorderBrandHover = AppColors.colorGray1500;
+  static const colorBorderBrandActive = AppColors.colorGray1600;
 
   static const colorBorderSuccess = AppColors.colorGreen1100;
   static const colorBorderSuccessHover = AppColors.colorGreen1200;

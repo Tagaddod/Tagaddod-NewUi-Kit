@@ -5,9 +5,9 @@ class TextColors {
   static const colorTextSecondary = AppColors.colorGray1100;
   static const colorTextDisabled = AppColors.colorGray1000;
 
-  static const colorTextLink = AppColors.colorBlue1200;
-  static const colorTextLinkHover = AppColors.colorBlue1300;
-  static const colorTextLinkActive = AppColors.colorBlue1400;
+  static const colorTextLink = AppColors.colorGray1600;
+  static const colorTextLinkHover = AppColors.colorGray1500;
+  static const colorTextLinkActive = AppColors.colorGray1600;
 
   static const colorTextOnBgFill = AppColors.colorGray100;
   static const colorTextOnBgFillHover = AppColors.colorGray300;
