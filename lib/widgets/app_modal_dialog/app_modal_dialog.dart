@@ -12,6 +12,8 @@ class AppModalDialog extends StatelessWidget {
   final bool showModalHeaderTitle;
   final bool showModalHeaderIcon;
   final bool showModalHeaderDivider;
+  final double? spaceBetweenTitleAndDivider;
+  final double? spaceBetweenBodyAndFooter;
   final VoidCallback? onTap;
   const AppModalDialog({
     super.key,
@@ -24,6 +26,8 @@ class AppModalDialog extends StatelessWidget {
     this.showModalHeaderTitle = true,
     this.showModalHeaderIcon = true,
     this.showModalHeaderDivider = true,
+    this.spaceBetweenTitleAndDivider = 16,
+    this.spaceBetweenBodyAndFooter = 16,
   });
 
   @override
@@ -42,7 +46,7 @@ class AppModalDialog extends StatelessWidget {
             showModalHeaderDivider: showModalHeaderDivider,
             onTap: onTap,
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: spaceBetweenTitleAndDivider),
           //divider
           Visibility(
             visible: showModalHeaderDivider,
@@ -56,7 +60,8 @@ class AppModalDialog extends StatelessWidget {
             constraints: BoxConstraints(maxWidth: 343.w, maxHeight: 232.h),
             child: bodyWidget,
           ),
-          const Spacer(),
+          SizedBox(height: spaceBetweenBodyAndFooter),
+
           //footer
           Expanded(child: footerWidget ?? const SizedBox()),
           SizedBox(
