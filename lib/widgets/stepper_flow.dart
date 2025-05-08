@@ -1,20 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:tagaddod_ui_kit/assests/assets.dart';
 import 'package:tagaddod_ui_kit/colors/primtives/colors.dart';
-import 'package:tagaddod_ui_kit/colors/semantic/bg_colors.dart';
 import 'package:tagaddod_ui_kit/colors/semantic/text_colors.dart';
 import 'package:tagaddod_ui_kit/typography/semantics/body_styles.dart';
 import 'package:tagaddod_ui_kit/widgets/app_stepper.dart';
-import 'package:tagaddod_ui_kit/widgets/icon_button/app_filled_icon_button.dart';
 
 class StepperFlow extends StatelessWidget {
   final int activeIndex;
   final List<StepView> steps;
-  final void Function()? onIconTapped;
+  final Widget? icon;
   final Color? backgroundColor,
-      iconBackgroundColor,
-      iconPath,
-      iconSplashColor,
       nameColor,
       titleColor,
       subtitleColor,
@@ -30,10 +24,7 @@ class StepperFlow extends StatelessWidget {
       this.titleColor,
       this.stepInactiveColor,
       this.stepActiveColor,
-      this.iconBackgroundColor,
-      this.iconPath,
-      this.iconSplashColor,
-      this.onIconTapped,
+      this.icon,
       super.key});
 
   @override
@@ -53,15 +44,7 @@ class StepperFlow extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(vertical: 5),
                     child: Row(
                       children: [
-                        AppFilledIconButton.medium(
-                          iconPath: AppAssets.back,
-                          isCircle: true,
-                          backgroundColor: iconBackgroundColor ??
-                              BgColors.colorBgByOverlay20,
-                          splashColor:
-                              iconSplashColor ?? BgColors.colorBgByOverlay20,
-                          onTap: onIconTapped,
-                        ),
+                        icon ?? const SizedBox(width: 0),
                         const SizedBox(
                           width: 8,
                         ),
