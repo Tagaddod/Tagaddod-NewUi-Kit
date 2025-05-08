@@ -80,6 +80,7 @@ class AppTonalIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
+      color: Colors.transparent,
       borderRadius: borderRadius ?? BorderRadius.circular(8),
       child: InkWell(
         splashColor: getHighlightColor(),

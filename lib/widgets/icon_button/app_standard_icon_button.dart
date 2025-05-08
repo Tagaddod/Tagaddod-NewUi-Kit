@@ -83,6 +83,7 @@ class AppStandardIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       borderRadius: borderRadius ?? BorderRadius.circular(8),
+      color: Colors.transparent,
       child: InkWell(
         splashColor: splashColor,
         highlightColor: Colors.transparent,
