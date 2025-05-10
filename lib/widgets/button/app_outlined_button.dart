@@ -82,60 +82,64 @@ class AppOutlinedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: InkWell(
-        highlightColor: Colors.transparent,
-        splashColor: getHighlightColor(),
-        borderRadius: borderRadius ?? BorderRadius.circular(8),
-        onTap: isLoading ? null : onTap,
-        child: Ink(
-          width: width,
-          height: _height,
-          decoration: BoxDecoration(
-            borderRadius: borderRadius ?? BorderRadius.circular(8),
-            border: Border.all(
-                color: onTap == null ? disabledTextColor! : borderColor!),
-            color: onTap == null ? disabledBackgroundColor : backgroundColor,
-          ),
-          child: isLoading
-              ? Center(
-                  child: SizedBox(
-                    width: 18,
-                    height: 18,
-                    child: CircularProgressIndicator(
-                      color: textColor,
-                      strokeWidth: 3,
-                    ),
-                  ),
-                )
-              : Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    //icon
-                    if (iconPath != null)
-                      AppIcon(
-                        svgIconPath: iconPath!,
-                        colorFilter: ColorFilter.mode(
-                            onTap == null ? disabledTextColor! : textColor!,
-                            BlendMode.srcIn),
+    return Material(
+      borderRadius: borderRadius ?? BorderRadius.circular(8),
+      color: Colors.transparent,
+      child: Center(
+        child: InkWell(
+          highlightColor: Colors.transparent,
+          splashColor: getHighlightColor(),
+          borderRadius: borderRadius ?? BorderRadius.circular(8),
+          onTap: isLoading ? null : onTap,
+          child: Ink(
+            width: width,
+            height: _height,
+            decoration: BoxDecoration(
+              borderRadius: borderRadius ?? BorderRadius.circular(8),
+              border: Border.all(
+                  color: onTap == null ? disabledTextColor! : borderColor!),
+              color: onTap == null ? disabledBackgroundColor : backgroundColor,
+            ),
+            child: isLoading
+                ? Center(
+                    child: SizedBox(
+                      width: 18,
+                      height: 18,
+                      child: CircularProgressIndicator(
+                        color: textColor,
+                        strokeWidth: 3,
                       ),
-                    if (iconPath != null) const SizedBox(width: 5),
-                    //text
-
-                    Flexible(
-                      child: Transform.translate(
-                          offset: _btnTextStyle == BodyStyles.bodySmSemiBold
-                              ? Directionality.of(context).name == 'ltr'
-                                  ? const Offset(0, 0)
-                                  : const Offset(0, 1.6)
-                              : Directionality.of(context).name == 'ltr'
-                                  ? const Offset(0, 0)
-                                  : const Offset(0, 2),
-                          child: getTextButtonWidget(context)),
                     ),
-                  ],
-                ),
+                  )
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      //icon
+                      if (iconPath != null)
+                        AppIcon(
+                          svgIconPath: iconPath!,
+                          colorFilter: ColorFilter.mode(
+                              onTap == null ? disabledTextColor! : textColor!,
+                              BlendMode.srcIn),
+                        ),
+                      if (iconPath != null) const SizedBox(width: 5),
+                      //text
+
+                      Flexible(
+                        child: Transform.translate(
+                            offset: _btnTextStyle == BodyStyles.bodySmSemiBold
+                                ? Directionality.of(context).name == 'ltr'
+                                    ? const Offset(0, 0)
+                                    : const Offset(0, 1.6)
+                                : Directionality.of(context).name == 'ltr'
+                                    ? const Offset(0, 0)
+                                    : const Offset(0, 2),
+                            child: getTextButtonWidget(context)),
+                      ),
+                    ],
+                  ),
+          ),
         ),
       ),
     );
