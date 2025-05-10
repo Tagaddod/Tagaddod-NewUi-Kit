@@ -19,6 +19,7 @@ import 'package:tagaddod_ui_kit/samples/sample_app_stepper/sample_app_stepper.da
 import 'package:tagaddod_ui_kit/samples/sample_app_switch.dart';
 import 'package:tagaddod_ui_kit/samples/sample_app_text_button.dart';
 import 'package:tagaddod_ui_kit/samples/sample_app_tonal_button.dart';
+import 'package:tagaddod_ui_kit/samples/sample_loading_view.dart';
 import 'package:tagaddod_ui_kit/samples/sample_scrollable_tab_bar.dart';
 import 'package:tagaddod_ui_kit/samples/sample_stepper_flow.dart';
 import 'package:tagaddod_ui_kit/samples/sample_toast_message/sample_toast_message.dart';
@@ -246,10 +247,22 @@ class AppDrawer extends StatelessWidget {
                 Navigator.pop(context);
               },
             ),
+            ListTile(
+              title: const Text("Loading  "),
+              onTap: () {
+                onSelectWidget(getLoadingView(context));
+
+                Navigator.pop(context);
+              },
+            ),
           ],
         ),
       ),
     );
+  }
+
+  Widget getLoadingView(BuildContext context) {
+    return SampleLoadingView();
   }
 
   Widget getStepperFlow(BuildContext context) {
