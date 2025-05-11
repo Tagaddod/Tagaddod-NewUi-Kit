@@ -83,7 +83,7 @@ class ErrorMessage extends StatelessWidget {
                         children: [
                           Text(
                             title,
-                            style: BodyStyles.bodyMdMedium
+                            style: BodyStyles.bodyMdMedium(context)
                                 .copyWith(color: titleColor),
                           ),
                           Text(

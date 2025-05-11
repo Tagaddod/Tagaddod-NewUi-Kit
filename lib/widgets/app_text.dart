@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:tagaddod_ui_kit/colors/primtives/colors.dart';
+import 'package:tagaddod_ui_kit/extensions/locale_font_style.dart';
 import 'package:tagaddod_ui_kit/typography/semantics/body_styles.dart';
 import 'package:tagaddod_ui_kit/typography/semantics/caption_styles.dart';
 import 'package:tagaddod_ui_kit/typography/semantics/heading_styles.dart';
@@ -251,7 +252,7 @@ class AppText extends StatelessWidget {
       locale: locale,
       textDirection: textDirection,
       overflow: overflow ?? TextOverflow.ellipsis,
-      style: AppTextStyles.getStyle(_appTextStatus).copyWith(
+      style: AppTextStyles.getStyle(_appTextStatus, context).copyWith(
         color: textColor,
         letterSpacing: letterSpacing,
         leadingDistribution: TextLeadingDistribution.even,
@@ -265,7 +266,7 @@ class AppText extends StatelessWidget {
 class AppTextStyles {
   final AppTextStatus status;
   AppTextStyles({required this.status});
-  static TextStyle getStyle(AppTextStatus status) {
+  static TextStyle getStyle(AppTextStatus status, BuildContext context) {
     switch (status) {
       case AppTextStatus.headingMd:
         return HeadingStyles.headingMd;
@@ -274,26 +275,26 @@ class AppTextStyles {
       case AppTextStatus.bodyLg:
         return BodyStyles.bodyLg;
       case AppTextStatus.bodyLgMedium:
-        return BodyStyles.bodyLgMedium;
+        return BodyStyles.bodyLgMedium(context);
       case AppTextStatus.bodyLgSemiBold:
         return BodyStyles.bodyLgSemiBold;
       case AppTextStatus.bodyMd:
         return BodyStyles.bodyMd;
       case AppTextStatus.bodyMdMedium:
-        return BodyStyles.bodyMdMedium;
+        return BodyStyles.bodyMdMedium(context);
       case AppTextStatus.bodyMdSemiBold:
         return BodyStyles.bodyMdSemiBold;
 
       case AppTextStatus.bodySm:
         return BodyStyles.bodySm;
       case AppTextStatus.bodySmMedium:
-        return BodyStyles.bodySmMedium;
+        return BodyStyles.bodySmMedium.withLocaleFont(context);
       case AppTextStatus.bodySmSemiBold:
         return BodyStyles.bodySmSemiBold;
       case AppTextStatus.captionLg:
         return CaptionStyles.captionLg;
       case AppTextStatus.captionLgMedium:
-        return CaptionStyles.captionLgMedium;
+        return CaptionStyles.captionLgMedium(context);
       case AppTextStatus.captionLgSemiBold:
         return CaptionStyles.captionLgSemiBold;
       case AppTextStatus.captionSm:
