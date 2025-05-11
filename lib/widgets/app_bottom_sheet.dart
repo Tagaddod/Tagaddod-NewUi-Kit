@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tagaddod_ui_kit/colors/primtives/colors.dart';
 import 'package:tagaddod_ui_kit/colors/semantic/bg_colors.dart';
 import 'package:tagaddod_ui_kit/dimensions/primitives/dimensions.dart';
@@ -50,7 +49,7 @@ class AppBottomSheet extends StatelessWidget {
           ),
           width: double.infinity,
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 16.h),
+            padding: const EdgeInsets.symmetric(vertical: 16),
             child: showDragHandler
                 ? Center(
                     child: Container(
