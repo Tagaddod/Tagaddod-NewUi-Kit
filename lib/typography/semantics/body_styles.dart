@@ -8,7 +8,7 @@ class BodyStyles {
     fontWeight: Typography.fontWeightRegular,
     height: 1.5,
   );
-  static bodyLgMedium(BuildContext context) => const TextStyle(
+  static TextStyle bodyLgMedium(BuildContext context) => const TextStyle(
         fontSize: Typography.fontSize450,
         fontWeight: Typography.fontWeightMedium,
         height: 1.5,
@@ -26,7 +26,7 @@ class BodyStyles {
     height: 1.2,
   );
 
-  static bodyMdMedium(BuildContext context) => TextStyle(
+  static TextStyle bodyMdMedium(BuildContext context) => const TextStyle(
         fontSize: Typography.fontSize400,
         fontWeight: Typography.fontWeightMedium,
         height: 1.5,

@@ -9,7 +9,7 @@ class CaptionStyles {
     height: 1.5,
   );
 
-  static captionLgMedium(BuildContext context) => const TextStyle(
+  static TextStyle captionLgMedium(BuildContext context) => const TextStyle(
         fontSize: Typography.fontSize300,
         fontWeight: Typography.fontWeightMedium,
         height: 1.5,
