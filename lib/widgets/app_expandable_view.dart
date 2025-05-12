@@ -7,11 +7,13 @@ class AppExpandableView extends StatefulWidget {
   final Duration animationDuration;
   final Curve animationCurve;
   final Widget? trailingIcon;
+  final Color pressedColor;
   const AppExpandableView({
     super.key,
     required this.header,
     required this.body,
     required this.trailingIcon,
+    required this.pressedColor,
     this.initiallyExpanded = false,
     this.animationDuration = const Duration(milliseconds: 300),
     this.animationCurve = Curves.easeInOut,
@@ -26,6 +28,7 @@ class _AppExpandableViewState extends State<AppExpandableView>
   late bool _isExpanded;
   late AnimationController _controller;
   late Animation<double> _iconRotation;
+  bool _isPressed = false;
 
   @override
   void initState() {
@@ -54,6 +57,7 @@ class _AppExpandableViewState extends State<AppExpandableView>
 
   void _toggleExpansion() {
     setState(() {
+      _isPressed = true;
       _isExpanded = !_isExpanded;
       if (_isExpanded) {
         _controller.forward();
@@ -63,21 +67,31 @@ class _AppExpandableViewState extends State<AppExpandableView>
     });
   }
 
+  void _handleLongPressUp() {
+    setState(() {
+      _isPressed = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         GestureDetector(
+          onTapUp: (_) => _handleLongPressUp(),
           onTap: _toggleExpansion,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              widget.header,
-              RotationTransition(
-                turns: _iconRotation,
-                child: widget.trailingIcon,
-              ),
-            ],
+          child: Container(
+            color: _isPressed ? widget.pressedColor : Colors.transparent,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                widget.header,
+                RotationTransition(
+                  turns: _iconRotation,
+                  child: widget.trailingIcon,
+                ),
+              ],
+            ),
           ),
         ),
         AnimatedCrossFade(
