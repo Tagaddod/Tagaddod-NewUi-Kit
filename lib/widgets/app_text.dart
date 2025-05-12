@@ -1,7 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:tagaddod_ui_kit/colors/primtives/colors.dart';
-import 'package:tagaddod_ui_kit/extensions/locale_font_style.dart';
 import 'package:tagaddod_ui_kit/typography/semantics/body_styles.dart';
 import 'package:tagaddod_ui_kit/typography/semantics/caption_styles.dart';
 import 'package:tagaddod_ui_kit/typography/semantics/heading_styles.dart';
@@ -288,7 +287,7 @@ class AppTextStyles {
       case AppTextStatus.bodySm:
         return BodyStyles.bodySm;
       case AppTextStatus.bodySmMedium:
-        return BodyStyles.bodySmMedium.withLocaleFont(context);
+        return BodyStyles.bodySmMedium(context);
       case AppTextStatus.bodySmSemiBold:
         return BodyStyles.bodySmSemiBold;
       case AppTextStatus.captionLg:

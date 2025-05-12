@@ -23,7 +23,7 @@ class AppLoadingView extends StatelessWidget {
                 child: Text(
                   loadingText!,
                   style: textStyle ??
-                      BodyStyles.bodySmMedium
+                      BodyStyles.bodySmMedium(context)
                           .copyWith(color: color ?? Colors.black),
                 ),
               )

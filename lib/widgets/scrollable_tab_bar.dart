@@ -62,7 +62,7 @@ class ScrollableTabBar extends StatelessWidget {
               child: Text(
                 tabs[index],
                 textAlign: textAlign,
-                style: BodyStyles.bodySmMedium.copyWith(
+                style: BodyStyles.bodySmMedium(context).copyWith(
                   color: isSelected ? activeTextColor : inactiveTextColor,
                 ),
               ),

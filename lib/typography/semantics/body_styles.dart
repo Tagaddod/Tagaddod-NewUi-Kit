@@ -44,11 +44,11 @@ class BodyStyles {
     leadingDistribution: TextLeadingDistribution.even,
   );
 
-  static const bodySmMedium = TextStyle(
-    fontSize: Typography.fontSize350,
-    fontWeight: Typography.fontWeightMedium,
-    height: 1.5,
-  );
+  static TextStyle bodySmMedium(BuildContext context) => const TextStyle(
+        fontSize: Typography.fontSize350,
+        fontWeight: Typography.fontWeightMedium,
+        height: 1.5,
+      ).withLocaleFont(context);
 
   static const bodySmSemiBold = TextStyle(
     fontSize: Typography.fontSize350,
