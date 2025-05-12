@@ -57,7 +57,6 @@ class _AppExpandableViewState extends State<AppExpandableView>
 
   void _toggleExpansion() {
     setState(() {
-      _isPressed = true;
       _isExpanded = !_isExpanded;
       if (_isExpanded) {
         _controller.forward();
@@ -67,7 +66,13 @@ class _AppExpandableViewState extends State<AppExpandableView>
     });
   }
 
-  void _handleLongPressUp() {
+  void _handlePressDown() {
+    setState(() {
+      _isPressed = true;
+    });
+  }
+
+  void _handlePressUp() {
     setState(() {
       _isPressed = false;
     });
@@ -78,7 +83,8 @@ class _AppExpandableViewState extends State<AppExpandableView>
     return Column(
       children: [
         GestureDetector(
-          onTapUp: (_) => _handleLongPressUp(),
+          onTapUp: (_) => _handlePressUp(),
+          onTapDown: (_) => _handlePressDown(),
           onTap: _toggleExpansion,
           child: Container(
             color: _isPressed ? widget.pressedColor : Colors.transparent,
