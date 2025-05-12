@@ -12,6 +12,7 @@ import 'package:tagaddod_ui_kit/samples/icon_button/sample_app_tonal_icon_button
 import 'package:tagaddod_ui_kit/samples/number_container/sample_number_container.dart';
 import 'package:tagaddod_ui_kit/samples/number_counter/sample_number_counter.dart';
 import 'package:tagaddod_ui_kit/samples/sample_app_bottom_nav_bar.dart';
+import 'package:tagaddod_ui_kit/samples/sample_app_bottom_sheet.dart';
 import 'package:tagaddod_ui_kit/samples/sample_app_filled_button.dart';
 import 'package:tagaddod_ui_kit/samples/sample_app_outlined_button.dart';
 import 'package:tagaddod_ui_kit/samples/sample_app_radio_button.dart';
@@ -140,6 +141,13 @@ class AppDrawer extends StatelessWidget {
                 );
               },
             ),
+            ListTile(
+              title: const Text("App Modal bottom sheet"),
+              onTap: () {
+                onSelectWidget(getBottomSheet(context));
+                Navigator.pop(context);
+              },
+            ),
 
             //sample switch button
             ListTile(
@@ -259,6 +267,10 @@ class AppDrawer extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget getBottomSheet(BuildContext context) {
+    return SampleAppBottomSheet();
   }
 
   Widget getLoadingView(BuildContext context) {
