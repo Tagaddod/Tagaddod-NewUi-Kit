@@ -12,6 +12,7 @@ import 'package:tagaddod_ui_kit/samples/icon_button/sample_app_tonal_icon_button
 import 'package:tagaddod_ui_kit/samples/number_container/sample_number_container.dart';
 import 'package:tagaddod_ui_kit/samples/number_counter/sample_number_counter.dart';
 import 'package:tagaddod_ui_kit/samples/sample_app_bottom_nav_bar.dart';
+import 'package:tagaddod_ui_kit/samples/sample_app_bottom_sheet.dart';
 import 'package:tagaddod_ui_kit/samples/sample_app_filled_button.dart';
 import 'package:tagaddod_ui_kit/samples/sample_app_outlined_button.dart';
 import 'package:tagaddod_ui_kit/samples/sample_app_radio_button.dart';
@@ -19,6 +20,7 @@ import 'package:tagaddod_ui_kit/samples/sample_app_stepper/sample_app_stepper.da
 import 'package:tagaddod_ui_kit/samples/sample_app_switch.dart';
 import 'package:tagaddod_ui_kit/samples/sample_app_text_button.dart';
 import 'package:tagaddod_ui_kit/samples/sample_app_tonal_button.dart';
+import 'package:tagaddod_ui_kit/samples/sample_loading_view.dart';
 import 'package:tagaddod_ui_kit/samples/sample_scrollable_tab_bar.dart';
 import 'package:tagaddod_ui_kit/samples/sample_stepper_flow.dart';
 import 'package:tagaddod_ui_kit/samples/sample_toast_message/sample_toast_message.dart';
@@ -139,6 +141,13 @@ class AppDrawer extends StatelessWidget {
                 );
               },
             ),
+            ListTile(
+              title: const Text("App Modal bottom sheet"),
+              onTap: () {
+                onSelectWidget(getBottomSheet(context));
+                Navigator.pop(context);
+              },
+            ),
 
             //sample switch button
             ListTile(
@@ -246,10 +255,26 @@ class AppDrawer extends StatelessWidget {
                 Navigator.pop(context);
               },
             ),
+            ListTile(
+              title: const Text("Loading  "),
+              onTap: () {
+                onSelectWidget(getLoadingView(context));
+
+                Navigator.pop(context);
+              },
+            ),
           ],
         ),
       ),
     );
+  }
+
+  Widget getBottomSheet(BuildContext context) {
+    return SampleAppBottomSheet();
+  }
+
+  Widget getLoadingView(BuildContext context) {
+    return SampleLoadingView();
   }
 
   Widget getStepperFlow(BuildContext context) {

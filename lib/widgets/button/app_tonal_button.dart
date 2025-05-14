@@ -79,63 +79,67 @@ class AppTonalButton extends StatelessWidget {
   Widget build(BuildContext context) {
     //we should get style of each component in here
 
-    return Center(
-      child: InkWell(
-        splashColor: getHighlightColor(),
-        highlightColor: Colors.transparent,
-        borderRadius: borderRadius ?? BorderRadius.circular(8),
-        onTap: isLoading ? null : onTap,
-        child: Ink(
-          width: width,
-          height: _height,
-          decoration: getButtonTypeDecoration(buttonType).copyWith(
-            borderRadius: borderRadius,
-            border:
-                borderColor == null ? null : Border.all(color: borderColor!),
-            color: onTap == null ? disabledBackgroundColor : backgroundColor,
-          ),
-          child: isLoading
-              ? Center(
-                  child: SizedBox(
-                    width: 18,
-                    height: 18,
-                    child: CircularProgressIndicator(
-                      color: textColor,
-                      strokeWidth: 3,
+    return Material(
+      borderRadius: borderRadius ?? BorderRadius.circular(8),
+      color: Colors.transparent,
+      child: Center(
+        child: InkWell(
+          splashColor: getHighlightColor(),
+          highlightColor: Colors.transparent,
+          borderRadius: borderRadius ?? BorderRadius.circular(8),
+          onTap: isLoading ? null : onTap,
+          child: Ink(
+            width: width,
+            height: _height,
+            decoration: getButtonTypeDecoration(buttonType).copyWith(
+              borderRadius: borderRadius,
+              border:
+                  borderColor == null ? null : Border.all(color: borderColor!),
+              color: onTap == null ? disabledBackgroundColor : backgroundColor,
+            ),
+            child: isLoading
+                ? Center(
+                    child: SizedBox(
+                      width: 18,
+                      height: 18,
+                      child: CircularProgressIndicator(
+                        color: textColor,
+                        strokeWidth: 3,
+                      ),
+                    ),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        //icon
+
+                        if (iconPath != null)
+                          AppIcon(
+                            svgIconPath: iconPath!,
+                            colorFilter: ColorFilter.mode(
+                                onTap == null ? disabledTextColor! : textColor!,
+                                BlendMode.srcIn),
+                          ),
+                        if (iconPath != null) const SizedBox(width: 5),
+                        //text
+                        Flexible(
+                          child: Transform.translate(
+                              offset: _btnTextStyle == BodyStyles.bodySmSemiBold
+                                  ? Directionality.of(context).name == 'ltr'
+                                      ? const Offset(0, 0)
+                                      : const Offset(0, 1.6)
+                                  : Directionality.of(context).name == 'ltr'
+                                      ? const Offset(0, 0)
+                                      : const Offset(0, 2),
+                              child: getTextButtonWidget(context)),
+                        ),
+                      ],
                     ),
                   ),
-                )
-              : Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      //icon
-
-                      if (iconPath != null)
-                        AppIcon(
-                          svgIconPath: iconPath!,
-                          colorFilter: ColorFilter.mode(
-                              onTap == null ? disabledTextColor! : textColor!,
-                              BlendMode.srcIn),
-                        ),
-                      if (iconPath != null) const SizedBox(width: 5),
-                      //text
-                      Flexible(
-                        child: Transform.translate(
-                            offset: _btnTextStyle == BodyStyles.bodySmSemiBold
-                                ? Directionality.of(context).name == 'ltr'
-                                    ? const Offset(0, 0)
-                                    : const Offset(0, 1.6)
-                                : Directionality.of(context).name == 'ltr'
-                                    ? const Offset(0, 0)
-                                    : const Offset(0, 2),
-                            child: getTextButtonWidget(context)),
-                      ),
-                    ],
-                  ),
-                ),
+          ),
         ),
       ),
     );

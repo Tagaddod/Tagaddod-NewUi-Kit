@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:tagaddod_ui_kit/extensions/locale_font_style.dart';
 import 'package:tagaddod_ui_kit/typography/primitives/typography.dart';
 
 class BodyStyles {
@@ -7,11 +8,11 @@ class BodyStyles {
     fontWeight: Typography.fontWeightRegular,
     height: 1.5,
   );
-  static const bodyLgMedium = TextStyle(
-    fontSize: Typography.fontSize450,
-    fontWeight: Typography.fontWeightMedium,
-    height: 1.5,
-  );
+  static TextStyle bodyLgMedium(BuildContext context) => const TextStyle(
+        fontSize: Typography.fontSize450,
+        fontWeight: Typography.fontWeightMedium,
+        height: 1.5,
+      ).withLocaleFont(context);
 
   static const bodyLgSemiBold = TextStyle(
     fontSize: Typography.fontSize450,
@@ -25,11 +26,11 @@ class BodyStyles {
     height: 1.2,
   );
 
-  static const bodyMdMedium = TextStyle(
-    fontSize: Typography.fontSize400,
-    fontWeight: Typography.fontWeightMedium,
-    height: 1.5,
-  );
+  static TextStyle bodyMdMedium(BuildContext context) => const TextStyle(
+        fontSize: Typography.fontSize400,
+        fontWeight: Typography.fontWeightMedium,
+        height: 1.5,
+      ).withLocaleFont(context);
 
   static const bodyMdSemiBold = TextStyle(
     fontSize: Typography.fontSize400,
@@ -43,11 +44,11 @@ class BodyStyles {
     leadingDistribution: TextLeadingDistribution.even,
   );
 
-  static const bodySmMedium = TextStyle(
-    fontSize: Typography.fontSize350,
-    fontWeight: Typography.fontWeightMedium,
-    height: 1.5,
-  );
+  static TextStyle bodySmMedium(BuildContext context) => const TextStyle(
+        fontSize: Typography.fontSize350,
+        fontWeight: Typography.fontWeightMedium,
+        height: 1.5,
+      ).withLocaleFont(context);
 
   static const bodySmSemiBold = TextStyle(
     fontSize: Typography.fontSize350,

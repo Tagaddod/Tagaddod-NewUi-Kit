@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tagaddod_ui_kit/app_drawer.dart';
+import 'package:tagaddod_ui_kit/typography/semantics/body_styles.dart';
 import 'package:tagaddod_ui_kit/widgets/top_app_bar.dart';
 
 class TagaddodKit extends StatefulWidget {
@@ -21,9 +22,10 @@ class _TagaddodKitState extends State<TagaddodKit> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const TopAppBar(
+      appBar: TopAppBar(
         title: Text(
           "UI kit",
+          style: BodyStyles.bodyLgMedium(context),
         ),
       ),
       drawer: AppDrawer(
