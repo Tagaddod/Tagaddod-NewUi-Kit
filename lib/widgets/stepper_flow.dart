@@ -63,21 +63,26 @@ class StepperFlow extends StatelessWidget {
                         activeColor: stepActiveColor,
                         disableColor: stepInactiveColor),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 16),
-                    child: Text(steps[activeIndex].stepTitle ?? '',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 28,
-                            color: titleColor ?? TextColors.colorTextOnBgFill)),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 12),
-                    child: Text(steps[activeIndex].stepSubtitle ?? '',
-                        style: BodyStyles.bodyMd.copyWith(
-                            color:
-                                subtitleColor ?? TextColors.colorTextOnBgFill)),
-                  ),
+                  (steps[activeIndex].stepTitle == null)
+                      ? const SizedBox()
+                      : Padding(
+                          padding: const EdgeInsets.only(top: 16),
+                          child: Text(steps[activeIndex].stepTitle ?? '',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 28,
+                                  color: titleColor ??
+                                      TextColors.colorTextOnBgFill)),
+                        ),
+                  (steps[activeIndex].stepSubtitle == null)
+                      ? const SizedBox()
+                      : Padding(
+                          padding: const EdgeInsets.only(top: 12),
+                          child: Text(steps[activeIndex].stepSubtitle ?? '',
+                              style: BodyStyles.bodyMd.copyWith(
+                                  color: subtitleColor ??
+                                      TextColors.colorTextOnBgFill)),
+                        ),
                   const SizedBox(
                     height: 20,
                   )
