@@ -13,6 +13,7 @@ class AppTextField extends StatefulWidget {
   final Color? errorBorderColor;
   final Color? focusedBorderColor;
   final Color? hintTextColor;
+  final Color? cursorColor;
   final String? labelText;
   final double? borderRadius;
   final TextEditingController? textEditingController;
@@ -29,7 +30,7 @@ class AppTextField extends StatefulWidget {
   final String? optionalText;
   final AutovalidateMode? autovalidateMode;
   final String? Function(String?)? validator;
-  final double _height;
+  final double height;
   final String? errorSvgIconPath;
   final bool expands;
   final double width;
@@ -42,6 +43,7 @@ class AppTextField extends StatefulWidget {
     super.key,
     this.labelText,
     this.hintTextColor,
+    this.cursorColor,
     this.onChanged,
     this.errorText,
     this.lineHeight,
@@ -57,10 +59,10 @@ class AppTextField extends StatefulWidget {
     this.borderRadius,
     this.hintText,
     this.width = 200,
+    this.height = 40,
     this.keyboardType,
   })  : _size = TextFieldSize.medium,
         _btnTextStyle = BodyStyles.bodySmSemiBold,
-        _height = 40,
         isEnabled = true,
         obscureText = false,
         isOptionalEnabled = false,
@@ -73,6 +75,7 @@ class AppTextField extends StatefulWidget {
   const AppTextField.medium(
       {super.key,
       this.labelText,
+      this.cursorColor,
       this.hintTextColor,
       this.textEditingController,
       this.errorBorderColor,
@@ -96,15 +99,16 @@ class AppTextField extends StatefulWidget {
       this.errorSvgIconPath,
       this.isEnabled = true,
       this.width = 200,
+      this.height = 40,
       this.obscureText = false,
       this.readOnly = false})
       : _size = TextFieldSize.medium,
-        _btnTextStyle = BodyStyles.bodySmSemiBold,
-        _height = 40;
+        _btnTextStyle = BodyStyles.bodySmSemiBold;
 
   const AppTextField.large({
     super.key,
     this.labelText,
+    this.cursorColor,
     this.textEditingController,
     this.hintTextColor,
     this.isOptionalEnabled = false,
@@ -126,13 +130,13 @@ class AppTextField extends StatefulWidget {
     this.errorSvgIconPath,
     this.hintText,
     this.width = 200,
+    this.height = 56,
     this.keyboardType,
     this.obscureText = false,
     this.readOnly = false,
     this.expands = false,
   })  : _size = TextFieldSize.large,
-        _btnTextStyle = BodyStyles.bodyMdSemiBold,
-        _height = 56;
+        _btnTextStyle = BodyStyles.bodyMdSemiBold;
 
   @override
   State<AppTextField> createState() => _AppTextFieldState();
@@ -234,7 +238,7 @@ class _AppTextFieldState extends State<AppTextField> {
               bool isError = error != null ||
                   (widget.errorText != null && widget.errorText!.isNotEmpty);
               return Container(
-                height: widget._height,
+                height: widget.height,
                 width: widget.width,
                 margin: EdgeInsets.zero,
                 padding: EdgeInsets.zero,
@@ -270,6 +274,7 @@ class _AppTextFieldState extends State<AppTextField> {
                     if (widget.prefix == null) const SizedBox(width: 12),
                     Expanded(
                       child: TextFormField(
+                        cursorColor: widget.cursorColor,
                         controller: _textEditingController,
                         autovalidateMode:
                             widget.autovalidateMode ?? AutovalidateMode.always,
@@ -305,8 +310,7 @@ class _AppTextFieldState extends State<AppTextField> {
                             borderSide: BorderSide.none,
                           ),
                           isDense: true,
-                          constraints:
-                              BoxConstraints(maxHeight: widget._height),
+                          constraints: BoxConstraints(maxHeight: widget.height),
                           hintText: widget.hintText,
                           errorStyle: TextStyle(
                             color: isError
