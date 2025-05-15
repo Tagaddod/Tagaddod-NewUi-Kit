@@ -12,6 +12,7 @@ class AppTextField extends StatefulWidget {
   final bool isOptionalEnabled;
   final Color? errorBorderColor;
   final Color? focusedBorderColor;
+  final Color? hintTextColor;
   final String? labelText;
   final double? borderRadius;
   final TextEditingController? textEditingController;
@@ -40,6 +41,7 @@ class AppTextField extends StatefulWidget {
   const AppTextField._({
     super.key,
     this.labelText,
+    this.hintTextColor,
     this.onChanged,
     this.errorText,
     this.lineHeight,
@@ -71,6 +73,7 @@ class AppTextField extends StatefulWidget {
   const AppTextField.medium(
       {super.key,
       this.labelText,
+      this.hintTextColor,
       this.textEditingController,
       this.errorBorderColor,
       this.focusedBorderColor,
@@ -103,6 +106,7 @@ class AppTextField extends StatefulWidget {
     super.key,
     this.labelText,
     this.textEditingController,
+    this.hintTextColor,
     this.isOptionalEnabled = false,
     this.onChanged,
     this.errorText,
@@ -315,10 +319,21 @@ class _AppTextFieldState extends State<AppTextField> {
                               ? widget._btnTextStyle ==
                                       BodyStyles.bodySmSemiBold
                                   ? BodyStyles.bodySm.copyWith(
-                                      color: TextColors.colorTextSecondary,
+                                      color: widget.hintTextColor ??
+                                          TextColors.colorTextSecondary,
                                       height: 1.6)
-                                  : BodyStyles.bodyMd
-                              : BodyStyles.bodySm,
+                                  : BodyStyles.bodyMd.copyWith(
+                                      color: widget.hintTextColor ??
+                                          TextColors.colorText,
+                                    )
+                              : widget._btnTextStyle ==
+                                      BodyStyles.bodySmSemiBold
+                                  ? BodyStyles.bodySm.copyWith(
+                                      color: TextColors.colorTextSecondary,
+                                    )
+                                  : BodyStyles.bodyMd.copyWith(
+                                      color: TextColors.colorTextSecondary,
+                                    ),
                           fillColor: isError
                               ? BgColors.colorBgFillCriticalSecondary
                               : !widget.isEnabled || widget.readOnly
