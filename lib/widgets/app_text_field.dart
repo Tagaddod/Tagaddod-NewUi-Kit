@@ -149,6 +149,14 @@ class _AppTextFieldState extends State<AppTextField> {
   final bool _isEmpty = true;
 
   late FocusNode _focusNode;
+  @override
+  void didUpdateWidget(covariant AppTextField oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.errorText != oldWidget.errorText) {
+      errorNotifier.value = widget.errorText ??
+          widget.validator?.call(widget.textEditingController?.text);
+    }
+  }
 
   @override
   initState() {
