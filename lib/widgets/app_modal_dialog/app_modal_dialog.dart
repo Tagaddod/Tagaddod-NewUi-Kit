@@ -33,7 +33,6 @@ class AppModalDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      constraints: BoxConstraints(maxWidth: 343.w, maxHeight: 376.h),
       child: Column(
         children: [
           //row title with x close button and able to be closed
@@ -56,9 +55,8 @@ class AppModalDialog extends StatelessWidget {
             ),
           ),
           //body
-          Container(
-            constraints: BoxConstraints(maxWidth: 343.w, maxHeight: 232.h),
-            child: bodyWidget,
+          Expanded(
+            child: bodyWidget ?? const SizedBox(),
           ),
           SizedBox(height: spaceBetweenBodyAndFooter),
 
