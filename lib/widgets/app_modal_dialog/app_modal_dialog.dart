@@ -55,9 +55,7 @@ class AppModalDialog extends StatelessWidget {
             ),
           ),
           //body
-          Expanded(
-            child: bodyWidget ?? const SizedBox(),
-          ),
+          bodyWidget ?? const SizedBox(),
           SizedBox(height: spaceBetweenBodyAndFooter),
 
           //footer
