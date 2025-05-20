@@ -144,7 +144,7 @@ class AppTextField extends StatefulWidget {
 
 class _AppTextFieldState extends State<AppTextField> {
   late TextEditingController _textEditingController;
-  bool _isFocused = false;
+  final bool _isFocused = false;
   String? _errorText;
   late FocusNode _focusNode;
 
@@ -154,16 +154,6 @@ class _AppTextFieldState extends State<AppTextField> {
     _focusNode = FocusNode();
     _errorText = widget.errorText;
 
-    // Listen for focus changes
-    _focusNode.addListener(() {
-      setState(() {
-        _isFocused = _focusNode.hasFocus;
-        // Clear error when field is focused
-        if (_isFocused) {
-          _errorText = null;
-        }
-      });
-    });
     _textEditingController =
         widget.textEditingController ?? TextEditingController();
   }
@@ -181,6 +171,7 @@ class _AppTextFieldState extends State<AppTextField> {
   String? _validate(String? value) {
     if (widget.validator != null) {
       final error = widget.validator!(value);
+      print('Validator result: $error'); // Debug
       setState(() {
         _errorText = error;
       });
@@ -276,8 +267,7 @@ class _AppTextFieldState extends State<AppTextField> {
                 child: TextFormField(
                   cursorColor: widget.cursorColor,
                   controller: _textEditingController,
-                  autovalidateMode: widget.autovalidateMode ??
-                      AutovalidateMode.onUserInteraction,
+                  autovalidateMode: widget.autovalidateMode,
                   validator: _validate,
                   focusNode: _focusNode,
                   onTapOutside: (event) {
