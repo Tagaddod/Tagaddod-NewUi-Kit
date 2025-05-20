@@ -149,14 +149,14 @@ class _AppTextFieldState extends State<AppTextField> {
   final bool _isEmpty = true;
 
   late FocusNode _focusNode;
-  @override
-  void didUpdateWidget(covariant AppTextField oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.errorText != oldWidget.errorText) {
-      errorNotifier.value = widget.errorText ??
-          widget.validator?.call(widget.textEditingController?.text);
-    }
-  }
+  // @override
+  // void didUpdateWidget(covariant AppTextField oldWidget) {
+  //   super.didUpdateWidget(oldWidget);
+  //   if (widget.errorText != oldWidget.errorText) {
+  //     errorNotifier.value = widget.errorText ??
+  //         widget.validator?.call(widget.textEditingController?.text);
+  //   }
+  // }
 
   @override
   initState() {
@@ -171,10 +171,8 @@ class _AppTextFieldState extends State<AppTextField> {
     });
     _textEditingController =
         widget.textEditingController ?? TextEditingController();
-    errorNotifier.value = widget.errorText ??
-        widget.validator?.call(widget.textEditingController?.text);
-
-    _textEditingController.addListener(_validateInput);
+    // errorNotifier.value = widget.errorText ??
+    //     widget.validator?.call(widget.textEditingController?.text);
   }
 
   @override
@@ -284,8 +282,7 @@ class _AppTextFieldState extends State<AppTextField> {
                       child: TextFormField(
                         cursorColor: widget.cursorColor,
                         controller: _textEditingController,
-                        autovalidateMode:
-                            widget.autovalidateMode ?? AutovalidateMode.always,
+                        autovalidateMode: widget.autovalidateMode,
                         // showCursor: true,
                         validator: widget.validator,
                         focusNode: _focusNode,
@@ -293,7 +290,6 @@ class _AppTextFieldState extends State<AppTextField> {
                           FocusManager.instance.primaryFocus?.unfocus();
                         },
                         onChanged: (value) {
-                          _validateInput();
                           if (widget.onChanged != null) {
                             widget.onChanged!(value);
                           }
