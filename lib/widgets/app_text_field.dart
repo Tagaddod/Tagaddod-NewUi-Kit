@@ -145,24 +145,48 @@ class AppTextField extends StatefulWidget {
 class _AppTextFieldState extends State<AppTextField> {
   late TextEditingController _textEditingController;
   bool _isFocused = false;
-
+  String? _errorText;
   late FocusNode _focusNode;
 
   @override
   initState() {
     super.initState();
     _focusNode = FocusNode();
+    _errorText = widget.errorText;
 
     // Listen for focus changes
     _focusNode.addListener(() {
       setState(() {
         _isFocused = _focusNode.hasFocus;
+        // Clear error when field is focused
+        if (_isFocused) {
+          _errorText = null;
+        }
       });
     });
     _textEditingController =
         widget.textEditingController ?? TextEditingController();
-    // errorNotifier.value = widget.errorText ??
-    //     widget.validator?.call(widget.textEditingController?.text);
+  }
+
+  @override
+  void didUpdateWidget(AppTextField oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.errorText != oldWidget.errorText) {
+      setState(() {
+        _errorText = widget.errorText;
+      });
+    }
+  }
+
+  String? _validate(String? value) {
+    if (widget.validator != null) {
+      final error = widget.validator!(value);
+      setState(() {
+        _errorText = error;
+      });
+      return error;
+    }
+    return null;
   }
 
   @override
@@ -181,33 +205,29 @@ class _AppTextFieldState extends State<AppTextField> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         //label text
-        widget.labelText == null
-            ? const SizedBox(
-                width: 0,
-              )
-            : SizedBox(
-                width: widget.width,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    getTextButtonWidget(),
-                    const SizedBox(
-                      width: 2,
-                    ),
-                    if (widget.isOptionalEnabled)
-                      Text(
-                        widget.optionalText ?? "(Optional)",
-                        style: widget._btnTextStyle == BodyStyles.bodySmSemiBold
-                            ? BodyStyles.bodySm
-                                .copyWith(color: TextColors.colorTextSecondary)
-                            : BodyStyles.bodyMd.copyWith(
-                                color: TextColors.colorTextSecondary,
-                                height: 1.5),
-                      )
-                  ],
+        if (widget.labelText != null)
+          SizedBox(
+            width: widget.width,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                getTextButtonWidget(),
+                const SizedBox(
+                  width: 2,
                 ),
-              ),
+                if (widget.isOptionalEnabled)
+                  Text(
+                    widget.optionalText ?? "(Optional)",
+                    style: widget._btnTextStyle == BodyStyles.bodySmSemiBold
+                        ? BodyStyles.bodySm
+                            .copyWith(color: TextColors.colorTextSecondary)
+                        : BodyStyles.bodyMd.copyWith(
+                            color: TextColors.colorTextSecondary, height: 1.5),
+                  )
+              ],
+            ),
+          ),
 
         SizedBox(
             height: widget._btnTextStyle == BodyStyles.bodySmSemiBold
@@ -225,13 +245,13 @@ class _AppTextFieldState extends State<AppTextField> {
           padding: EdgeInsets.zero,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(widget.borderRadius ?? 8),
-              color: widget.errorText != null
+              color: _errorText != null
                   ? BgColors.colorBgFillCriticalSecondary
                   : !widget.isEnabled || widget.readOnly
                       ? BgColors.colorBgSurfaceDisabled
                       : BgColors.colorBgSurface,
               border: Border.all(
-                color: widget.errorText != null
+                color: _errorText != null
                     ? widget.errorBorderColor ??
                         BorderColors.colorBorderCritical // Error state
                     : _isFocused
@@ -256,9 +276,9 @@ class _AppTextFieldState extends State<AppTextField> {
                 child: TextFormField(
                   cursorColor: widget.cursorColor,
                   controller: _textEditingController,
-                  autovalidateMode: widget.autovalidateMode,
-                  validator: widget.validator,
-                  // showCursor: true,
+                  autovalidateMode: widget.autovalidateMode ??
+                      AutovalidateMode.onUserInteraction,
+                  validator: _validate,
                   focusNode: _focusNode,
                   onTapOutside: (event) {
                     FocusManager.instance.primaryFocus?.unfocus();
@@ -266,6 +286,12 @@ class _AppTextFieldState extends State<AppTextField> {
                   onChanged: (value) {
                     if (widget.onChanged != null) {
                       widget.onChanged!(value);
+                    }
+                    // Clear error when user types
+                    if (_errorText != null) {
+                      setState(() {
+                        _errorText = null;
+                      });
                     }
                   },
                   keyboardType: widget.keyboardType,
@@ -292,7 +318,7 @@ class _AppTextFieldState extends State<AppTextField> {
                     constraints: BoxConstraints(maxHeight: widget.height),
                     hintText: widget.hintText,
                     errorStyle: TextStyle(
-                      color: widget.errorText != null
+                      color: _errorText != null
                           ? widget.errorBorderColor ?? Colors.red
                           : widget.focusedBorderColor ??
                               BorderColors.colorBorderBrand,
@@ -315,7 +341,7 @@ class _AppTextFieldState extends State<AppTextField> {
                             : BodyStyles.bodyMd.copyWith(
                                 color: TextColors.colorTextSecondary,
                               ),
-                    fillColor: widget.errorText != null
+                    fillColor: _errorText != null
                         ? BgColors.colorBgFillCriticalSecondary
                         : !widget.isEnabled || widget.readOnly
                             ? BgColors.colorBgSurfaceDisabled
@@ -349,7 +375,7 @@ class _AppTextFieldState extends State<AppTextField> {
         SizedBox(
             height: widget._btnTextStyle == BodyStyles.bodySmSemiBold ? 7 : 6),
 
-        if (widget.errorText != null) ...[
+        if (_errorText != null) ...[
           SizedBox(
             width: widget.width,
             child: Row(
@@ -365,9 +391,8 @@ class _AppTextFieldState extends State<AppTextField> {
                       BorderColors.colorBorderCritical, BlendMode.srcIn),
                 ),
                 const SizedBox(width: 6),
-                //TODO: check again on english
                 AppText.bodySm(
-                  text: widget.errorText!,
+                  text: _errorText!,
                   textColor: TextColors.colorTextCritical,
                   textAlign: TextAlign.center,
                   height: Directionality.of(context).name == 'ltr' ? null : 1.5,
