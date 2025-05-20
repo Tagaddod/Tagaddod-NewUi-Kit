@@ -2,7 +2,7 @@ import 'package:tagaddod_ui_kit/colors/primtives/colors.dart';
 
 class BorderColors {
   static const colorBorder = AppColors.colorGray900;
-  static const colorBorderSecondary = AppColors.colorGray500;
+  static const colorBorderSecondary = AppColors.colorGray700;
   static const colorBorderTertiary = AppColors.colorGray500;
   static const colorBorderHover = AppColors.colorGray1100;
   static const colorBorderActive = AppColors.colorGray1300;
