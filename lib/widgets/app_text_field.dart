@@ -144,19 +144,9 @@ class AppTextField extends StatefulWidget {
 
 class _AppTextFieldState extends State<AppTextField> {
   late TextEditingController _textEditingController;
-  final ValueNotifier<String?> errorNotifier = ValueNotifier<String?>(null);
   bool _isFocused = false;
-  final bool _isEmpty = true;
 
   late FocusNode _focusNode;
-  // @override
-  // void didUpdateWidget(covariant AppTextField oldWidget) {
-  //   super.didUpdateWidget(oldWidget);
-  //   if (widget.errorText != oldWidget.errorText) {
-  //     errorNotifier.value = widget.errorText ??
-  //         widget.validator?.call(widget.textEditingController?.text);
-  //   }
-  // }
 
   @override
   initState() {
@@ -177,21 +167,11 @@ class _AppTextFieldState extends State<AppTextField> {
 
   @override
   void dispose() {
-    _textEditingController.removeListener(_validateInput);
-
     if (widget.textEditingController == null) {
       _textEditingController.dispose();
     }
     _focusNode.dispose();
-    errorNotifier.dispose();
     super.dispose();
-  }
-
-  void _validateInput() {
-    if (widget.validator != null) {
-      final error = widget.validator!(_textEditingController.text);
-      errorNotifier.value = error;
-    }
   }
 
   @override
@@ -238,128 +218,121 @@ class _AppTextFieldState extends State<AppTextField> {
                     ? 5
                     : 2),
         //text field
-        ValueListenableBuilder<String?>(
-            valueListenable: errorNotifier,
-            builder: (context, error, child) {
-              bool isError = error != null ||
-                  (widget.errorText != null && widget.errorText!.isNotEmpty);
-              return Container(
-                height: widget.height,
-                width: widget.width,
-                margin: EdgeInsets.zero,
-                padding: EdgeInsets.zero,
-                decoration: BoxDecoration(
-                    borderRadius:
-                        BorderRadius.circular(widget.borderRadius ?? 8),
-                    color: isError
+        Container(
+          height: widget.height,
+          width: widget.width,
+          margin: EdgeInsets.zero,
+          padding: EdgeInsets.zero,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(widget.borderRadius ?? 8),
+              color: widget.errorText != null
+                  ? BgColors.colorBgFillCriticalSecondary
+                  : !widget.isEnabled || widget.readOnly
+                      ? BgColors.colorBgSurfaceDisabled
+                      : BgColors.colorBgSurface,
+              border: Border.all(
+                color: widget.errorText != null
+                    ? widget.errorBorderColor ??
+                        BorderColors.colorBorderCritical // Error state
+                    : _isFocused
+                        ? widget.focusedBorderColor ??
+                            BorderColors.colorBorderBrand // Focused state
+                        : BorderColors.colorBorder, // Default state
+                width: 1,
+              )),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              if (widget.prefix != null) ...[
+                Padding(
+                  padding: const EdgeInsetsDirectional.only(start: 12),
+                  child: widget.prefix!,
+                ),
+                const SizedBox(width: 6),
+              ],
+              if (widget.prefix == null) const SizedBox(width: 12),
+              Expanded(
+                child: TextFormField(
+                  cursorColor: widget.cursorColor,
+                  controller: _textEditingController,
+                  autovalidateMode: widget.autovalidateMode,
+                  validator: widget.validator,
+                  // showCursor: true,
+                  focusNode: _focusNode,
+                  onTapOutside: (event) {
+                    FocusManager.instance.primaryFocus?.unfocus();
+                  },
+                  onChanged: (value) {
+                    if (widget.onChanged != null) {
+                      widget.onChanged!(value);
+                    }
+                  },
+                  keyboardType: widget.keyboardType,
+                  obscureText: widget.obscureText,
+                  maxLines: widget.maxLines ?? 1,
+                  minLines: widget.minLines,
+                  expands: widget.expands,
+                  readOnly: widget.readOnly,
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(
+                        horizontal: 0,
+                        vertical:
+                            widget._btnTextStyle == BodyStyles.bodySmSemiBold
+                                ? Directionality.of(context).name == 'ltr'
+                                    ? 6
+                                    : 0
+                                : 12),
+                    border: OutlineInputBorder(
+                      borderRadius:
+                          BorderRadius.circular(widget.borderRadius ?? 8),
+                      borderSide: BorderSide.none,
+                    ),
+                    isDense: true,
+                    constraints: BoxConstraints(maxHeight: widget.height),
+                    hintText: widget.hintText,
+                    errorStyle: TextStyle(
+                      color: widget.errorText != null
+                          ? widget.errorBorderColor ?? Colors.red
+                          : widget.focusedBorderColor ??
+                              BorderColors.colorBorderBrand,
+                      fontSize: 0,
+                    ),
+                    hintStyle: widget.isEnabled
+                        ? widget._btnTextStyle == BodyStyles.bodySmSemiBold
+                            ? BodyStyles.bodySm.copyWith(
+                                color: widget.hintTextColor ??
+                                    TextColors.colorTextSecondary,
+                                height: 1.6)
+                            : BodyStyles.bodyMd.copyWith(
+                                color: widget.hintTextColor ??
+                                    TextColors.colorText,
+                              )
+                        : widget._btnTextStyle == BodyStyles.bodySmSemiBold
+                            ? BodyStyles.bodySm.copyWith(
+                                color: TextColors.colorTextSecondary,
+                              )
+                            : BodyStyles.bodyMd.copyWith(
+                                color: TextColors.colorTextSecondary,
+                              ),
+                    fillColor: widget.errorText != null
                         ? BgColors.colorBgFillCriticalSecondary
                         : !widget.isEnabled || widget.readOnly
                             ? BgColors.colorBgSurfaceDisabled
                             : BgColors.colorBgSurface,
-                    border: Border.all(
-                      color: errorNotifier.value != null
-                          ? widget.errorBorderColor ??
-                              BorderColors.colorBorderCritical // Error state
-                          : _isFocused
-                              ? widget.focusedBorderColor ??
-                                  BorderColors.colorBorderBrand // Focused state
-                              : BorderColors.colorBorder, // Default state
-                      width: 1,
-                    )),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    if (widget.prefix != null) ...[
-                      Padding(
-                        padding: const EdgeInsetsDirectional.only(start: 12),
-                        child: widget.prefix!,
-                      ),
-                      const SizedBox(width: 6),
-                    ],
-                    if (widget.prefix == null) const SizedBox(width: 12),
-                    Expanded(
-                      child: TextFormField(
-                        cursorColor: widget.cursorColor,
-                        controller: _textEditingController,
-                        autovalidateMode: widget.autovalidateMode,
-                        // showCursor: true,
-                        validator: widget.validator,
-                        focusNode: _focusNode,
-                        onTapOutside: (event) {
-                          FocusManager.instance.primaryFocus?.unfocus();
-                        },
-                        onChanged: (value) {
-                          if (widget.onChanged != null) {
-                            widget.onChanged!(value);
-                          }
-                        },
-                        keyboardType: widget.keyboardType,
-                        obscureText: widget.obscureText,
-                        maxLines: widget.maxLines ?? 1,
-                        minLines: widget.minLines,
-                        expands: widget.expands,
-                        readOnly: widget.readOnly,
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(
-                              horizontal: 0,
-                              vertical: widget._btnTextStyle ==
-                                      BodyStyles.bodySmSemiBold
-                                  ? Directionality.of(context).name == 'ltr'
-                                      ? 6
-                                      : 0
-                                  : 12),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide.none,
-                          ),
-                          isDense: true,
-                          constraints: BoxConstraints(maxHeight: widget.height),
-                          hintText: widget.hintText,
-                          errorStyle: TextStyle(
-                            color: isError
-                                ? widget.errorBorderColor ?? Colors.red
-                                : widget.focusedBorderColor ??
-                                    BorderColors.colorBorderBrand,
-                            fontSize: 0,
-                          ),
-                          hintStyle: widget.isEnabled
-                              ? widget._btnTextStyle ==
-                                      BodyStyles.bodySmSemiBold
-                                  ? BodyStyles.bodySm.copyWith(
-                                      color: widget.hintTextColor ??
-                                          TextColors.colorTextSecondary,
-                                      height: 1.6)
-                                  : BodyStyles.bodyMd.copyWith(
-                                      color: widget.hintTextColor ??
-                                          TextColors.colorText,
-                                    )
-                              : widget._btnTextStyle ==
-                                      BodyStyles.bodySmSemiBold
-                                  ? BodyStyles.bodySm.copyWith(
-                                      color: TextColors.colorTextSecondary,
-                                    )
-                                  : BodyStyles.bodyMd.copyWith(
-                                      color: TextColors.colorTextSecondary,
-                                    ),
-                          fillColor: isError
-                              ? BgColors.colorBgFillCriticalSecondary
-                              : !widget.isEnabled || widget.readOnly
-                                  ? BgColors.colorBgSurfaceDisabled
-                                  : BgColors.colorBgSurface,
-                          enabled: widget.isEnabled,
-                          filled: true,
-                        ),
-                      ),
-                    ),
-                    if (widget.suffix != null) ...[
-                      widget.suffix!,
-                      const SizedBox(width: 12),
-                    ],
-                  ],
+                    enabled: widget.isEnabled,
+                    filled: true,
+                  ),
                 ),
-              );
-            }),
+              ),
+              if (widget.suffix != null) ...[
+                widget.suffix!,
+                const SizedBox(width: 12),
+              ],
+            ],
+          ),
+        ),
+
         if (widget.helperText != null) ...[
           const SizedBox(
             height: 5,
@@ -376,37 +349,33 @@ class _AppTextFieldState extends State<AppTextField> {
         SizedBox(
             height: widget._btnTextStyle == BodyStyles.bodySmSemiBold ? 7 : 6),
 
-        ValueListenableBuilder<String?>(
-            valueListenable: errorNotifier,
-            builder: (context, error, child) {
-              if (error == null) return const SizedBox.shrink();
-              return SizedBox(
-                width: widget.width,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    AppIcon(
-                      svgIconPath: widget.errorSvgIconPath ??
-                          "assets/svg/alert-circle (1).svg",
-                      height: 20,
-                      width: 20,
-                      colorFilter: const ColorFilter.mode(
-                          BorderColors.colorBorderCritical, BlendMode.srcIn),
-                    ),
-                    const SizedBox(width: 6),
-                    //TODO: check again on english
-                    AppText.bodySm(
-                      text: error,
-                      textColor: TextColors.colorTextCritical,
-                      textAlign: TextAlign.center,
-                      height:
-                          Directionality.of(context).name == 'ltr' ? null : 1.5,
-                    ),
-                  ],
+        if (widget.errorText != null) ...[
+          SizedBox(
+            width: widget.width,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                AppIcon(
+                  svgIconPath: widget.errorSvgIconPath ??
+                      "assets/svg/alert-circle (1).svg",
+                  height: 20,
+                  width: 20,
+                  colorFilter: const ColorFilter.mode(
+                      BorderColors.colorBorderCritical, BlendMode.srcIn),
                 ),
-              );
-            }),
+                const SizedBox(width: 6),
+                //TODO: check again on english
+                AppText.bodySm(
+                  text: widget.errorText!,
+                  textColor: TextColors.colorTextCritical,
+                  textAlign: TextAlign.center,
+                  height: Directionality.of(context).name == 'ltr' ? null : 1.5,
+                ),
+              ],
+            ),
+          ),
+        ],
       ],
     );
   }
