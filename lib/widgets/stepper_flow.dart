@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tagaddod_ui_kit/colors/primtives/colors.dart';
 import 'package:tagaddod_ui_kit/colors/semantic/text_colors.dart';
-import 'package:tagaddod_ui_kit/typography/semantics/body_styles.dart';
 import 'package:tagaddod_ui_kit/widgets/app_stepper.dart';
+import 'package:tagaddod_ui_kit/widgets/app_text.dart';
 
 class StepperFlow extends StatelessWidget {
   final int activeIndex;
@@ -48,10 +48,12 @@ class StepperFlow extends StatelessWidget {
                         const SizedBox(
                           width: 8,
                         ),
-                        Text(steps[activeIndex].stepName ?? '',
-                            style: BodyStyles.bodyMdSemiBold.copyWith(
-                                color: subtitleColor ??
-                                    TextColors.colorTextOnBgFill))
+                        Expanded(
+                            child: AppText.bodyMdSemiBold(
+                                text: steps[activeIndex].stepName ?? '',
+                                maxLines: 1,
+                                textColor:
+                                    titleColor ?? TextColors.colorTextOnBgFill))
                       ],
                     ),
                   ),
@@ -78,10 +80,10 @@ class StepperFlow extends StatelessWidget {
                       ? const SizedBox()
                       : Padding(
                           padding: const EdgeInsets.only(top: 12),
-                          child: Text(steps[activeIndex].stepSubtitle ?? '',
-                              style: BodyStyles.bodyMd.copyWith(
-                                  color: subtitleColor ??
-                                      TextColors.colorTextOnBgFill)),
+                          child: AppText.bodyMd(
+                              text: steps[activeIndex].stepSubtitle ?? '',
+                              textColor: subtitleColor ??
+                                  TextColors.colorTextOnBgFill),
                         ),
                   const SizedBox(
                     height: 20,
