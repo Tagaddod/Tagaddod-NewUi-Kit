@@ -149,35 +149,50 @@ class _AppTextFieldState extends State<AppTextField> {
   late FocusNode _focusNode;
 
   @override
-  initState() {
+  void initState() {
     super.initState();
     _focusNode = FocusNode();
     _errorText = widget.errorText;
-
     _textEditingController =
         widget.textEditingController ?? TextEditingController();
+
+    // Add listener to handle validation state changes
+    _textEditingController.addListener(_handleValidation);
+  }
+
+  void _handleValidation() {
+    if (widget.autovalidateMode == AutovalidateMode.always ||
+        (widget.autovalidateMode == AutovalidateMode.onUserInteraction &&
+            _textEditingController.text.isNotEmpty)) {
+      final error = _validate(_textEditingController.text);
+      if (error != _errorText) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) {
+            setState(() {
+              _errorText = error;
+            });
+          }
+        });
+      }
+    }
+  }
+
+  String? _validate(String? value) {
+    if (widget.validator != null) {
+      return widget.validator!(value);
+    }
+    return null;
   }
 
   @override
   void didUpdateWidget(AppTextField oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.errorText != oldWidget.errorText) {
-      setState(() {
-        _errorText = widget.errorText;
-      });
+      _errorText = widget.errorText;
     }
-  }
-
-  String? _validate(String? value) {
-    if (widget.validator != null) {
-      final error = widget.validator!(value);
-      print('Validator result: $error'); // Debug
-      setState(() {
-        _errorText = error;
-      });
-      return error;
+    if (widget.autovalidateMode != oldWidget.autovalidateMode) {
+      _handleValidation();
     }
-    return null;
   }
 
   @override
@@ -277,11 +292,10 @@ class _AppTextFieldState extends State<AppTextField> {
                     if (widget.onChanged != null) {
                       widget.onChanged!(value);
                     }
-                    // Clear error when user types
-                    if (_errorText != null) {
-                      setState(() {
-                        _errorText = null;
-                      });
+                    // Handle validation on user interaction
+                    if (widget.autovalidateMode ==
+                        AutovalidateMode.onUserInteraction) {
+                      _handleValidation();
                     }
                   },
                   keyboardType: widget.keyboardType,
