@@ -5,7 +5,8 @@ import 'package:tagaddod_ui_kit/widgets/app_stepper.dart';
 import 'package:tagaddod_ui_kit/widgets/app_text.dart';
 
 class StepperFlow extends StatelessWidget {
-  final int activeIndex;
+  final int activeIndex, nameMaxLines, titleMaxLines, subtitleMaxLines;
+  final TextOverflow? nameOverflow, titleOverflow, subtitleOverflow;
   final List<StepView> steps;
   final Widget? icon;
   final Color? backgroundColor,
@@ -25,6 +26,12 @@ class StepperFlow extends StatelessWidget {
       this.stepInactiveColor,
       this.stepActiveColor,
       this.icon,
+      this.nameMaxLines = 1,
+      this.subtitleMaxLines = 1,
+      this.titleMaxLines = 1,
+      this.nameOverflow,
+      this.subtitleOverflow,
+      this.titleOverflow,
       super.key});
 
   @override
@@ -50,8 +57,9 @@ class StepperFlow extends StatelessWidget {
                         ),
                         Expanded(
                             child: AppText.bodyMdSemiBold(
+                                overflow: nameOverflow,
                                 text: steps[activeIndex].stepName ?? '',
-                                maxLines: 1,
+                                maxLines: nameMaxLines,
                                 textColor:
                                     titleColor ?? TextColors.colorTextOnBgFill))
                       ],
@@ -70,6 +78,8 @@ class StepperFlow extends StatelessWidget {
                       : Padding(
                           padding: const EdgeInsets.only(top: 16),
                           child: Text(steps[activeIndex].stepTitle ?? '',
+                              maxLines: titleMaxLines,
+                              overflow: titleOverflow,
                               style: TextStyle(
                                   fontWeight: FontWeight.w700,
                                   fontSize: 28,
@@ -81,6 +91,8 @@ class StepperFlow extends StatelessWidget {
                       : Padding(
                           padding: const EdgeInsets.only(top: 12),
                           child: AppText.bodyMd(
+                              overflow: subtitleOverflow,
+                              maxLines: subtitleMaxLines,
                               text: steps[activeIndex].stepSubtitle ?? '',
                               textColor: subtitleColor ??
                                   TextColors.colorTextOnBgFill),
