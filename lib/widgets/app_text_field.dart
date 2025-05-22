@@ -64,7 +64,7 @@ class AppTextFieldSam extends FormField<String> {
     this.maxLines,
     this.obscureText = false,
     this.readOnly = false,
-    VoidCallback? onChanged,
+    Function(String)? onChanged,
   })  : _size = TextFieldSize.medium,
         _btnTextStyle = BodyStyles.bodySmSemiBold,
         super(
@@ -134,7 +134,7 @@ class AppTextFieldSam extends FormField<String> {
     this.readOnly = false,
     super.enabled = true,
     super.restorationId,
-    VoidCallback? onChanged,
+    Function(String)? onChanged,
   })  : _size = TextFieldSize.medium,
         _btnTextStyle = BodyStyles.bodySmSemiBold,
         super(
@@ -204,7 +204,7 @@ class AppTextFieldSam extends FormField<String> {
     this.readOnly = false,
     super.enabled = true,
     super.restorationId,
-    VoidCallback? onChanged,
+    Function(String)? onChanged,
   })  : _size = TextFieldSize.large,
         _btnTextStyle = BodyStyles.bodyMdSemiBold,
         super(
@@ -272,7 +272,7 @@ class _AppTextFieldContent extends StatefulWidget {
   final int? minLines;
   final int? maxLines;
   final bool enabled;
-  final VoidCallback? onChanged;
+  final Function(String)? onChanged;
 
   const _AppTextFieldContent({
     required this.size,
@@ -330,7 +330,7 @@ class _AppTextFieldContentState extends State<_AppTextFieldContent> {
 
     _controller.addListener(() {
       widget.field.didChange(_controller.text);
-      widget.onChanged?.call();
+      widget.onChanged?.call(_controller.text);
     });
   }
 
