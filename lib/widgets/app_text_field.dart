@@ -6,7 +6,7 @@ import 'package:tagaddod_ui_kit/typography/semantics/body_styles.dart';
 import 'package:tagaddod_ui_kit/widgets/app_icon.dart';
 import 'package:tagaddod_ui_kit/widgets/app_text.dart';
 
-class AppTextFieldSam extends FormField<String> {
+class AppTextField extends FormField<String> {
   final TextFieldSize _size;
   final TextStyle _btnTextStyle;
   final bool isOptionalEnabled;
@@ -33,7 +33,7 @@ class AppTextFieldSam extends FormField<String> {
   final int? minLines;
   final int? maxLines;
 
-  AppTextFieldSam._({
+  AppTextField._({
     super.key,
     this.labelText,
     this.hintTextColor,
@@ -103,7 +103,7 @@ class AppTextFieldSam extends FormField<String> {
           },
         );
 
-  AppTextFieldSam.medium({
+  AppTextField.medium({
     super.key,
     this.labelText,
     this.hintTextColor,
@@ -173,7 +173,7 @@ class AppTextFieldSam extends FormField<String> {
           },
         );
 
-  AppTextFieldSam.large({
+  AppTextField.large({
     super.key,
     this.labelText,
     this.hintTextColor,
