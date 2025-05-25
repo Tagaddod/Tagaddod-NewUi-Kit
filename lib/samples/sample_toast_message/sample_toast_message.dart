@@ -36,7 +36,6 @@ class SampleToastMessage extends StatelessWidget {
               ToastService.show(
                 content: ErrorMessage(
                   title: "Error message ",
-                  subtitle: "Hello",
                 ),
               );
             },
@@ -46,7 +45,6 @@ class SampleToastMessage extends StatelessWidget {
               ToastService.show(
                 content: ErrorMessage(
                   title: "Error message ",
-                  subtitle: "Hello",
                   showVerticalLine: true,
                 ),
               );

@@ -18,6 +18,7 @@ class ToastService {
     _entry = showSimpleNotification(
       content,
       background: backgroundColor,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 12),
       duration: duration,
       position: notificationPosition,
       elevation: elevation,

@@ -11,7 +11,8 @@ import 'package:tagaddod_ui_kit/utils/toast_service.dart';
 class ErrorMessage extends StatelessWidget {
   final Color backgroundColor, borderColor, titleColor, subtitleColor;
   final VoidCallback? onClose;
-  final String title, subtitle;
+  final String title;
+  final String? subtitle;
   final bool showLeadingIcon, showTrailingIcon;
   final String leadingIconPath, trailingIconPath;
   final Color leadingIconColor, trailingIconColor, verticalLineColor;
@@ -20,7 +21,7 @@ class ErrorMessage extends StatelessWidget {
 
   const ErrorMessage(
       {required this.title,
-      this.subtitle = '',
+      this.subtitle,
       this.backgroundColor = BgColors.colorBgFillCriticalSecondary,
       this.borderColor = BorderColors.colorBorderCritical,
       this.subtitleColor = TextColors.colorText,
@@ -86,11 +87,13 @@ class ErrorMessage extends StatelessWidget {
                             style: BodyStyles.bodyMdMedium(context)
                                 .copyWith(color: titleColor),
                           ),
-                          Text(
-                            subtitle,
-                            style: BodyStyles.bodySm
-                                .copyWith(color: subtitleColor),
-                          ),
+                          subtitle == null
+                              ? const SizedBox.shrink()
+                              : Text(
+                                  subtitle ?? '',
+                                  style: BodyStyles.bodySm
+                                      .copyWith(color: subtitleColor),
+                                ),
                         ],
                       ),
                     ),

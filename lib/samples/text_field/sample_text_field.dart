@@ -77,7 +77,6 @@ class _MediumTextFieldSampleState extends State<MediumTextFieldSample> {
           labelText: "Disabled Medium Text Field",
           hintText: "Value",
           width: MediaQuery.sizeOf(context).width * 0.5,
-          isEnabled: false,
         ),
         const SizedBox(
           height: 15,
@@ -167,7 +166,6 @@ class LargeTextFieldSample extends StatelessWidget {
           labelText: "Disabled Large Text Field",
           hintText: "Value",
           width: MediaQuery.sizeOf(context).width * 0.5,
-          isEnabled: false,
         ),
         const SizedBox(
           height: 15,
