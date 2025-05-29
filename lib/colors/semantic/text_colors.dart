@@ -2,7 +2,7 @@ import 'package:tagaddod_ui_kit/colors/primtives/colors.dart';
 
 class TextColors {
   static const colorText = AppColors.colorGray1600;
-  static const colorTextSecondary = AppColors.colorGray1100;
+  static const colorTextSecondary = AppColors.colorGray1200;
   static const colorTextDisabled = AppColors.colorGray1000;
 
   static const colorTextLink = AppColors.colorGray1600;
