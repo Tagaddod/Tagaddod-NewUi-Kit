@@ -10,8 +10,7 @@ class StepperFlow extends StatelessWidget {
   final List<StepView> steps;
   final Widget? icon;
   final bool showStepperLine;
-  final Widget? stepTitleWidget;
-  final Widget? stepperBottomWidget;
+
   final Color? backgroundColor,
       nameColor,
       titleColor,
@@ -22,10 +21,8 @@ class StepperFlow extends StatelessWidget {
   const StepperFlow(
       {required this.steps,
       required this.activeIndex,
-      this.stepTitleWidget,
       this.subtitleColor,
       this.backgroundColor,
-      this.stepperBottomWidget,
       this.nameColor,
       this.titleColor,
       this.stepInactiveColor,
@@ -94,7 +91,7 @@ class StepperFlow extends StatelessWidget {
                                   color: titleColor ??
                                       TextColors.colorTextOnBgFill)),
                         ),
-                  stepTitleWidget ?? const SizedBox(),
+                  steps[activeIndex].stepTitleWidget ?? const SizedBox(),
                   (steps[activeIndex].stepSubtitle == null)
                       ? const SizedBox()
                       : Padding(
@@ -106,7 +103,7 @@ class StepperFlow extends StatelessWidget {
                               textColor: subtitleColor ??
                                   TextColors.colorTextOnBgFill),
                         ),
-                  stepperBottomWidget ?? const SizedBox(),
+                  steps[activeIndex].stepperBottomWidget ?? const SizedBox(),
                   const SizedBox(
                     height: 20,
                   )
@@ -125,11 +122,15 @@ class StepView {
   final String? stepName;
   final String? stepTitle;
   final String? stepSubtitle;
+  final Widget? stepTitleWidget;
+  final Widget? stepperBottomWidget;
   final Widget stepBody;
 
   StepView(
       {required this.stepBody,
       this.stepName,
       this.stepSubtitle,
-      this.stepTitle});
+      this.stepTitle,
+      this.stepTitleWidget,
+      this.stepperBottomWidget});
 }
