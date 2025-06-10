@@ -9,6 +9,9 @@ class StepperFlow extends StatelessWidget {
   final TextOverflow? nameOverflow, titleOverflow, subtitleOverflow;
   final List<StepView> steps;
   final Widget? icon;
+  final bool showStepperLine;
+  final Widget? stepTitleWidget;
+  final Widget? stepperBottomWidget;
   final Color? backgroundColor,
       nameColor,
       titleColor,
@@ -19,11 +22,14 @@ class StepperFlow extends StatelessWidget {
   const StepperFlow(
       {required this.steps,
       required this.activeIndex,
+      this.stepTitleWidget,
       this.subtitleColor,
       this.backgroundColor,
+      this.stepperBottomWidget,
       this.nameColor,
       this.titleColor,
       this.stepInactiveColor,
+      this.showStepperLine = true,
       this.stepActiveColor,
       this.icon,
       this.nameMaxLines = 1,
@@ -65,14 +71,16 @@ class StepperFlow extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: AppStepper(
-                        numOfSteps: steps.length,
-                        activeIndex: activeIndex,
-                        activeColor: stepActiveColor,
-                        disableColor: stepInactiveColor),
-                  ),
+                  showStepperLine
+                      ? Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: AppStepper(
+                              numOfSteps: steps.length,
+                              activeIndex: activeIndex,
+                              activeColor: stepActiveColor,
+                              disableColor: stepInactiveColor),
+                        )
+                      : const SizedBox(),
                   (steps[activeIndex].stepTitle == null)
                       ? const SizedBox()
                       : Padding(
@@ -86,6 +94,7 @@ class StepperFlow extends StatelessWidget {
                                   color: titleColor ??
                                       TextColors.colorTextOnBgFill)),
                         ),
+                  stepTitleWidget ?? const SizedBox(),
                   (steps[activeIndex].stepSubtitle == null)
                       ? const SizedBox()
                       : Padding(
@@ -97,6 +106,7 @@ class StepperFlow extends StatelessWidget {
                               textColor: subtitleColor ??
                                   TextColors.colorTextOnBgFill),
                         ),
+                  stepperBottomWidget ?? const SizedBox(),
                   const SizedBox(
                     height: 20,
                   )
