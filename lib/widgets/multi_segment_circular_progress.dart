@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tagaddod_ui_kit/colors/semantic/bg_colors.dart';
 import 'package:tagaddod_ui_kit/colors/semantic/text_colors.dart';
 import 'dart:math' as math;
 
@@ -23,9 +24,9 @@ class MultiSegmentCircularProgress extends StatelessWidget {
     required this.completedTasks,
     required this.pendingTasks,
     required this.failedTasks,
-    this.completedColor = Colors.green,
-    this.pendingColor = Colors.orange,
-    this.failedColor = Colors.red,
+    this.completedColor = BgColors.colorBgFillSuccess,
+    this.pendingColor = BgColors.colorBgFillWarning,
+    this.failedColor = BgColors.colorBgFillCritical,
     this.remainingColor = Colors.grey,
   });
 
