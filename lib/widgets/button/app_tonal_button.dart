@@ -12,6 +12,7 @@ class AppTonalButton extends StatelessWidget {
   final bool isLoading;
   final String btnText;
   final String? iconPath;
+  final String? suffixIconPath;
   final Color? backgroundColor;
   final Color? disabledBackgroundColor;
   final Color? disabledTextColor;
@@ -32,6 +33,7 @@ class AppTonalButton extends StatelessWidget {
     this.iconPath,
     this.width = 80,
     this.backgroundColor,
+    this.suffixIconPath,
     this.borderRadius,
     this.disabledBackgroundColor,
     this.disabledTextColor,
@@ -47,6 +49,7 @@ class AppTonalButton extends StatelessWidget {
       this.onTap,
       this.iconPath,
       this.backgroundColor,
+      this.suffixIconPath,
       this.disabledBackgroundColor = BgColors.colorBgFillDisabled,
       this.disabledTextColor = TextColors.colorTextDisabled,
       this.borderColor,
@@ -64,6 +67,7 @@ class AppTonalButton extends StatelessWidget {
       this.onTap,
       this.iconPath,
       this.backgroundColor,
+      this.suffixIconPath,
       this.borderColor,
       Color? textColor,
       this.disabledBackgroundColor = BgColors.colorBg,
@@ -136,6 +140,14 @@ class AppTonalButton extends StatelessWidget {
                                       : const Offset(0, 2),
                               child: getTextButtonWidget(context)),
                         ),
+                        if (suffixIconPath != null) const SizedBox(width: 5),
+                        if (suffixIconPath != null)
+                          AppIcon(
+                            svgIconPath: suffixIconPath!,
+                            colorFilter: ColorFilter.mode(
+                                onTap == null ? disabledTextColor! : textColor!,
+                                BlendMode.srcIn),
+                          ),
                       ],
                     ),
                   ),

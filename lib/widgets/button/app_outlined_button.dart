@@ -16,6 +16,7 @@ class AppOutlinedButton extends StatelessWidget {
   final Color? backgroundColor;
   final Color? disabledBackgroundColor;
   final Color? disabledTextColor;
+  final String? suffixIconPath;
   final BorderRadius? borderRadius;
   final Color? borderColor;
   final Color? textColor;
@@ -33,6 +34,7 @@ class AppOutlinedButton extends StatelessWidget {
     this.iconPath,
     this.width = 80,
     this.backgroundColor,
+    this.suffixIconPath,
     this.borderRadius,
     this.disabledBackgroundColor,
     this.disabledTextColor,
@@ -49,6 +51,7 @@ class AppOutlinedButton extends StatelessWidget {
       this.onTap,
       this.iconPath,
       this.backgroundColor,
+      this.suffixIconPath,
       this.disabledBackgroundColor,
       this.disabledTextColor = TextColors.colorTextDisabled,
       Color? borderColor,
@@ -68,6 +71,7 @@ class AppOutlinedButton extends StatelessWidget {
       this.onTap,
       this.iconPath,
       this.backgroundColor,
+      this.suffixIconPath,
       Color? borderColor,
       Color? textColor,
       this.disabledBackgroundColor,
@@ -137,6 +141,14 @@ class AppOutlinedButton extends StatelessWidget {
                                     : const Offset(0, 2),
                             child: getTextButtonWidget(context)),
                       ),
+                      if (suffixIconPath != null) const SizedBox(width: 5),
+                      if (suffixIconPath != null)
+                        AppIcon(
+                          svgIconPath: suffixIconPath!,
+                          colorFilter: ColorFilter.mode(
+                              onTap == null ? disabledTextColor! : textColor!,
+                              BlendMode.srcIn),
+                        ),
                     ],
                   ),
           ),

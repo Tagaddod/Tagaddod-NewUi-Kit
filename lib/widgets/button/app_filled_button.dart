@@ -16,6 +16,7 @@ class AppFilledButton extends StatelessWidget {
   final Color? backgroundColor;
   final Color? disabledBackgroundColor;
   final Color? disabledTextColor;
+  final String? suffixIconPath;
   final BorderRadius? borderRadius;
   final Color? borderColor;
   final Color? textColor;
@@ -37,6 +38,7 @@ class AppFilledButton extends StatelessWidget {
     this.disabledBackgroundColor,
     this.disabledTextColor,
     this.borderColor,
+    this.suffixIconPath,
     this.textColor,
     this.buttonType = ButtonType.defaultButton,
   })  : _btnTextStyle = BodyStyles.bodySmSemiBold,
@@ -53,6 +55,7 @@ class AppFilledButton extends StatelessWidget {
       this.disabledTextColor = TextColors.colorTextOnBgFill,
       this.borderColor,
       this.borderRadius,
+      this.suffixIconPath,
       this.width = 80,
       Color? textColor,
       this.buttonType = ButtonType.defaultButton})
@@ -67,6 +70,7 @@ class AppFilledButton extends StatelessWidget {
       this.onTap,
       this.iconPath,
       this.backgroundColor,
+      this.suffixIconPath,
       this.borderColor,
       Color? textColor,
       this.disabledBackgroundColor = BgColors.colorBgFillDisabled,
@@ -142,6 +146,16 @@ class AppFilledButton extends StatelessWidget {
                                         : const Offset(0, 2),
                                 child: getTextButtonWidget(context)),
                           ),
+                          if (suffixIconPath != null) const SizedBox(width: 5),
+                          if (suffixIconPath != null)
+                            AppIcon(
+                              svgIconPath: suffixIconPath!,
+                              colorFilter: ColorFilter.mode(
+                                  onTap == null
+                                      ? disabledTextColor!
+                                      : textColor!,
+                                  BlendMode.srcIn),
+                            ),
                         ],
                       ),
                     ),

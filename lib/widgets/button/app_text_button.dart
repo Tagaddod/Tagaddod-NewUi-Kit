@@ -12,6 +12,7 @@ class AppTextButton extends StatelessWidget {
   final bool isLoading;
   final String btnText;
   final String? iconPath;
+  final String? suffixIconPath;
   final Color? disabledTextColor;
   final Color? textColor;
   final BorderRadius? borderRadius;
@@ -27,6 +28,7 @@ class AppTextButton extends StatelessWidget {
     this.onTap,
     this.iconPath,
     this.width = 80,
+    this.suffixIconPath,
     this.disabledTextColor,
     this.textColor,
     this.borderRadius,
@@ -40,6 +42,7 @@ class AppTextButton extends StatelessWidget {
       this.isLoading = false,
       this.onTap,
       this.iconPath,
+      this.suffixIconPath,
       this.disabledTextColor = TextColors.colorTextDisabled,
       this.width = 64,
       Color? textColor,
@@ -55,6 +58,7 @@ class AppTextButton extends StatelessWidget {
       this.isLoading = false,
       this.onTap,
       this.iconPath,
+      this.suffixIconPath,
       Color? textColor,
       this.borderRadius,
       this.disabledTextColor = TextColors.colorTextDisabled,
@@ -114,6 +118,14 @@ class AppTextButton extends StatelessWidget {
                                       ? const Offset(0, 0)
                                       : const Offset(0, 2),
                               child: getTextButtonWidget(context))),
+                      if (suffixIconPath != null) const SizedBox(width: 5),
+                      if (suffixIconPath != null)
+                        AppIcon(
+                          svgIconPath: suffixIconPath!,
+                          colorFilter: ColorFilter.mode(
+                              onTap == null ? disabledTextColor! : textColor!,
+                              BlendMode.srcIn),
+                        ),
                     ],
                   ),
           ),
