@@ -27,7 +27,7 @@ class MultiSegmentCircularProgress extends StatelessWidget {
     this.completedColor = BgColors.colorBgFillSuccess,
     this.pendingColor = BgColors.colorBgFillWarning,
     this.failedColor = BgColors.colorBgFillCritical,
-    this.remainingColor = Colors.grey,
+    this.remainingColor = const Color(0xffD9D9D9),
   });
 
   @override

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tagaddod_ui_kit/colors/semantic/border_colors.dart';
 import 'package:tagaddod_ui_kit/colors/semantic/icon_colors.dart';
 import 'package:tagaddod_ui_kit/colors/semantic/text_colors.dart';
 import 'package:tagaddod_ui_kit/typography/primitives/typography.dart'
@@ -26,6 +27,7 @@ class AppBottomNavigationBar extends StatelessWidget {
   final TextStyle? selectedLabelStyle;
   final TextStyle? unselectedLabelStyle;
   final MouseCursor? mouseCursor;
+  final Color? borderColor;
   const AppBottomNavigationBar(
       {super.key,
       required this.items,
@@ -46,57 +48,69 @@ class AppBottomNavigationBar extends StatelessWidget {
       this.showSelectedLabels,
       this.selectedLabelStyle,
       this.unselectedLabelStyle,
+      this.borderColor,
       this.mouseCursor});
 
   @override
   Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      items: items
-          .map((e) => BottomNavigationBarItem(
-                icon: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    e.icon.copyWith(
-                        colorFilter: selectedIndex == items.indexOf(e)
-                            ? null
-                            : const ColorFilter.mode(
-                                IconColors.colorIconSecondary,
-                                BlendMode.srcIn)),
-                    const SizedBox(
-                      height: 3,
-                    )
-                  ],
-                ),
-                label: e.label,
-              ))
-          .toList(),
-      currentIndex: selectedIndex,
-      onTap: onTap,
-      type: type,
-      backgroundColor: backgroundColor,
-      elevation: elevation,
-      iconSize: iconSize,
-      fixedColor: fixedColor,
-      selectedFontSize: selectedFontSize,
-      unselectedFontSize: unselectedFontSize,
-      selectedIconTheme: selectedIconTheme ??
-          const IconThemeData(color: TextColors.colorTextLink),
-      unselectedIconTheme: unselectedIconTheme ??
-          const IconThemeData(color: TextColors.colorTextSecondary),
-      selectedItemColor: selectedItemColor ?? TextColors.colorTextLink,
-      unselectedItemColor: unselectedItemColor ?? TextColors.colorTextSecondary,
-      showUnselectedLabels: showUnselectedLabels,
-      showSelectedLabels: showSelectedLabels,
-      selectedLabelStyle: selectedLabelStyle ??
-          CaptionStyles.captionSmSemiBold
-              .copyWith(color: TextColors.colorTextLink),
-      unselectedLabelStyle: unselectedLabelStyle ??
-          const TextStyle(
-            color: TextColors.colorTextSecondary,
-            fontSize: typography.Typography.fontSize250,
-            fontWeight: typography.Typography.fontWeightRegular,
+    return Container(
+      decoration: BoxDecoration(
+        border: Border(
+          top: BorderSide(
+            color: borderColor ?? BorderColors.colorBorderSecondary,
+            width: 1,
           ),
-      mouseCursor: mouseCursor,
+        ),
+      ),
+      child: BottomNavigationBar(
+        items: items
+            .map((e) => BottomNavigationBarItem(
+                  icon: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      e.icon.copyWith(
+                          colorFilter: selectedIndex == items.indexOf(e)
+                              ? null
+                              : const ColorFilter.mode(
+                                  IconColors.colorIconSecondary,
+                                  BlendMode.srcIn)),
+                      const SizedBox(
+                        height: 3,
+                      )
+                    ],
+                  ),
+                  label: e.label,
+                ))
+            .toList(),
+        currentIndex: selectedIndex,
+        onTap: onTap,
+        type: type,
+        backgroundColor: backgroundColor,
+        elevation: elevation,
+        iconSize: iconSize,
+        fixedColor: fixedColor,
+        selectedFontSize: selectedFontSize,
+        unselectedFontSize: unselectedFontSize,
+        selectedIconTheme: selectedIconTheme ??
+            const IconThemeData(color: TextColors.colorTextLink),
+        unselectedIconTheme: unselectedIconTheme ??
+            const IconThemeData(color: TextColors.colorTextSecondary),
+        selectedItemColor: selectedItemColor ?? TextColors.colorTextLink,
+        unselectedItemColor:
+            unselectedItemColor ?? TextColors.colorTextSecondary,
+        showUnselectedLabels: showUnselectedLabels,
+        showSelectedLabels: showSelectedLabels,
+        selectedLabelStyle: selectedLabelStyle ??
+            CaptionStyles.captionSmSemiBold
+                .copyWith(color: TextColors.colorTextLink),
+        unselectedLabelStyle: unselectedLabelStyle ??
+            const TextStyle(
+              color: TextColors.colorTextSecondary,
+              fontSize: typography.Typography.fontSize250,
+              fontWeight: typography.Typography.fontWeightRegular,
+            ),
+        mouseCursor: mouseCursor,
+      ),
     );
   }
 }
