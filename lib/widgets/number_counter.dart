@@ -41,12 +41,14 @@ class NumberCounter extends StatefulWidget {
   final double? errorIconHeight;
   final bool validateTextInput;
   final Color? backgroundColor;
+  final int fractionDigits;
 
   NumberCounter(
       {super.key,
       required this.textEditingController,
       required this.initialValue,
       this.minValue = 0,
+      this.fractionDigits = 1,
       this.maxValue,
       this.width,
       this.onDecrease,
@@ -86,7 +88,8 @@ class NumberCounter extends StatefulWidget {
 class _NumberCounterState extends State<NumberCounter> {
   @override
   void initState() {
-    widget.textEditingController.text = widget.initialValue.toString();
+    widget.textEditingController.text =
+        widget.initialValue.toStringAsFixed(widget.fractionDigits);
     super.initState();
   }
 
@@ -126,8 +129,8 @@ class _NumberCounterState extends State<NumberCounter> {
                 onTap: isIncreaseButtonActive
                     ? () {
                         widget.initialValue += widget.incrementRate;
-                        widget.textEditingController.text =
-                            widget.initialValue.toString();
+                        widget.textEditingController.text = widget.initialValue
+                            .toStringAsFixed(widget.fractionDigits);
                         if (widget.onIncrease != null) widget.onIncrease!();
                         setState(() {});
                       }
@@ -141,9 +144,13 @@ class _NumberCounterState extends State<NumberCounter> {
                   child: TextField(
                     controller: widget.textEditingController,
                     onChanged: (v) {
-                      if (v.isEmpty) return;
+                      if (v.isEmpty) {
+                        widget.textEditingController.text = v;
+                      } else {
+                        widget.initialValue = double.parse(v);
+                        widget.textEditingController.text = v;
+                      }
 
-                      widget.initialValue = double.parse(v);
                       if (widget.onChanged != null) widget.onChanged!(v);
                       setState(() {});
                     },
@@ -167,8 +174,8 @@ class _NumberCounterState extends State<NumberCounter> {
                 onTap: isDecreaseButtonActive
                     ? () {
                         widget.initialValue -= widget.decrementRate;
-                        widget.textEditingController.text =
-                            widget.initialValue.toString();
+                        widget.textEditingController.text = widget.initialValue
+                            .toStringAsFixed(widget.fractionDigits);
                         if (widget.onDecrease != null) widget.onDecrease!();
                         setState(() {});
                       }
