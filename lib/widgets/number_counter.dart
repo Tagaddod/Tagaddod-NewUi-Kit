@@ -42,6 +42,7 @@ class NumberCounter extends StatefulWidget {
   final double? errorIconHeight;
   final bool validateTextInput;
   final Color? backgroundColor;
+  final Color? plusIconColor;
   final int fractionDigits;
 
   NumberCounter(
@@ -81,7 +82,8 @@ class NumberCounter extends StatefulWidget {
       this.decrementRate = 1,
       this.incrementRate = 1,
       this.validateTextInput = true,
-      this.plusBackgroundColor});
+      this.plusBackgroundColor,
+      this.plusIconColor});
 
   @override
   State<NumberCounter> createState() => _NumberCounterState();
@@ -139,6 +141,7 @@ class _NumberCounterState extends State<NumberCounter> {
                     : null,
                 iconPath: AppAssets.plus,
                 buttonType: ButtonType.defaultButton,
+                iconColor: widget.plusIconColor,
                 backgroundColor: widget.plusBackgroundColor,
               ),
               Expanded(
