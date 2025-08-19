@@ -27,6 +27,7 @@ class NumberCounter extends StatefulWidget {
   final Brightness? keyboardAppearance;
   final TextStyle? textStyle;
   final Color? cursorColor;
+  final Color? plusBackgroundColor;
   final double? width;
   final double? cursorHeight;
   final double? borderRadius;
@@ -79,7 +80,8 @@ class NumberCounter extends StatefulWidget {
       this.backgroundColor,
       this.decrementRate = 1,
       this.incrementRate = 1,
-      this.validateTextInput = true});
+      this.validateTextInput = true,
+      this.plusBackgroundColor});
 
   @override
   State<NumberCounter> createState() => _NumberCounterState();
@@ -137,6 +139,7 @@ class _NumberCounterState extends State<NumberCounter> {
                     : null,
                 iconPath: AppAssets.plus,
                 buttonType: ButtonType.defaultButton,
+                backgroundColor: widget.plusBackgroundColor,
               ),
               Expanded(
                 child: Padding(
@@ -145,12 +148,12 @@ class _NumberCounterState extends State<NumberCounter> {
                     controller: widget.textEditingController,
                     onChanged: (v) {
                       if (v.isEmpty) {
-                        widget.textEditingController.text = v;
+                        widget.initialValue = 0;
                       } else {
                         widget.initialValue = double.parse(v);
-                        widget.textEditingController.text = v;
                       }
-
+                      widget.textEditingController.text = widget.initialValue
+                          .toStringAsFixed(widget.fractionDigits);
                       if (widget.onChanged != null) widget.onChanged!(v);
                       setState(() {});
                     },
