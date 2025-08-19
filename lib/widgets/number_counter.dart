@@ -130,19 +130,17 @@ class _NumberCounterState extends State<NumberCounter> {
             mainAxisSize: MainAxisSize.min,
             children: [
               AppTonalIconButton.medium(
-                onTap: isIncreaseButtonActive
+                onTap: isDecreaseButtonActive
                     ? () {
-                        widget.initialValue += widget.incrementRate;
+                        widget.initialValue -= widget.decrementRate;
                         widget.textEditingController.text = widget.initialValue
                             .toStringAsFixed(widget.fractionDigits);
-                        if (widget.onIncrease != null) widget.onIncrease!();
+                        if (widget.onDecrease != null) widget.onDecrease!();
                         setState(() {});
                       }
                     : null,
-                iconPath: AppAssets.plus,
+                iconPath: AppAssets.minus,
                 buttonType: ButtonType.defaultButton,
-                iconColor: widget.plusIconColor,
-                backgroundColor: widget.plusBackgroundColor,
               ),
               Expanded(
                 child: Padding(
@@ -177,17 +175,19 @@ class _NumberCounterState extends State<NumberCounter> {
                 ),
               ),
               AppTonalIconButton.medium(
-                onTap: isDecreaseButtonActive
+                onTap: isIncreaseButtonActive
                     ? () {
-                        widget.initialValue -= widget.decrementRate;
+                        widget.initialValue += widget.incrementRate;
                         widget.textEditingController.text = widget.initialValue
                             .toStringAsFixed(widget.fractionDigits);
-                        if (widget.onDecrease != null) widget.onDecrease!();
+                        if (widget.onIncrease != null) widget.onIncrease!();
                         setState(() {});
                       }
                     : null,
-                iconPath: AppAssets.minus,
+                iconPath: AppAssets.plus,
                 buttonType: ButtonType.defaultButton,
+                iconColor: widget.plusIconColor,
+                backgroundColor: widget.plusBackgroundColor,
               ),
             ],
           ),
