@@ -7,6 +7,7 @@ import 'package:tagaddod_ui_kit/typography/semantics/body_styles.dart';
 
 class ScrollableTabBar extends StatelessWidget {
   final List<String> tabs;
+  final List<Widget>? tabWidgets;
   final int selectedIndex;
   final ValueChanged<int> onTabSelected;
   final EdgeInsetsGeometry? margin;
@@ -25,6 +26,7 @@ class ScrollableTabBar extends StatelessWidget {
   const ScrollableTabBar(
       {Key? key,
       required this.tabs,
+      this.tabWidgets,
       required this.selectedIndex,
       required this.onTabSelected,
       this.paddingInside,
@@ -59,13 +61,14 @@ class ScrollableTabBar extends StatelessWidget {
                   color: isSelected ? indicatorColor : Colors.transparent,
                   borderRadius: BorderRadius.circular(borderRadius),
                   border: Border.all(color: borderColor)),
-              child: Text(
-                tabs[index],
-                textAlign: textAlign,
-                style: BodyStyles.bodySmMedium(context).copyWith(
-                  color: isSelected ? activeTextColor : inactiveTextColor,
-                ),
-              ),
+              child: tabWidgets?[index] ??
+                  Text(
+                    tabs[index],
+                    textAlign: textAlign,
+                    style: BodyStyles.bodySmMedium(context).copyWith(
+                      color: isSelected ? activeTextColor : inactiveTextColor,
+                    ),
+                  ),
             ),
           );
         }),
