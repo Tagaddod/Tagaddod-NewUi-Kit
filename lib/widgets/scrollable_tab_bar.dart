@@ -45,10 +45,12 @@ class ScrollableTabBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final int itemCount = tabWidgets != null ? tabWidgets!.length : tabs.length;
+
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
-        children: List.generate(tabs.length, (index) {
+        children: List.generate(itemCount, (index) {
           final isSelected = index == selectedIndex;
           return GestureDetector(
             onTap: () => onTabSelected(index),
@@ -61,14 +63,15 @@ class ScrollableTabBar extends StatelessWidget {
                   color: isSelected ? indicatorColor : Colors.transparent,
                   borderRadius: BorderRadius.circular(borderRadius),
                   border: Border.all(color: borderColor)),
-              child: tabWidgets?[index] ??
-                  Text(
-                    tabs[index],
-                    textAlign: textAlign,
-                    style: BodyStyles.bodySmMedium(context).copyWith(
-                      color: isSelected ? activeTextColor : inactiveTextColor,
+              child: tabWidgets != null
+                  ? tabWidgets![index]
+                  : Text(
+                      tabs[index],
+                      textAlign: textAlign,
+                      style: BodyStyles.bodySmMedium(context).copyWith(
+                        color: isSelected ? activeTextColor : inactiveTextColor,
+                      ),
                     ),
-                  ),
             ),
           );
         }),
