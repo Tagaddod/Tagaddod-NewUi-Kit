@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:tagaddod_ui_kit/assests/assets.dart';
 import 'package:tagaddod_ui_kit/colors/semantic/bg_colors.dart';
 import 'package:tagaddod_ui_kit/colors/semantic/border_colors.dart';
@@ -44,6 +45,7 @@ class NumberCounter extends StatefulWidget {
   final Color? backgroundColor;
   final Color? plusIconColor;
   final int fractionDigits;
+  final List<TextInputFormatter>? inputFormatters;
 
   NumberCounter(
       {super.key,
@@ -83,7 +85,8 @@ class NumberCounter extends StatefulWidget {
       this.incrementRate = 1,
       this.validateTextInput = true,
       this.plusBackgroundColor,
-      this.plusIconColor});
+      this.plusIconColor,
+      this.inputFormatters});
 
   @override
   State<NumberCounter> createState() => _NumberCounterState();
@@ -149,15 +152,24 @@ class _NumberCounterState extends State<NumberCounter> {
                     controller: widget.textEditingController,
                     onChanged: (v) {
                       if (v.isEmpty) {
-                        widget.initialValue = 0;
-                      } else {
-                        widget.initialValue = double.parse(v);
+                        if (widget.onChanged != null) widget.onChanged!(v);
+                        return;
                       }
-                      widget.textEditingController.text = widget.initialValue
-                          .toStringAsFixed(widget.fractionDigits);
-                      if (widget.onChanged != null) widget.onChanged!(v);
-                      setState(() {});
+
+                      final parsed = double.tryParse(v);
+                      if (parsed != null) {
+                        widget.initialValue = parsed;
+                        if (widget.onChanged != null) widget.onChanged!(v);
+                        setState(() {});
+                      }
                     },
+                    inputFormatters: widget.inputFormatters ??
+                        [
+                          FilteringTextInputFormatter.allow(RegExp(
+                              r'^\d*\.?\d{0,' +
+                                  widget.fractionDigits.toString() +
+                                  r'}')),
+                        ],
                     readOnly: widget.readOnly,
                     textAlign: TextAlign.center,
                     textAlignVertical: TextAlignVertical.center,

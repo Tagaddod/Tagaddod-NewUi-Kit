@@ -37,9 +37,13 @@ class _SampleNumberCounterState extends State<SampleNumberCounter> {
           width: 200,
           textEditingController: controller2,
           errorText: "Error msg",
+          textInputType: TextInputType.numberWithOptions(decimal: true),
           initialValue: value2,
           maxValue: 10,
-          minValue: 2,
+          minValue: 0,
+          onChanged: (value) {
+            print("value2: $value");
+          },
         )
       ],
     );
