@@ -11,7 +11,8 @@ class AppOutlinedButton extends StatelessWidget {
   final ButtonType buttonType;
   final TextStyle _btnTextStyle;
   final bool isLoading;
-  final String btnText;
+  final String? btnText;
+  final Widget? child;
   final String? iconPath;
   final Color? backgroundColor;
   final Color? disabledBackgroundColor;
@@ -29,7 +30,8 @@ class AppOutlinedButton extends StatelessWidget {
   //private constructor
   const AppOutlinedButton._({
     required this.isLoading,
-    required this.btnText,
+    this.btnText,
+    this.child,
     this.onTap,
     this.iconPath,
     this.width = 80,
@@ -46,7 +48,8 @@ class AppOutlinedButton extends StatelessWidget {
 
   AppOutlinedButton.medium(
       {super.key,
-      required this.btnText,
+      this.btnText,
+      this.child,
       this.isLoading = false,
       this.onTap,
       this.iconPath,
@@ -59,14 +62,19 @@ class AppOutlinedButton extends StatelessWidget {
       this.width = 80,
       Color? textColor,
       this.buttonType = ButtonType.defaultButton})
-      : _btnTextStyle = BodyStyles.bodySmSemiBold,
+      : assert(btnText != null || child != null,
+            "Either btnText or child must be provided"),
+        assert(!(btnText != null && child != null),
+            "Cannot provide both btnText and child"),
+        _btnTextStyle = BodyStyles.bodySmSemiBold,
         _height = 40,
         borderColor = borderColor ?? getDefaultBorderColor(buttonType),
         textColor = textColor ?? getDefaultTextColor(buttonType);
 
   AppOutlinedButton.large(
       {super.key,
-      required this.btnText,
+      this.btnText,
+      this.child,
       this.isLoading = false,
       this.onTap,
       this.iconPath,
@@ -79,7 +87,11 @@ class AppOutlinedButton extends StatelessWidget {
       this.borderRadius,
       this.width = 109,
       this.buttonType = ButtonType.defaultButton})
-      : _btnTextStyle = BodyStyles.bodyMdSemiBold,
+      : assert(btnText != null || child != null,
+            "Either btnText or child must be provided"),
+        assert(!(btnText != null && child != null),
+            "Cannot provide both btnText and child"),
+        _btnTextStyle = BodyStyles.bodyMdSemiBold,
         _height = 56,
         borderColor = borderColor ?? getDefaultBorderColor(buttonType),
         textColor = textColor ?? getDefaultTextColor(buttonType);
@@ -129,18 +141,19 @@ class AppOutlinedButton extends StatelessWidget {
                         ),
                       if (iconPath != null) const SizedBox(width: 5),
                       //text
-
-                      Flexible(
-                        child: Transform.translate(
-                            offset: _btnTextStyle == BodyStyles.bodySmSemiBold
-                                ? Directionality.of(context).name == 'ltr'
-                                    ? const Offset(0, 0)
-                                    : const Offset(0, 1.6)
-                                : Directionality.of(context).name == 'ltr'
-                                    ? const Offset(0, 0)
-                                    : const Offset(0, 2),
-                            child: getTextButtonWidget(context)),
-                      ),
+                      child ??
+                          Flexible(
+                            child: Transform.translate(
+                                offset: _btnTextStyle ==
+                                        BodyStyles.bodySmSemiBold
+                                    ? Directionality.of(context).name == 'ltr'
+                                        ? const Offset(0, 0)
+                                        : const Offset(0, 1.6)
+                                    : Directionality.of(context).name == 'ltr'
+                                        ? const Offset(0, 0)
+                                        : const Offset(0, 2),
+                                child: getTextButtonWidget(context)),
+                          ),
                       if (suffixIconPath != null) const SizedBox(width: 5),
                       if (suffixIconPath != null)
                         AppIcon(
@@ -161,19 +174,19 @@ class AppOutlinedButton extends StatelessWidget {
     switch (_btnTextStyle) {
       case BodyStyles.bodySmSemiBold:
         return AppText.bodySmSemiBold(
-          text: btnText,
+          text: btnText ?? '',
           textColor: onTap == null ? disabledTextColor : textColor,
         );
       case BodyStyles.bodyMdSemiBold:
         return AppText.bodyMdSemiBold(
-          text: btnText,
+          text: btnText ?? '',
           textColor: onTap == null ? disabledTextColor : textColor,
           height: Directionality.of(context).name == 'ltr' ? 0.2 : 1.5,
         );
 
       default:
         return AppText.bodySmSemiBold(
-          text: btnText,
+          text: btnText ?? '',
           textColor: onTap == null ? disabledTextColor : textColor,
         );
     }

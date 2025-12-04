@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:tagaddod_ui_kit/colors/semantic/bg_colors.dart';
 import 'package:tagaddod_ui_kit/colors/semantic/border_colors.dart';
 import 'package:tagaddod_ui_kit/colors/semantic/text_colors.dart';
@@ -32,6 +33,7 @@ class AppTextField extends FormField<String> {
   final double width;
   final int? minLines;
   final int? maxLines;
+  final List<TextInputFormatter>? inputFormatters;
 
   AppTextField._({
     super.key,
@@ -64,6 +66,7 @@ class AppTextField extends FormField<String> {
     this.maxLines,
     this.obscureText = false,
     this.readOnly = false,
+    this.inputFormatters,
     Function(String)? onChanged,
   })  : _size = TextFieldSize.medium,
         _btnTextStyle = BodyStyles.bodySmSemiBold,
@@ -98,6 +101,7 @@ class AppTextField extends FormField<String> {
               obscureText: obscureText,
               readOnly: readOnly,
               enabled: enabled,
+              inputFormatters: inputFormatters,
               onChanged: onChanged,
             );
           },
@@ -134,6 +138,7 @@ class AppTextField extends FormField<String> {
     this.readOnly = false,
     super.enabled = true,
     super.restorationId,
+    this.inputFormatters,
     Function(String)? onChanged,
   })  : _size = TextFieldSize.medium,
         _btnTextStyle = BodyStyles.bodySmSemiBold,
@@ -168,6 +173,7 @@ class AppTextField extends FormField<String> {
               obscureText: obscureText,
               readOnly: readOnly,
               enabled: enabled,
+              inputFormatters: inputFormatters,
               onChanged: onChanged,
             );
           },
@@ -204,6 +210,7 @@ class AppTextField extends FormField<String> {
     this.readOnly = false,
     super.enabled = true,
     super.restorationId,
+    this.inputFormatters,
     Function(String)? onChanged,
   })  : _size = TextFieldSize.large,
         _btnTextStyle = BodyStyles.bodyMdSemiBold,
@@ -238,6 +245,7 @@ class AppTextField extends FormField<String> {
               obscureText: obscureText,
               readOnly: readOnly,
               enabled: enabled,
+              inputFormatters: inputFormatters,
               onChanged: onChanged,
             );
           },
@@ -272,6 +280,7 @@ class _AppTextFieldContent extends StatefulWidget {
   final int? minLines;
   final int? maxLines;
   final bool enabled;
+  final List<TextInputFormatter>? inputFormatters;
   final Function(String)? onChanged;
 
   const _AppTextFieldContent({
@@ -302,6 +311,7 @@ class _AppTextFieldContent extends StatefulWidget {
     this.obscureText = false,
     this.readOnly = false,
     this.enabled = true,
+    this.inputFormatters,
     this.onChanged,
   });
 
@@ -433,6 +443,7 @@ class _AppTextFieldContentState extends State<_AppTextFieldContent> {
                   expands: widget.expands,
                   readOnly: widget.readOnly,
                   enabled: widget.enabled,
+                  inputFormatters: widget.inputFormatters,
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.symmetric(
                       horizontal: 0,

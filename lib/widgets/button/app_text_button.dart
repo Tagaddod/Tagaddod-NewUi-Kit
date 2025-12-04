@@ -10,7 +10,8 @@ class AppTextButton extends StatelessWidget {
   final ButtonType buttonType;
   final TextStyle _btnTextStyle;
   final bool isLoading;
-  final String btnText;
+  final String? btnText;
+  final Widget? child;
   final String? iconPath;
   final String? suffixIconPath;
   final Color? disabledTextColor;
@@ -24,7 +25,8 @@ class AppTextButton extends StatelessWidget {
   //private constructor
   const AppTextButton._({
     required this.isLoading,
-    required this.btnText,
+    this.btnText,
+    this.child,
     this.onTap,
     this.iconPath,
     this.width = 80,
@@ -38,7 +40,8 @@ class AppTextButton extends StatelessWidget {
 
   AppTextButton.medium(
       {super.key,
-      required this.btnText,
+      this.btnText,
+      this.child,
       this.isLoading = false,
       this.onTap,
       this.iconPath,
@@ -48,13 +51,18 @@ class AppTextButton extends StatelessWidget {
       Color? textColor,
       this.borderRadius,
       this.buttonType = ButtonType.defaultButton})
-      : _btnTextStyle = BodyStyles.bodySmSemiBold,
+      : assert(btnText != null || child != null,
+            "Either btnText or child must be provided"),
+        assert(!(btnText != null && child != null),
+            "Cannot provide both btnText and child"),
+        _btnTextStyle = BodyStyles.bodySmSemiBold,
         _height = 40,
         textColor = textColor ?? getDefaultTextColor(buttonType);
 
   AppTextButton.large(
       {super.key,
-      required this.btnText,
+      this.btnText,
+      this.child,
       this.isLoading = false,
       this.onTap,
       this.iconPath,
@@ -64,7 +72,11 @@ class AppTextButton extends StatelessWidget {
       this.disabledTextColor = TextColors.colorTextDisabled,
       this.width = 69,
       this.buttonType = ButtonType.defaultButton})
-      : _btnTextStyle = BodyStyles.bodyMdSemiBold,
+      : assert(btnText != null || child != null,
+            "Either btnText or child must be provided"),
+        assert(!(btnText != null && child != null),
+            "Cannot provide both btnText and child"),
+        _btnTextStyle = BodyStyles.bodyMdSemiBold,
         _height = 56,
         textColor = textColor ?? getDefaultTextColor(buttonType);
 
@@ -107,17 +119,18 @@ class AppTextButton extends StatelessWidget {
                         ),
                       if (iconPath != null) const SizedBox(width: 5),
                       //text
-
-                      Flexible(
-                          child: Transform.translate(
-                              offset: _btnTextStyle == BodyStyles.bodySmSemiBold
-                                  ? Directionality.of(context).name == 'ltr'
-                                      ? const Offset(0, 0)
-                                      : const Offset(0, 1.6)
-                                  : Directionality.of(context).name == 'ltr'
-                                      ? const Offset(0, 0)
-                                      : const Offset(0, 2),
-                              child: getTextButtonWidget(context))),
+                      child ??
+                          Flexible(
+                              child: Transform.translate(
+                                  offset: _btnTextStyle ==
+                                          BodyStyles.bodySmSemiBold
+                                      ? Directionality.of(context).name == 'ltr'
+                                          ? const Offset(0, 0)
+                                          : const Offset(0, 1.6)
+                                      : Directionality.of(context).name == 'ltr'
+                                          ? const Offset(0, 0)
+                                          : const Offset(0, 2),
+                                  child: getTextButtonWidget(context))),
                       if (suffixIconPath != null) const SizedBox(width: 5),
                       if (suffixIconPath != null)
                         AppIcon(
@@ -138,19 +151,19 @@ class AppTextButton extends StatelessWidget {
     switch (_btnTextStyle) {
       case BodyStyles.bodySmSemiBold:
         return AppText.bodySmSemiBold(
-          text: btnText,
+          text: btnText ?? '',
           textColor: onTap == null ? disabledTextColor : textColor,
         );
       case BodyStyles.bodyMdSemiBold:
         return AppText.bodyMdSemiBold(
-          text: btnText,
+          text: btnText ?? '',
           textColor: onTap == null ? disabledTextColor : textColor,
           height: Directionality.of(context).name == 'ltr' ? 0.2 : 1.5,
         );
 
       default:
         return AppText.bodySmSemiBold(
-          text: btnText,
+          text: btnText ?? '',
           textColor: onTap == null ? disabledTextColor : textColor,
         );
     }
