@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:path/path.dart' as path;
 
@@ -165,12 +164,16 @@ class WidgetInfo {
   final String description;
   final String importPath;
   final String example;
+  final List<String> constructors;
+  final String parameters;
 
   WidgetInfo({
     required this.className,
     required this.description,
     required this.importPath,
     required this.example,
+    this.constructors = const [],
+    this.parameters = '',
   });
 
   Map<String, dynamic> toJson() => {
@@ -178,6 +181,8 @@ class WidgetInfo {
         'description': description,
         'importPath': importPath,
         'example': example,
+        if (constructors.isNotEmpty) 'constructors': constructors,
+        if (parameters.isNotEmpty) 'parameters': parameters,
       };
 
   factory WidgetInfo.fromJson(Map<String, dynamic> json) => WidgetInfo(
@@ -185,5 +190,10 @@ class WidgetInfo {
         description: json['description'],
         importPath: json['importPath'],
         example: json['example'],
+        constructors: (json['constructors'] as List<dynamic>?)
+                ?.map((e) => e.toString())
+                .toList() ??
+            [],
+        parameters: json['parameters'] as String? ?? '',
       );
 }

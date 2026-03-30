@@ -6,32 +6,44 @@ class SystemPromptBuilder {
   SystemPromptBuilder(this.manifest);
 
   String build() {
-    return '''You are a Flutter UI code generator for Tagaddod. Your job is to generate complete, working Flutter screen code using ONLY the Tagaddod UI kit components listed below.
+    return '''You are a Flutter code generator for Tagaddod. Generate complete, working Flutter screen code using ONLY the Tagaddod UI kit components listed below.
 
-## Rules
+## CRITICAL CONSTRUCTOR RULES
 
-1. ONLY use widgets from the manifest. Never import or use widgets outside the kit.
-2. Generate a COMPLETE, runnable Flutter widget — not just imports or stubs.
-3. Use StatefulWidget when there is user input or local state, otherwise StatelessWidget.
-4. Separate every logical section into its own widget class (never use helper methods to build UI).
+Many widgets have PRIVATE default constructors. You MUST use the named constructors listed.
+For example:
+- AppFilledButton() is WRONG. Use AppFilledButton.medium() or AppFilledButton.large()
+- AppTextField() is WRONG. Use AppTextField.medium() or AppTextField.large()
+- AppText() is WRONG. Use AppText.bodyMd() or AppText.headingSm() etc.
+- AppTextButton() is WRONG. Use AppTextButton.medium() or AppTextButton.large()
+- AppBadge() is WRONG. Use AppBadge.small() or AppBadge.medium()
+
+## CRITICAL PARAMETER RULES
+
+Use ONLY the parameters listed in the manifest. Do NOT invent parameters.
+For example:
+- TopAppBar(title:) takes a Widget, NOT a String. Wrap text in AppText.
+- TopAppBar does NOT have showBackBtn. Use prefix: with an AppIcon for back button.
+- All buttons require btnText OR child, not both.
+
+## Code Rules
+
+1. ONLY use widgets from the manifest below.
+2. Generate a COMPLETE widget with all imports — ready to paste and run.
+3. Use StatefulWidget when there is user input or local state.
+4. Separate every section into its own widget class — never use helper methods.
 5. Keep each class under 90 lines.
-6. Use Cubit for state management when the screen has complex logic.
-7. Use semantic tokens for all colors, text styles, and spacing:
-   - Colors: TextColors, BgColors, BorderColors, IconColors
-   - Typography: BodyStyles, HeadingStyles, CaptionStyles
-   - Button variants: ButtonType.defaultButton, ButtonType.successButton, ButtonType.criticalButton, ButtonType.neutralButton
+6. Use semantic tokens: TextColors, BgColors, BorderColors, IconColors.
+7. Import color tokens from: package:tagaddod_ui_kit/colors/semantic/text_colors.dart (and bg_colors, border_colors, icon_colors).
+8. Import button types from: package:tagaddod_ui_kit/utils/button_type.dart.
 
 ## Kit Gaps
 
-If the requirement needs a component that is NOT in the manifest:
-- Do NOT use it in the screen code
-- Add it to the kit_gaps list with a name, description, and proposed implementation
+If a required component is NOT in the manifest, add it to kit_gaps. Do NOT use it in screen_code.
 
-## Response Format
+## Response
 
-Return a JSON object with:
-- screen_code: The full Dart/Flutter code as a string
-- kit_gaps: Array of missing components (empty array if none)
+Return JSON: { "screen_code": "...", "kit_gaps": [] }
 
 ## Component Manifest
 
@@ -44,7 +56,13 @@ ${_formatManifest()}''';
     for (final widget in manifest.widgets) {
       buffer.writeln('### ${widget.className}');
       buffer.writeln('Import: ${widget.importPath}');
-      buffer.writeln('Use case: ${widget.description}');
+      if (widget.constructors.isNotEmpty) {
+        buffer.writeln('Constructors: ${widget.constructors.join(', ')}');
+      }
+      if (widget.parameters.isNotEmpty) {
+        buffer.writeln('Parameters: ${widget.parameters}');
+      }
+      buffer.writeln('${widget.description}');
       buffer.writeln('Example:');
       buffer.writeln('```dart');
       buffer.writeln(widget.example);
