@@ -57,25 +57,42 @@ class GenerateCommand {
     final progress = logger.progress('Generating Flutter code');
 
     try {
-      final manifestFile = File('data/components.json');
-      File? actualManifestFile;
+      // Load manifest - try multiple locations
+      String? manifestContent;
       
-      if (manifestFile.existsSync()) {
-        actualManifestFile = manifestFile;
-      } else {
-        final bundledManifest = File('lib/data/components.json');
-        if (bundledManifest.existsSync()) {
-          actualManifestFile = bundledManifest;
+      // 1. Try current directory (for development in kit repo)
+      final localManifest = File('data/components.json');
+      if (localManifest.existsSync()) {
+        manifestContent = await localManifest.readAsString();
+      }
+      
+      // 2. Try to load from package resources (for global installation)
+      if (manifestContent == null) {
+        try {
+          // Get the package installation directory
+          final scriptPath = Platform.script.toFilePath();
+          final packageRoot = path.dirname(path.dirname(scriptPath));
+          
+          // Try lib/data/components.json in package
+          final packageManifest = File(path.join(packageRoot, 'lib', 'data', 'components.json'));
+          if (packageManifest.existsSync()) {
+            manifestContent = await packageManifest.readAsString();
+          }
+        } catch (e) {
+          // Continue to next attempt
         }
       }
       
-      if (actualManifestFile == null) {
+      if (manifestContent == null) {
         progress.fail('Manifest not found');
-        logger.err('This package needs to be installed from the UI kit repo');
+        logger.err('Could not locate components.json manifest');
+        logger.info('');
+        logger.info('Make sure kit-gen is installed correctly:');
+        logger.info('  dart pub global activate --source git https://github.com/Tagaddod/Tagaddod-NewUi-Kit.git --git-path kit-gen-dart');
         exit(1);
       }
 
-      final manifestJson = jsonDecode(await actualManifestFile.readAsString());
+      final manifestJson = jsonDecode(manifestContent);
       final manifest = KitManifest.fromJson(manifestJson);
 
       final promptBuilder = SystemPromptBuilder(manifest);

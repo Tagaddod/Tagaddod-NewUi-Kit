@@ -22,8 +22,3 @@ dev_dependencies:
 
 executables:
   kit-gen: kit_gen
-
-# Include manifest in package
-flutter:
-  assets:
-    - lib/data/components.json

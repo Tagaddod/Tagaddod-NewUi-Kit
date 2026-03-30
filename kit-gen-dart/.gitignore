@@ -4,4 +4,5 @@ build/
 pubspec.lock
 .env
 output/
-data/components.json
+data/
+!lib/data/
