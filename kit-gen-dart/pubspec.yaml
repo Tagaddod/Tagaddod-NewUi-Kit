@@ -1,0 +1,29 @@
+name: kit_gen
+description: AI-powered Flutter code generator using Tagaddod UI Kit. Generate screens with Gemini 2.0 Flash.
+version: 1.0.0
+repository: https://github.com/Tagaddod/Tagaddod-NewUi-Kit
+homepage: https://github.com/Tagaddod/Tagaddod-NewUi-Kit/tree/main/kit-gen-dart
+publish_to: none
+
+environment:
+  sdk: '>=3.1.2 <4.0.0'
+
+dependencies:
+  args: ^2.4.2
+  http: ^1.2.0
+  path: ^1.9.0
+  cli_util: ^0.4.0
+  io: ^1.0.4
+  mason_logger: ^0.2.14
+
+dev_dependencies:
+  lints: ^3.0.0
+  test: ^1.25.0
+
+executables:
+  kit-gen:
+
+# Include manifest in package
+flutter:
+  assets:
+    - lib/data/components.json
