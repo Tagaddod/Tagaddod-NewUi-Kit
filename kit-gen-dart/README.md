@@ -2,7 +2,7 @@
 
 AI-powered Flutter code generator using Tagaddod UI Kit.
 
-**Pure Dart** | **Gemini 2.0 Flash** | **FREE Tier** | **$0.01/screen**
+**Pure Dart** | **Gemini 2.5 Flash** | **FREE Tier** | **~$0.02/screen**
 
 ---
 
@@ -71,8 +71,8 @@ kit-gen config show             # Show config
 ## Cost
 
 - **Free tier:** 1,500 requests/day (covers everything!)
-- **Paid:** $0.01 per screen (85% cheaper than Claude)
-- **Reality:** Probably $0/month
+- **Paid:** ~$0.02 per screen (still 80% cheaper than Claude)
+- **Reality:** Probably $0/month for most teams
 
 ---
 
@@ -87,7 +87,7 @@ Flutter code (kit components only)
 ```
 
 **Time:** 30 seconds  
-**Cost:** $0.01 or FREE  
+**Cost:** ~$0.02 or FREE  
 **Saves:** 40 minutes per screen
 
 ---

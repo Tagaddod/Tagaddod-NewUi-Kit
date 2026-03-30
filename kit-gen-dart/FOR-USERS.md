@@ -265,7 +265,7 @@ dart pub global activate --source git https://github.com/Tagaddod/Tagaddod-NewUi
 - **Free tier:** 1,500 requests/day
 - **Typical usage:** 10-50 requests/day
 - **Cost:** $0/month for most teams
-- **Paid tier:** $0.01 per screen if you exceed free tier
+- **Paid tier:** ~$0.02 per screen if you exceed free tier
 
 ---
 

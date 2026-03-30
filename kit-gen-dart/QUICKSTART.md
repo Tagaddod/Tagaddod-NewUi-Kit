@@ -59,7 +59,7 @@ kit-gen gen -r "Settings page with profile section and logout button"
 ## Cost
 
 - **FREE:** 1,500 requests/day
-- **Paid:** $0.01 per screen
+- **Paid:** ~$0.02 per screen
 
 ---
 

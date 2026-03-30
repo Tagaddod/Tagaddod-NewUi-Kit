@@ -13,7 +13,7 @@ class GeminiService {
     String requirement,
     String systemPrompt,
   ) async {
-    final model = 'gemini-2.0-flash-exp';
+    final model = 'gemini-2.5-flash';
     final url = Uri.parse('$baseUrl/$model:generateContent?key=$apiKey');
 
     final requestBody = {
@@ -87,6 +87,9 @@ class GenerationResult {
   }
 
   double get estimatedCost {
-    return (inputTokens * 0.10 / 1000000) + (outputTokens * 0.40 / 1000000);
+    // Gemini 2.5 Flash pricing (March 2026)
+    // Input: $0.30 per 1M tokens
+    // Output: $2.50 per 1M tokens
+    return (inputTokens * 0.30 / 1000000) + (outputTokens * 2.50 / 1000000);
   }
 }
