@@ -28,7 +28,7 @@ class GeminiService {
         'temperature': 0.7,
         'topK': 40,
         'topP': 0.95,
-        'maxOutputTokens': 4096,
+        'maxOutputTokens': 8192,
       },
     };
 
@@ -70,25 +70,33 @@ class GenerationResult {
   });
 
   String? get screenCode {
-    // Try exact XML tags first
+    // 1. Properly closed <screen_code> tag
     var match = RegExp(
       r'<screen_code>\s*([\s\S]*?)\s*</screen_code>',
     ).firstMatch(rawResponse);
     if (match != null) return _stripDartFence(match.group(1)!.trim());
 
-    // Try with backtick-escaped tags (Gemini sometimes escapes XML in markdown)
+    // 2. Unclosed <screen_code> tag — extract everything after it
+    //    This handles truncated responses from the model
+    final openTagIndex = rawResponse.indexOf('<screen_code>');
+    if (openTagIndex != -1) {
+      final after = rawResponse.substring(openTagIndex + '<screen_code>'.length);
+      // Remove closing tag if partially present
+      final cleaned = after.replaceAll(RegExp(r'</screen_code>.*', dotAll: true), '').trim();
+      return _stripDartFence(cleaned);
+    }
+
+    // 3. Backtick-escaped tags (Gemini sometimes escapes XML in markdown)
     match = RegExp(
       r'`<screen_code>`\s*([\s\S]*?)\s*`</screen_code>`',
     ).firstMatch(rawResponse);
     if (match != null) return _stripDartFence(match.group(1)!.trim());
 
-    // Fallback: extract first dart code block
-    match = RegExp(
-      r'```dart\s*([\s\S]*?)\s*```',
-    ).firstMatch(rawResponse);
+    // 4. First ```dart code block
+    match = RegExp(r'```dart\s*([\s\S]*?)\s*```').firstMatch(rawResponse);
     if (match != null) return match.group(1)!.trim();
 
-    // Last resort: if the whole response looks like code, return it
+    // 5. Raw response if it looks like Dart code
     final trimmed = rawResponse.trim();
     if (trimmed.startsWith('import ') || trimmed.startsWith('//')) {
       return trimmed;
@@ -98,17 +106,18 @@ class GenerationResult {
   }
 
   String _stripDartFence(String code) {
-    // Remove ```dart ... ``` wrapping if present
     final match = RegExp(r'```(?:dart)?\s*([\s\S]*?)\s*```').firstMatch(code);
     return match?.group(1)?.trim() ?? code;
   }
 
   String? get kitGaps {
+    // Properly closed tag
     var match = RegExp(
       r'<kit_gaps>\s*([\s\S]*?)\s*</kit_gaps>',
     ).firstMatch(rawResponse);
     if (match != null) return match.group(1)!.trim();
 
+    // Backtick-escaped
     match = RegExp(
       r'`<kit_gaps>`\s*([\s\S]*?)\s*`</kit_gaps>`',
     ).firstMatch(rawResponse);
@@ -118,7 +127,7 @@ class GenerationResult {
   bool get hasGaps {
     final gaps = kitGaps;
     if (gaps == null || gaps.isEmpty) return false;
-    final upper = gaps.toUpperCase();
+    final upper = gaps.toUpperCase().trim();
     return upper != 'NONE' && upper != '// NONE' && upper != '//NONE';
   }
 
