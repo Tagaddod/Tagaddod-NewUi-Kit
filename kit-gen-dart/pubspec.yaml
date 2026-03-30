@@ -21,7 +21,7 @@ dev_dependencies:
   test: ^1.25.0
 
 executables:
-  kit-gen:
+  kit-gen: kit_gen
 
 # Include manifest in package
 flutter:
