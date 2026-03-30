@@ -19,23 +19,22 @@ class SystemPromptBuilder {
    - Provide a rough implementation proposal
    - DO NOT use it in the generated screen code
 
-3. **OUTPUT FORMAT** — Always structure your response exactly like this:
+3. **OUTPUT FORMAT** — Your ENTIRE response must follow this structure. Do NOT add any text before or after these tags. Do NOT wrap the tags in markdown or backticks.
 
 <screen_code>
-// Valid Flutter/Dart code here
-// Must include all necessary imports from tagaddod_ui_kit
-// Must be directly pasteable into a Flutter project
-// Use ONLY widgets from the manifest
+import 'package:flutter/material.dart';
+// ... all other imports from tagaddod_ui_kit ...
+
+class ExampleScreen extends StatelessWidget {
+  // ... complete widget code ...
+}
 </screen_code>
 
 <kit_gaps>
-// If no gaps exist, write: NONE
-// Otherwise, list each missing component with:
-// - Widget name
-// - Description of what it should do
-// - Rough Dart implementation
-// - Notes on which kit design tokens it should use
+NONE
 </kit_gaps>
+
+   IMPORTANT: The tags must appear exactly as shown — `<screen_code>` and `</screen_code>`. Do not escape, wrap, or modify the tags.
 
 4. **CODE QUALITY STANDARDS**
    - Follow Flutter best practices

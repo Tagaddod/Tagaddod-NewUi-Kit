@@ -70,20 +70,56 @@ class GenerationResult {
   });
 
   String? get screenCode {
-    final match =
-        RegExp(r'<screen_code>([\s\S]*?)</screen_code>').firstMatch(rawResponse);
-    return match?.group(1)?.trim();
+    // Try exact XML tags first
+    var match = RegExp(
+      r'<screen_code>\s*([\s\S]*?)\s*</screen_code>',
+    ).firstMatch(rawResponse);
+    if (match != null) return _stripDartFence(match.group(1)!.trim());
+
+    // Try with backtick-escaped tags (Gemini sometimes escapes XML in markdown)
+    match = RegExp(
+      r'`<screen_code>`\s*([\s\S]*?)\s*`</screen_code>`',
+    ).firstMatch(rawResponse);
+    if (match != null) return _stripDartFence(match.group(1)!.trim());
+
+    // Fallback: extract first dart code block
+    match = RegExp(
+      r'```dart\s*([\s\S]*?)\s*```',
+    ).firstMatch(rawResponse);
+    if (match != null) return match.group(1)!.trim();
+
+    // Last resort: if the whole response looks like code, return it
+    final trimmed = rawResponse.trim();
+    if (trimmed.startsWith('import ') || trimmed.startsWith('//')) {
+      return trimmed;
+    }
+
+    return null;
+  }
+
+  String _stripDartFence(String code) {
+    // Remove ```dart ... ``` wrapping if present
+    final match = RegExp(r'```(?:dart)?\s*([\s\S]*?)\s*```').firstMatch(code);
+    return match?.group(1)?.trim() ?? code;
   }
 
   String? get kitGaps {
-    final match =
-        RegExp(r'<kit_gaps>([\s\S]*?)</kit_gaps>').firstMatch(rawResponse);
+    var match = RegExp(
+      r'<kit_gaps>\s*([\s\S]*?)\s*</kit_gaps>',
+    ).firstMatch(rawResponse);
+    if (match != null) return match.group(1)!.trim();
+
+    match = RegExp(
+      r'`<kit_gaps>`\s*([\s\S]*?)\s*`</kit_gaps>`',
+    ).firstMatch(rawResponse);
     return match?.group(1)?.trim();
   }
 
   bool get hasGaps {
     final gaps = kitGaps;
-    return gaps != null && gaps.toUpperCase() != 'NONE';
+    if (gaps == null || gaps.isEmpty) return false;
+    final upper = gaps.toUpperCase();
+    return upper != 'NONE' && upper != '// NONE' && upper != '//NONE';
   }
 
   double get estimatedCost {
