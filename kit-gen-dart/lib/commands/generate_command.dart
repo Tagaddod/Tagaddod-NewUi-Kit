@@ -5,6 +5,7 @@ import 'package:kit_gen/services/gemini_service.dart';
 import 'package:kit_gen/services/manifest_service.dart';
 import 'package:kit_gen/services/system_prompt.dart';
 import 'package:kit_gen/config/api_config.dart';
+import 'package:kit_gen/data/embedded_manifest.dart';
 import 'dart:convert';
 import 'package:path/path.dart' as path;
 
@@ -69,27 +70,20 @@ class GenerateCommand {
       // 2. Try to load from package resources (for global installation)
       if (manifestContent == null) {
         try {
-          // Get the package installation directory
           final scriptPath = Platform.script.toFilePath();
           final packageRoot = path.dirname(path.dirname(scriptPath));
-          
-          // Try lib/data/components.json in package
           final packageManifest = File(path.join(packageRoot, 'lib', 'data', 'components.json'));
           if (packageManifest.existsSync()) {
             manifestContent = await packageManifest.readAsString();
           }
         } catch (e) {
-          // Continue to next attempt
+          // Continue to fallback
         }
       }
       
+      // 3. Use embedded manifest as fallback (always available)
       if (manifestContent == null) {
-        progress.fail('Manifest not found');
-        logger.err('Could not locate components.json manifest');
-        logger.info('');
-        logger.info('Make sure kit-gen is installed correctly:');
-        logger.info('  dart pub global activate --source git https://github.com/Tagaddod/Tagaddod-NewUi-Kit.git --git-path kit-gen-dart');
-        exit(1);
+        manifestContent = embeddedManifest;
       }
 
       final manifestJson = jsonDecode(manifestContent);

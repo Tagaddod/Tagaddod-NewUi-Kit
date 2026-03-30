@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:args/args.dart';
 import 'package:mason_logger/mason_logger.dart';
 import 'package:kit_gen/services/manifest_service.dart';
+import 'package:kit_gen/data/embedded_manifest.dart';
 
 class SearchCommand {
   final Logger logger;
@@ -18,14 +19,17 @@ class SearchCommand {
     final query = arguments.join(' ').toLowerCase();
 
     try {
+      // Try to load manifest from file, fallback to embedded
+      String manifestContent;
+      
       final manifestFile = File('data/components.json');
-      if (!manifestFile.existsSync()) {
-        logger.err('Manifest not found');
-        logger.info('Run: kit-gen manifest');
-        exit(1);
+      if (manifestFile.existsSync()) {
+        manifestContent = await manifestFile.readAsString();
+      } else {
+        manifestContent = embeddedManifest;
       }
 
-      final manifestJson = jsonDecode(await manifestFile.readAsString());
+      final manifestJson = jsonDecode(manifestContent);
       final manifest = KitManifest.fromJson(manifestJson);
 
       final results = manifest.widgets.where((widget) {
