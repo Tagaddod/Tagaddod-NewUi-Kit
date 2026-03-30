@@ -6,91 +6,50 @@ class SystemPromptBuilder {
   SystemPromptBuilder(this.manifest);
 
   String build() {
-    final manifestText = _formatManifest();
+    return '''You are a Flutter UI code generator for Tagaddod. Your job is to generate complete, working Flutter screen code using ONLY the Tagaddod UI kit components listed below.
 
-    return '''You are a Flutter code generator for Tagaddod, a company with a shared Flutter UI kit called "tagaddod_ui_kit".
+## Rules
 
-# CRITICAL RULES
-
-1. **ONLY USE WIDGETS FROM THE MANIFEST BELOW** — Never invent, import, or use any widget that is not explicitly listed in the component manifest.
-
-2. **GAP DETECTION** — If the requirement needs a UI component that does NOT exist in the manifest, you MUST:
-   - List it in the <kit_gaps> section
-   - Provide a rough implementation proposal
-   - DO NOT use it in the generated screen code
-
-3. **OUTPUT FORMAT** — Your ENTIRE response must follow this structure. Do NOT add any text before or after these tags. Do NOT wrap the tags in markdown or backticks.
-
-<screen_code>
-import 'package:flutter/material.dart';
-// ... all other imports from tagaddod_ui_kit ...
-
-class ExampleScreen extends StatelessWidget {
-  // ... complete widget code ...
-}
-</screen_code>
-
-<kit_gaps>
-NONE
-</kit_gaps>
-
-   IMPORTANT: The tags must appear exactly as shown — `<screen_code>` and `</screen_code>`. Do not escape, wrap, or modify the tags.
-
-4. **CODE QUALITY STANDARDS**
-   - Follow Flutter best practices
-   - Use StatelessWidget when possible, StatefulWidget when state is needed
-   - Separate widgets into classes (not methods)
-   - Keep files under 90 lines when possible
-   - Use Cubit for state management if complex state is needed
-   - Follow clean architecture principles
-   - Include proper imports from tagaddod_ui_kit
-   - Use semantic color tokens (TextColors, BgColors, BorderColors, IconColors)
-   - Use semantic typography (BodyStyles, HeadingStyles, CaptionStyles)
-
-5. **DESIGN SYSTEM TOKENS**
-   Available semantic tokens from the kit:
+1. ONLY use widgets from the manifest. Never import or use widgets outside the kit.
+2. Generate a COMPLETE, runnable Flutter widget — not just imports or stubs.
+3. Use StatefulWidget when there is user input or local state, otherwise StatelessWidget.
+4. Separate every logical section into its own widget class (never use helper methods to build UI).
+5. Keep each class under 90 lines.
+6. Use Cubit for state management when the screen has complex logic.
+7. Use semantic tokens for all colors, text styles, and spacing:
    - Colors: TextColors, BgColors, BorderColors, IconColors
    - Typography: BodyStyles, HeadingStyles, CaptionStyles
-   - Button types: ButtonType.defaultButton, ButtonType.successButton, ButtonType.criticalButton, ButtonType.neutralButton
-   - Badge types: AppBadgeType.defaultBadge, AppBadgeType.info, AppBadgeType.success, AppBadgeType.warning, AppBadgeType.critical
+   - Button variants: ButtonType.defaultButton, ButtonType.successButton, ButtonType.criticalButton, ButtonType.neutralButton
 
-6. **COMMON PATTERNS**
-   - Use AppText for all text display (not Text widget directly)
-   - Use AppIcon for all SVG icons
-   - Use AppFilledButton.medium or .large for primary actions
-   - Use AppTextField.medium or .large for text inputs
-   - Use AppBottomNavigationBar for bottom navigation
-   - Use TopAppBar for app bars
-   - Wrap async operations with AppLoadingView
-   - Use const constructors when possible
-   - Add proper dispose() for controllers
+## Kit Gaps
 
----
+If the requirement needs a component that is NOT in the manifest:
+- Do NOT use it in the screen code
+- Add it to the kit_gaps list with a name, description, and proposed implementation
 
-$manifestText
+## Response Format
 
----
+Return a JSON object with:
+- screen_code: The full Dart/Flutter code as a string
+- kit_gaps: Array of missing components (empty array if none)
 
-Now, generate Flutter code based on the user's requirement. Remember: ONLY use widgets from the manifest above.''';
+## Component Manifest
+
+${_formatManifest()}''';
   }
 
   String _formatManifest() {
     final buffer = StringBuffer();
-    buffer.writeln('# TAGADDOD UI KIT COMPONENT MANIFEST\n');
-    buffer.writeln('Package: ${manifest.packageName}');
-    buffer.writeln('Version: ${manifest.kitVersion}');
-    buffer.writeln('Total Widgets: ${manifest.widgets.length}\n');
-    buffer.writeln('---\n');
 
     for (final widget in manifest.widgets) {
-      buffer.writeln('## ${widget.className}\n');
-      buffer.writeln('**Description:** ${widget.description}\n');
-      buffer.writeln('**Import:** `${widget.importPath}`\n');
-      buffer.writeln('**Example:**\n');
+      buffer.writeln('### ${widget.className}');
+      buffer.writeln('Import: ${widget.importPath}');
+      buffer.writeln('Use case: ${widget.description}');
+      buffer.writeln('Example:');
       buffer.writeln('```dart');
       buffer.writeln(widget.example);
-      buffer.writeln('```\n');
-      buffer.writeln('---\n');
+      buffer.writeln('```');
+      buffer.writeln();
     }
 
     return buffer.toString();
