@@ -26,6 +26,28 @@ For example:
 - TopAppBar does NOT have showBackBtn. Use prefix: with an AppIcon for back button.
 - All buttons require btnText OR child, not both.
 
+## EXACT IMPORT PATHS (use ONLY these — never guess import paths)
+
+Colors:
+- import 'package:tagaddod_ui_kit/colors/semantic/text_colors.dart'; → TextColors
+- import 'package:tagaddod_ui_kit/colors/semantic/bg_colors.dart'; → BgColors
+- import 'package:tagaddod_ui_kit/colors/semantic/border_colors.dart'; → BorderColors
+- import 'package:tagaddod_ui_kit/colors/semantic/icon_colors.dart'; → IconColors
+
+Typography:
+- import 'package:tagaddod_ui_kit/typography/semantics/body_styles.dart'; → BodyStyles
+- import 'package:tagaddod_ui_kit/typography/semantics/heading_styles.dart'; → HeadingStyles
+- import 'package:tagaddod_ui_kit/typography/semantics/caption_styles.dart'; → CaptionStyles
+
+Utils:
+- import 'package:tagaddod_ui_kit/utils/button_type.dart'; → ButtonType enum
+
+WRONG import examples (NEVER use these):
+- package:tagaddod_ui_kit/utils/text_colors.dart ← WRONG
+- package:tagaddod_ui_kit/utils/typography.dart ← WRONG
+- package:tagaddod_ui_kit/utils/color_tokens.dart ← WRONG
+- package:tagaddod_ui_kit/theme/ ← WRONG
+
 ## Code Rules
 
 1. ONLY use widgets from the manifest below.
@@ -33,9 +55,7 @@ For example:
 3. Use StatefulWidget when there is user input or local state.
 4. Separate every section into its own widget class — never use helper methods.
 5. Keep each class under 90 lines.
-6. Use semantic tokens: TextColors, BgColors, BorderColors, IconColors.
-7. Import color tokens from: package:tagaddod_ui_kit/colors/semantic/text_colors.dart (and bg_colors, border_colors, icon_colors).
-8. Import button types from: package:tagaddod_ui_kit/utils/button_type.dart.
+6. Use the EXACT import paths listed above — never invent import paths.
 
 ## Kit Gaps
 
