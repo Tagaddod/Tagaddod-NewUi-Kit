@@ -1,9 +1,9 @@
 import 'dart:io';
+import 'dart:isolate';
 import 'dart:convert';
 import 'package:args/args.dart';
 import 'package:mason_logger/mason_logger.dart';
 import 'package:kit_gen/services/manifest_service.dart';
-import 'package:kit_gen/data/embedded_manifest.dart';
 
 class InfoCommand {
   final Logger logger;
@@ -12,14 +12,23 @@ class InfoCommand {
 
   Future<void> run(List<String> arguments) async {
     try {
-      // Try to load manifest from file, fallback to embedded
+      // Load manifest using package: URI resolution
       String manifestContent;
       
-      final manifestFile = File('data/components.json');
-      if (manifestFile.existsSync()) {
-        manifestContent = await manifestFile.readAsString();
+      final localManifest = File('data/components.json');
+      if (localManifest.existsSync()) {
+        manifestContent = await localManifest.readAsString();
       } else {
-        manifestContent = embeddedManifest;
+        final manifestUri = Uri.parse('package:kit_gen/data/components.json');
+        final resolvedUri = await Isolate.resolvePackageUri(manifestUri);
+        
+        if (resolvedUri == null) {
+          logger.err('Manifest not found');
+          logger.info('Please reinstall kit-gen');
+          exit(1);
+        }
+        
+        manifestContent = await File.fromUri(resolvedUri).readAsString();
       }
 
       final manifestJson = jsonDecode(manifestContent);

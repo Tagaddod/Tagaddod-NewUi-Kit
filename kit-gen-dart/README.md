@@ -42,19 +42,15 @@ When adding widgets to the kit:
 ```bash
 cd kit-gen-dart
 dart run bin/kit_gen.dart manifest
-
-# Update embedded manifest
-cat data/components.json | sed 's/\\/\\\\/g' | sed 's/"/\\"/g' > /tmp/escaped.json
-# Then manually update lib/data/embedded_manifest.dart with the new JSON
-
-git add lib/data/embedded_manifest.dart
-git commit -m "Update manifest"
+cp data/components.json lib/data/components.json
+git add lib/data/components.json
+git commit -m "Update kit manifest"
 git push
 ```
 
 Users get updates automatically on next install.
 
-**Note:** The manifest is embedded in `lib/data/embedded_manifest.dart` as a Dart string constant to ensure it's always available when installed globally.
+**How it works:** The manifest is stored in `lib/data/components.json` and loaded using Dart's `package:` URI resolution (`package:kit_gen/data/components.json`), which works reliably in both local development and global installations.
 
 ---
 

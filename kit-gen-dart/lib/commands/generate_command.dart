@@ -1,11 +1,11 @@
 import 'dart:io';
+import 'dart:isolate';
 import 'package:args/args.dart';
 import 'package:mason_logger/mason_logger.dart';
 import 'package:kit_gen/services/gemini_service.dart';
 import 'package:kit_gen/services/manifest_service.dart';
 import 'package:kit_gen/services/system_prompt.dart';
 import 'package:kit_gen/config/api_config.dart';
-import 'package:kit_gen/data/embedded_manifest.dart';
 import 'dart:convert';
 import 'package:path/path.dart' as path;
 
@@ -58,32 +58,35 @@ class GenerateCommand {
     final progress = logger.progress('Generating Flutter code');
 
     try {
-      // Load manifest - try multiple locations
-      String? manifestContent;
+      // Load manifest using package: URI resolution
+      String manifestContent;
       
-      // 1. Try current directory (for development in kit repo)
+      // Try local file first (for development)
       final localManifest = File('data/components.json');
       if (localManifest.existsSync()) {
         manifestContent = await localManifest.readAsString();
-      }
-      
-      // 2. Try to load from package resources (for global installation)
-      if (manifestContent == null) {
-        try {
-          final scriptPath = Platform.script.toFilePath();
-          final packageRoot = path.dirname(path.dirname(scriptPath));
-          final packageManifest = File(path.join(packageRoot, 'lib', 'data', 'components.json'));
-          if (packageManifest.existsSync()) {
-            manifestContent = await packageManifest.readAsString();
-          }
-        } catch (e) {
-          // Continue to fallback
+      } else {
+        // Resolve package resource using Isolate.resolvePackageUri
+        final manifestUri = Uri.parse('package:kit_gen/data/components.json');
+        final resolvedUri = await Isolate.resolvePackageUri(manifestUri);
+        
+        if (resolvedUri == null) {
+          progress.fail('Manifest not found');
+          logger.err('Could not resolve package:kit_gen/data/components.json');
+          logger.info('');
+          logger.info('Please reinstall kit-gen:');
+          logger.info('  dart pub global activate --source git https://github.com/Tagaddod/Tagaddod-NewUi-Kit.git --git-path kit-gen-dart');
+          exit(1);
         }
-      }
-      
-      // 3. Use embedded manifest as fallback (always available)
-      if (manifestContent == null) {
-        manifestContent = embeddedManifest;
+        
+        final manifestFile = File.fromUri(resolvedUri);
+        if (!manifestFile.existsSync()) {
+          progress.fail('Manifest file not found');
+          logger.err('Resolved path does not exist: ${manifestFile.path}');
+          exit(1);
+        }
+        
+        manifestContent = await manifestFile.readAsString();
       }
 
       final manifestJson = jsonDecode(manifestContent);
