@@ -133,27 +133,27 @@
     },
     {
       "className": "AppModalDialog",
-      "description": "Modal dialog with header and content.",
+      "description": "Modal dialog with optional header, body, and footer sections.",
       "importPath": "package:tagaddod_ui_kit/widgets/app_modal_dialog/app_modal_dialog.dart",
       "constructors": ["AppModalDialog()"],
-      "parameters": "Check source for parameters",
-      "example": "showDialog(\n  context: context,\n  builder: (context) => AppModalDialog(/* params */),\n)"
+      "parameters": "modalHeaderTitle: String = '', bodyWidget: Widget?, footerWidget: Widget?, svgIconPath: String?, onTap: VoidCallback?, showModalHeader: bool = true, showModalHeaderTitle: bool = true, showModalHeaderIcon: bool = true, showModalHeaderDivider: bool = true, spaceBetweenTitleAndDivider: double? = 16, spaceBetweenBodyAndFooter: double? = 16",
+      "example": "showDialog(\n  context: context,\n  builder: (context) => AppModalDialog(\n    modalHeaderTitle: 'Confirm Action',\n    bodyWidget: AppText.bodyMd(text: 'Are you sure?', textColor: TextColors.colorText),\n    footerWidget: Row(\n      children: [\n        Expanded(child: AppOutlinedButton.medium(btnText: 'Cancel', onTap: () => Navigator.pop(context), width: double.infinity)),\n        const SizedBox(width: 12),\n        Expanded(child: AppFilledButton.medium(btnText: 'Confirm', onTap: () {}, width: double.infinity)),\n      ],\n    ),\n  ),\n)"
     },
     {
       "className": "AppBottomNavigationBar",
-      "description": "Bottom navigation bar.",
+      "description": "Bottom navigation bar. Items must be AppBottomNavigationBarItem (also from this package). Import bottom_navigation_bar.dart for both classes.",
       "importPath": "package:tagaddod_ui_kit/widgets/bottom_navigation_bar.dart",
       "constructors": ["AppBottomNavigationBar()"],
-      "parameters": "Check source for parameters",
-      "example": "AppBottomNavigationBar(/* params */)"
+      "parameters": "items: List<AppBottomNavigationBarItem> (REQUIRED), selectedIndex: int = 0, onTap: Function(int)?, backgroundColor: Color?, type: BottomNavigationBarType? = BottomNavigationBarType.fixed, elevation: double?, iconSize: double = 24, selectedItemColor: Color?, unselectedItemColor: Color?, showSelectedLabels: bool?, showUnselectedLabels: bool?, selectedLabelStyle: TextStyle?, unselectedLabelStyle: TextStyle?, borderColor: Color?",
+      "example": "AppBottomNavigationBar(\n  items: [\n    AppBottomNavigationBarItem(icon: AppIcon(svgIconPath: 'assets/svg/home.svg'), label: 'Home'),\n    AppBottomNavigationBarItem(icon: AppIcon(svgIconPath: 'assets/svg/search.svg'), label: 'Search'),\n    AppBottomNavigationBarItem(icon: AppIcon(svgIconPath: 'assets/svg/profile.svg'), label: 'Profile'),\n  ],\n  selectedIndex: 0,\n  onTap: (index) => setState(() => _selectedIndex = index),\n)"
     },
     {
       "className": "ScrollableTabBar",
-      "description": "Scrollable tab bar for navigation.",
+      "description": "Scrollable horizontal tab bar with customizable colors. Requires tabs (list of label strings), selectedIndex, and onTabSelected callback.",
       "importPath": "package:tagaddod_ui_kit/widgets/scrollable_tab_bar.dart",
       "constructors": ["ScrollableTabBar()"],
-      "parameters": "Check source for parameters",
-      "example": "ScrollableTabBar(/* params */)"
+      "parameters": "tabs: List<String> (REQUIRED), selectedIndex: int (REQUIRED), onTabSelected: ValueChanged<int> (REQUIRED), tabWidgets: List<Widget>?, activeColor: Color = Colors.black, inactiveColor: Color = BgColors.colorBgSurfaceHover, width: double?, height: double?, margin: EdgeInsetsGeometry?, paddingInside: EdgeInsetsGeometry?, textAlign: TextAlign = TextAlign.center, borderRadius: double = 8, indicatorColor: Color = AppColors.colorGray1600, borderColor: Color = BorderColors.colorBorderSecondary, activeTextColor: Color = TextColors.colorTextOnBgFill, inactiveTextColor: Color = TextColors.colorText",
+      "example": "ScrollableTabBar(\n  tabs: ['All', 'Active', 'Completed'],\n  selectedIndex: _selectedTab,\n  onTabSelected: (index) => setState(() => _selectedTab = index),\n)"
     },
     {
       "className": "AppStepper",
@@ -205,59 +205,83 @@
     },
     {
       "className": "SuccessMessage",
-      "description": "Toast message for success notifications.",
+      "description": "Success toast/banner message with optional leading/trailing icons and vertical line accent.",
       "importPath": "package:tagaddod_ui_kit/widgets/Toast_message/success_message.dart",
       "constructors": ["SuccessMessage()"],
-      "parameters": "Check source for parameters",
-      "example": "SuccessMessage(/* params */)"
+      "parameters": "title: String (REQUIRED), subtitle: String?, backgroundColor: Color = BgColors.colorBgFillSuccessSecondary, borderColor: Color = BorderColors.colorBorderSuccess, titleColor: Color = TextColors.colorTextSuccess, subtitleColor: Color = TextColors.colorText, onClose: VoidCallback?, trailingIconPath: String = AppAssets.close, leadingIconPath: String = AppAssets.check, showLeadingIcon: bool = true, showTrailingIcon: bool = true, leadingIconColor: Color = BorderColors.colorBorderSuccess, trailingIconColor: Color = IconColors.colorIcon, verticalLineColor: Color = BorderColors.colorBorderSuccess, showVerticalLine: bool = false, verticalLineWidth: double = 5",
+      "example": "SuccessMessage(\n  title: 'Operation successful!',\n  subtitle: 'Your changes have been saved.',\n  onClose: () {},\n)"
     },
     {
       "className": "ErrorMessage",
-      "description": "Toast message for error notifications.",
+      "description": "Error toast/banner message with optional leading/trailing icons and vertical line accent.",
       "importPath": "package:tagaddod_ui_kit/widgets/Toast_message/error_message.dart",
       "constructors": ["ErrorMessage()"],
-      "parameters": "Check source for parameters",
-      "example": "ErrorMessage(/* params */)"
+      "parameters": "title: String (REQUIRED), subtitle: String?, backgroundColor: Color = BgColors.colorBgFillCriticalSecondary, borderColor: Color = BorderColors.colorBorderCritical, titleColor: Color = TextColors.colorTextCritical, subtitleColor: Color = TextColors.colorText, onClose: VoidCallback?, trailingIconPath: String = AppAssets.close, leadingIconPath: String = AppAssets.alertCircle, showLeadingIcon: bool = true, showTrailingIcon: bool = true, leadingIconColor: Color = IconColors.colorIconCritical, trailingIconColor: Color = IconColors.colorIcon, verticalLineColor: Color = BorderColors.colorBorderCritical, showVerticalLine: bool = false, verticalLineWidth: double = 5",
+      "example": "ErrorMessage(\n  title: 'Something went wrong',\n  subtitle: 'Please try again later.',\n  onClose: () {},\n)"
     },
     {
       "className": "AppLogo",
-      "description": "App logo widget.",
+      "description": "App logo/image widget with SVG support, placeholder, and error handling. Uses flutter_svg internally.",
       "importPath": "package:tagaddod_ui_kit/widgets/app_logo.dart",
       "constructors": ["AppLogo()"],
-      "parameters": "Check source for parameters",
-      "example": "AppLogo()"
+      "parameters": "appIconPath: String?, width: double?, height: double?, colorFilter: ColorFilter?, alignment: Alignment = Alignment.center, clipBehavior: Clip = Clip.none, fit: BoxFit = BoxFit.contain, errorBuilder: Widget Function(BuildContext, Object, StackTrace)?, frameBuilder: Widget Function(BuildContext, Widget, int, bool)?, placeholderBuilder: Widget Function(BuildContext)?, placeholderWidth: double?, placeholderHeight: double?",
+      "example": "AppLogo(\n  appIconPath: 'assets/svg/logo.svg',\n  width: 120,\n  height: 40,\n)"
     },
     {
       "className": "BarPercentIndicator",
-      "description": "Linear bar progress indicator.",
+      "description": "Linear bar progress indicator showing a percentage (0.0 to 1.0).",
       "importPath": "package:tagaddod_ui_kit/widgets/bar_percent_indicator.dart",
       "constructors": ["BarPercentIndicator()"],
-      "parameters": "Check source for parameters",
-      "example": "BarPercentIndicator(/* params */)"
+      "parameters": "percentage: double (REQUIRED, 0.0-1.0), isRTL: bool = false, progressColor: Color? = BgColors.colorBgFillSuccess, disableColor: Color? = AppColors.colorGray100, labelColor: Color? = Colors.red, barHeight: double? = 16, barWidth: double?",
+      "example": "BarPercentIndicator(\n  percentage: 0.75,\n  barHeight: 12,\n  barWidth: double.infinity,\n  progressColor: BgColors.colorBgFillSuccess,\n)"
     },
     {
       "className": "CirclePercentIndicator",
-      "description": "Circular progress indicator.",
+      "description": "Circular progress indicator showing a percentage (0.0 to 1.0).",
       "importPath": "package:tagaddod_ui_kit/widgets/circle_percent_indicator.dart",
       "constructors": ["CirclePercentIndicator()"],
-      "parameters": "Check source for parameters",
-      "example": "CirclePercentIndicator(/* params */)"
+      "parameters": "percentage: double (REQUIRED, 0.0-1.0), labelColor: Color?, disableColor: Color?, progressColor: Color?, lineWidth: double = 5, radius: double = 25",
+      "example": "CirclePercentIndicator(\n  percentage: 0.65,\n  radius: 30,\n  lineWidth: 6,\n  progressColor: BgColors.colorBgFillSuccess,\n)"
     },
     {
       "className": "NumberContainer",
-      "description": "Number display container.",
+      "description": "Styled container for displaying a number/text value with optional border and background.",
       "importPath": "package:tagaddod_ui_kit/widgets/number_container.dart",
       "constructors": ["NumberContainer()"],
-      "parameters": "Check source for parameters",
-      "example": "NumberContainer(/* params */)"
+      "parameters": "value: String (REQUIRED), backgroundColor: Color?, borderWidth: double? = 1, borderColor: Color?, borderRadius: double?, textColor: Color?, width: double?, height: double?",
+      "example": "NumberContainer(\n  value: '42',\n  backgroundColor: BgColors.colorBgSurfaceSecondary,\n  borderRadius: 8,\n  textColor: TextColors.colorText,\n)"
     },
     {
       "className": "NumberCounter",
-      "description": "Animated number counter.",
+      "description": "Numeric input with increment/decrement buttons, validation, and error display.",
       "importPath": "package:tagaddod_ui_kit/widgets/number_counter.dart",
       "constructors": ["NumberCounter()"],
-      "parameters": "Check source for parameters",
-      "example": "NumberCounter(/* params */)"
+      "parameters": "textEditingController: TextEditingController (REQUIRED), initialValue: double (REQUIRED), errorText: String (REQUIRED), minValue: double = 0, maxValue: double?, fractionDigits: int = 1, width: double?, onDecrease: Function()?, onIncrease: Function()?, onChanged: ValueChanged<String>?, readOnly: bool = false, hasContainer: bool = true, borderRadius: double?, borderColor: Color?, errorBorderColor: Color?, backgroundColor: Color?, decrementRate: double = 1, incrementRate: double = 1, validateTextInput: bool = true, plusBackgroundColor: Color?, plusIconColor: Color?, inputFormatters: List<TextInputFormatter>?",
+      "example": "NumberCounter(\n  textEditingController: _counterController,\n  initialValue: 1,\n  errorText: 'Invalid value',\n  minValue: 0,\n  maxValue: 100,\n  onChanged: (value) => print(value),\n)"
+    },
+    {
+      "className": "MultiSegmentCircularProgress",
+      "description": "Multi-segment circular progress indicator for tasks with completed/pending/failed states.",
+      "importPath": "package:tagaddod_ui_kit/widgets/multi_segment_circular_progress.dart",
+      "constructors": ["MultiSegmentCircularProgress()"],
+      "parameters": "size: double (REQUIRED), strokeWidth: double (REQUIRED), totalTasks: int (REQUIRED), completedTasks: int (REQUIRED), pendingTasks: int (REQUIRED), failedTasks: int (REQUIRED), completedColor: Color = BgColors.colorBgFillSuccess, pendingColor: Color = BgColors.colorBgFillWarning, failedColor: Color = BgColors.colorBgFillCritical, remainingColor: Color = Color(0xffD9D9D9)",
+      "example": "MultiSegmentCircularProgress(\n  size: 100,\n  strokeWidth: 8,\n  totalTasks: 20,\n  completedTasks: 12,\n  pendingTasks: 5,\n  failedTasks: 3,\n)"
+    },
+    {
+      "className": "MultiSegmentLinearProgress",
+      "description": "Multi-segment linear (horizontal bar) progress indicator for tasks with completed/pending/failed states.",
+      "importPath": "package:tagaddod_ui_kit/widgets/multi_segment_progress_line.dart",
+      "constructors": ["MultiSegmentLinearProgress()"],
+      "parameters": "width: double (REQUIRED), height: double (REQUIRED), totalTasks: int (REQUIRED), completedTasks: int (REQUIRED), pendingTasks: int (REQUIRED), failedTasks: int (REQUIRED), completedColor: Color = BgColors.colorBgFillSuccess, pendingColor: Color = BgColors.colorBgFillWarning, failedColor: Color = BgColors.colorBgFillCritical, remainingColor: Color = Color(0xFFE5E5E5), borderRadius: double = 5.0",
+      "example": "MultiSegmentLinearProgress(\n  width: double.infinity,\n  height: 12,\n  totalTasks: 20,\n  completedTasks: 12,\n  pendingTasks: 5,\n  failedTasks: 3,\n)"
+    },
+    {
+      "className": "DottedRoundedBorder",
+      "description": "A container with dotted rounded border. Useful for upload areas or placeholder boxes.",
+      "importPath": "package:tagaddod_ui_kit/widgets/app_dotted_box.dart",
+      "constructors": ["DottedRoundedBorder()"],
+      "parameters": "width: double (REQUIRED), height: double (REQUIRED), borderRadius: double = 12, strokeWidth: double = 2, dotSpacing: double = 6, color: Color = Colors.black, child: Widget?, padding: EdgeInsets = EdgeInsets.all(12)",
+      "example": "DottedRoundedBorder(\n  width: double.infinity,\n  height: 150,\n  color: BorderColors.colorBorderSecondary,\n  child: Center(\n    child: AppText.bodyMd(text: 'Tap to upload', textColor: TextColors.colorTextSecondary),\n  ),\n)"
     }
   ]
 }

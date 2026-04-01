@@ -1,0 +1,20 @@
+name: kit_gen_preview_harness
+publish_to: none
+version: 1.0.0
+
+environment:
+  sdk: ^3.10.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+  tagaddod_ui_kit:
+    path: "{{UI_KIT_PATH}}"
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true

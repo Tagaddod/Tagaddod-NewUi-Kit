@@ -1,38 +1,15 @@
 import 'dart:io';
-import 'dart:isolate';
-import 'dart:convert';
-import 'package:args/args.dart';
 import 'package:mason_logger/mason_logger.dart';
-import 'package:kit_gen/services/manifest_service.dart';
+import 'package:kit_gen/services/kit_manifest_loader.dart';
+import 'info/widget_categorizer.dart';
 
 class InfoCommand {
   final Logger logger;
-
   InfoCommand(this.logger);
 
   Future<void> run(List<String> arguments) async {
     try {
-      // Load manifest using package: URI resolution
-      String manifestContent;
-      
-      final localManifest = File('data/components.json');
-      if (localManifest.existsSync()) {
-        manifestContent = await localManifest.readAsString();
-      } else {
-        final manifestUri = Uri.parse('package:kit_gen/data/components.json');
-        final resolvedUri = await Isolate.resolvePackageUri(manifestUri);
-        
-        if (resolvedUri == null) {
-          logger.err('Manifest not found');
-          logger.info('Please reinstall kit-gen');
-          exit(1);
-        }
-        
-        manifestContent = await File.fromUri(resolvedUri).readAsString();
-      }
-
-      final manifestJson = jsonDecode(manifestContent);
-      final manifest = KitManifest.fromJson(manifestJson);
+      final manifest = await loadKitManifest(logger);
 
       logger.info('');
       logger.info(lightBlue.wrap('📦 Tagaddod UI Kit Information'));
@@ -42,20 +19,20 @@ class InfoCommand {
       logger.info('Version:        ${manifest.kitVersion}');
       logger.info('Total Widgets:  ${manifest.widgets.length}');
       logger.info(
-          'Last Updated:   ${manifest.generatedAt.toLocal().toString().split('.')[0]}');
+          'Last Updated:   '
+          '${manifest.generatedAt.toLocal().toString().split('.')[0]}');
       logger.info(darkGray.wrap('─' * 80));
 
       logger.info('');
       logger.info(lightBlue.wrap('📋 Available Widgets:'));
       logger.info('');
 
-      final categories = _categorizeWidgets(manifest.widgets);
-
+      final categories = categorizeWidgets(manifest.widgets);
       for (final entry in categories.entries) {
         if (entry.value.isNotEmpty) {
           logger.info(lightCyan.wrap('  ${entry.key}:'));
-          for (final widget in entry.value) {
-            logger.info('    • ${widget.className}');
+          for (final w in entry.value) {
+            logger.info('    • ${w.className}');
           }
           logger.info('');
         }
@@ -64,46 +41,5 @@ class InfoCommand {
       logger.err('Error: $e');
       exit(1);
     }
-  }
-
-  Map<String, List<WidgetInfo>> _categorizeWidgets(List<WidgetInfo> widgets) {
-    final categories = <String, List<WidgetInfo>>{
-      'Buttons': [],
-      'Inputs': [],
-      'Navigation': [],
-      'Indicators': [],
-      'Layout': [],
-      'Other': [],
-    };
-
-    for (final widget in widgets) {
-      final name = widget.className;
-
-      if (name.contains('Button')) {
-        categories['Buttons']!.add(widget);
-      } else if (name.contains('TextField') ||
-          name.contains('CheckBox') ||
-          name.contains('Radio') ||
-          name.contains('Switch')) {
-        categories['Inputs']!.add(widget);
-      } else if (name.contains('Navigation') ||
-          name.contains('AppBar') ||
-          name.contains('Tab')) {
-        categories['Navigation']!.add(widget);
-      } else if (name.contains('Progress') ||
-          name.contains('Indicator') ||
-          name.contains('Badge') ||
-          name.contains('Stepper')) {
-        categories['Indicators']!.add(widget);
-      } else if (name.contains('Container') ||
-          name.contains('Divider') ||
-          name.contains('Expandable')) {
-        categories['Layout']!.add(widget);
-      } else {
-        categories['Other']!.add(widget);
-      }
-    }
-
-    return categories;
   }
 }

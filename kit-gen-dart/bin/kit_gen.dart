@@ -1,101 +1,54 @@
 #!/usr/bin/env dart
 
 import 'dart:io';
-import 'package:args/args.dart';
 import 'package:kit_gen/commands/generate_command.dart';
 import 'package:kit_gen/commands/info_command.dart';
 import 'package:kit_gen/commands/manifest_command.dart';
 import 'package:kit_gen/commands/search_command.dart';
 import 'package:kit_gen/commands/config_command.dart';
+import 'package:kit_gen/commands/refine_command.dart';
+import 'package:kit_gen/commands/template_command.dart';
+import 'package:kit_gen/cli/usage.dart';
 import 'package:mason_logger/mason_logger.dart';
 
 void main(List<String> arguments) async {
   final logger = Logger();
 
-  final parser = ArgParser()
-    ..addFlag('help', abbr: 'h', negatable: false, help: 'Show help')
-    ..addFlag('version', abbr: 'v', negatable: false, help: 'Show version');
-
   if (arguments.isEmpty) {
-    _printUsage(logger);
+    printKitGenUsage(logger);
     exit(0);
   }
 
   final command = arguments[0];
+  final rest = arguments.skip(1).toList();
 
   try {
     switch (command) {
-      case 'generate':
-      case 'gen':
-        await GenerateCommand(logger).run(arguments.skip(1).toList());
-        break;
+      case 'generate' || 'gen':
+        await GenerateCommand(logger).run(rest);
+      case 'refine':
+        await RefineCommand(logger).run(rest);
+      case 'template' || 'tpl':
+        await TemplateCommand(logger).run(rest);
       case 'info':
-        await InfoCommand(logger).run(arguments.skip(1).toList());
-        break;
+        await InfoCommand(logger).run(rest);
       case 'manifest':
-        await ManifestCommand(logger).run(arguments.skip(1).toList());
-        break;
+        await ManifestCommand(logger).run(rest);
       case 'search':
-        await SearchCommand(logger).run(arguments.skip(1).toList());
-        break;
+        await SearchCommand(logger).run(rest);
       case 'config':
-        await ConfigCommand(logger).run(arguments.skip(1).toList());
-        break;
-      case 'help':
-      case '--help':
-      case '-h':
-        _printUsage(logger);
-        break;
-      case 'version':
-      case '--version':
-      case '-v':
-        logger.info('kit-gen version 1.0.0');
-        break;
+        await ConfigCommand(logger).run(rest);
+      case 'help' || '--help' || '-h':
+        printKitGenUsage(logger);
+      case 'version' || '--version':
+        logger.info('kit-gen version 2.0.0');
       default:
         logger.err('Unknown command: $command');
-        _printUsage(logger);
+        printKitGenUsage(logger);
         exit(1);
     }
   } catch (e) {
     logger.err('Error: $e');
     exit(1);
   }
-}
-
-void _printUsage(Logger logger) {
-  logger.info('''
-${lightCyan.wrap('Kit-Gen')} - AI-powered Flutter code generator
-
-${styleBold.wrap('Usage:')}
-  kit-gen <command> [options]
-
-${styleBold.wrap('Commands:')}
-  generate, gen    Generate Flutter code from requirement
-  config           Configure API key
-  info             Show UI kit information
-  manifest         Regenerate component manifest
-  search           Search for components
-  help             Show this help message
-
-${styleBold.wrap('Examples:')}
-  kit-gen gen -r "Create a login screen"
-  kit-gen gen -i
-  kit-gen info
-  kit-gen search button
-
-${styleBold.wrap('Options:')}
-  -h, --help       Show help
-  -v, --version    Show version
-
-${styleBold.wrap('Quick Start:')}
-  1. Install: dart pub global activate kit_gen
-  2. Set API key: kit-gen config set-key
-  3. Generate: kit-gen gen -i
-  4. Use the code!
-
-${styleBold.wrap('Documentation:')}
-  cat START-HERE.md    5-minute overview
-  cat QUICKSTART.md    3-minute setup
-  cat WORKFLOW.md      Daily usage guide
-''');
 }

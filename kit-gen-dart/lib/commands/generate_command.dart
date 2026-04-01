@@ -1,166 +1,87 @@
 import 'dart:io';
-import 'dart:isolate';
-import 'dart:convert';
 import 'package:args/args.dart';
 import 'package:mason_logger/mason_logger.dart';
 import 'package:kit_gen/services/gemini_service.dart';
-import 'package:kit_gen/services/manifest_service.dart';
 import 'package:kit_gen/services/system_prompt.dart';
+import 'package:kit_gen/services/kit_manifest_loader.dart';
 import 'package:kit_gen/config/api_config.dart';
+import 'generate/single_runner.dart';
+import 'generate/arch_runner.dart';
 
 class GenerateCommand {
   final Logger logger;
-
   GenerateCommand(this.logger);
 
   Future<void> run(List<String> arguments) async {
     final parser = ArgParser()
-      ..addOption('requirement',
-          abbr: 'r', help: 'Requirement text', mandatory: false)
-      ..addOption('output', abbr: 'o', help: 'Output file path')
-      ..addFlag('interactive', abbr: 'i', help: 'Interactive mode');
+      ..addOption('requirement', abbr: 'r')
+      ..addOption('output', abbr: 'o')
+      ..addOption('context', abbr: 'c')
+      ..addFlag('interactive', abbr: 'i')
+      ..addFlag('verbose')
+      ..addFlag('retry')
+      ..addFlag('arch')
+      ..addFlag('validate');
 
     final results = parser.parse(arguments);
-
-    final apiKey = ApiConfig.getApiKey();
-    if (apiKey == null || apiKey.isEmpty) {
-      logger.err('API key not configured');
-      logger.info('');
-      logger.info('Set your API key:');
-      logger.info('  kit-gen config set-key');
-      logger.info('');
-      logger.info('Or set environment variable:');
-      logger.info('  export GEMINI_API_KEY=your_key');
-      logger.info('');
-      logger.info('Get FREE key: https://aistudio.google.com/apikey');
-      exit(1);
-    }
-
-    String? requirement = results['requirement'];
-
-    if (requirement == null || results['interactive']) {
-      logger.info('');
-      logger.info(lightCyan.wrap('Describe the screen/feature you want to build:'));
-      requirement = stdin.readLineSync();
-
-      if (requirement == null || requirement.trim().isEmpty) {
-        logger.warn('Cancelled.');
-        exit(0);
-      }
-    }
+    final verbose = results['verbose'] as bool;
+    final shouldRetry = results['retry'] as bool;
+    final arch = results['arch'] as bool;
+    final apiKey = _requireApiKey();
+    final requirement = _resolveRequirement(results);
 
     logger.info('');
     logger.info(lightBlue.wrap('📋 Requirement:'));
     logger.detail(requirement);
     logger.info('');
 
-    final progress = logger.progress('Generating Flutter code');
+    final manifest = await loadKitManifest(logger);
+    final builder = SystemPromptBuilder(manifest);
 
-    try {
-      // Load manifest using package: URI resolution
-      String manifestContent;
-      
-      // Try local file first (for development)
-      final localManifest = File('data/components.json');
-      if (localManifest.existsSync()) {
-        manifestContent = await localManifest.readAsString();
-      } else {
-        // Resolve package resource using Isolate.resolvePackageUri
-        final manifestUri = Uri.parse('package:kit_gen/data/components.json');
-        final resolvedUri = await Isolate.resolvePackageUri(manifestUri);
-        
-        if (resolvedUri == null) {
-          progress.fail('Manifest not found');
-          logger.err('Could not resolve package:kit_gen/data/components.json');
-          logger.info('');
-          logger.info('Please reinstall kit-gen:');
-          logger.info('  dart pub global activate --source git https://github.com/Tagaddod/Tagaddod-NewUi-Kit.git --git-path kit-gen-dart');
-          exit(1);
-        }
-        
-        final manifestFile = File.fromUri(resolvedUri);
-        if (!manifestFile.existsSync()) {
-          progress.fail('Manifest file not found');
-          logger.err('Resolved path does not exist: ${manifestFile.path}');
-          exit(1);
-        }
-        
-        manifestContent = await manifestFile.readAsString();
-      }
+    String? ctx;
+    if (results['context'] != null) {
+      final f = File(results['context'] as String);
+      ctx = f.existsSync() ? f.readAsStringSync() : null;
+    }
 
-      final manifestJson = jsonDecode(manifestContent);
-      final manifest = KitManifest.fromJson(manifestJson);
+    final prompt = arch
+        ? builder.buildArch(contextCode: ctx)
+        : builder.build(contextCode: ctx);
+    final gemini = GeminiService(apiKey);
 
-      final promptBuilder = SystemPromptBuilder(manifest);
-      final systemPrompt = promptBuilder.build();
+    if (arch) {
+      await runArchGeneration(logger, gemini, prompt,
+          requirement, results,
+          verbose: verbose, shouldRetry: shouldRetry);
+    } else {
+      await runSingleGeneration(logger, gemini, prompt,
+          requirement, results,
+          verbose: verbose, shouldRetry: shouldRetry);
+    }
+  }
 
-      final gemini = GeminiService(apiKey);
-      final result = await gemini.generateCode(requirement, systemPrompt);
-
-      progress.complete('Code generated!');
-
-      logger.info('');
-      logger.info(lightGreen.wrap('✓ Generated Screen Code:'));
-      logger.info('');
-      logger.info(darkGray.wrap('─' * 80));
-      logger.info(result.screenCode);
-      logger.info(darkGray.wrap('─' * 80));
-
-      if (result.hasGaps) {
-        logger.info('');
-        logger.warn('⚠ Kit Gaps Detected (${result.kitGapsList.length}):');
-        logger.info('');
-        for (final gap in result.kitGapsList) {
-          logger.warn('  • ${gap.widgetName}');
-          logger.detail('    ${gap.description}');
-          if (gap.proposedImplementation != null) {
-            logger.detail('    Proposed implementation included in file.');
-          }
-        }
-        logger.info('');
-        logger.warn('💡 Add these components to the UI kit before shipping.');
-        logger.info('');
-      } else {
-        logger.info('');
-        logger.success('✓ No kit gaps — all components exist in the kit!');
-        logger.info('');
-      }
-
-      final cost = result.estimatedCost;
-      logger.detail(
-          '📊 Usage: ${result.inputTokens} input, ${result.outputTokens} output tokens (~\$${cost.toStringAsFixed(4)})');
-
-      if (results['output'] != null) {
-        final outputPath = results['output'] as String;
-        final file = File(outputPath);
-        await file.parent.create(recursive: true);
-
-        final content = StringBuffer();
-        content.writeln('// Generated by kit-gen');
-        content.writeln('// Requirement: $requirement');
-        content.writeln('');
-        content.write(result.screenCode);
-
-        if (result.hasGaps) {
-          content.writeln('\n\n/*');
-          content.writeln('=== KIT GAPS DETECTED ===');
-          content.writeln(result.kitGapsText);
-          content.writeln('*/');
-        }
-
-        await file.writeAsString(content.toString());
-        logger.info('');
-        logger.success('✓ Saved to: $outputPath');
-      } else {
-        logger.info('');
-        logger.detail('💡 Tip: Use -o <file> to save the output');
-      }
-
-      logger.info('');
-    } catch (e) {
-      progress.fail('Generation failed');
-      logger.err('Error: $e');
+  String _requireApiKey() {
+    final key = ApiConfig.getApiKey();
+    if (key == null || key.isEmpty) {
+      logger.err('API key not configured');
+      logger.info('  kit-gen config set-key');
       exit(1);
     }
+    return key;
+  }
+
+  String _resolveRequirement(ArgResults results) {
+    var req = results['requirement'] as String?;
+    if (req == null || results['interactive']) {
+      logger.info('');
+      logger.info(lightCyan.wrap(
+          'Describe the screen/feature to build:'));
+      req = stdin.readLineSync();
+      if (req == null || req.trim().isEmpty) {
+        logger.warn('Cancelled.');
+        exit(0);
+      }
+    }
+    return req;
   }
 }
