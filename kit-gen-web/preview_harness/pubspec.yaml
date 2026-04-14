@@ -10,6 +10,8 @@ dependencies:
     sdk: flutter
   tagaddod_ui_kit:
     path: "{{UI_KIT_PATH}}"
+  flutter_screenutil: ^5.9.3
+  device_frame: ^1.4.0
 
 dev_dependencies:
   flutter_test:

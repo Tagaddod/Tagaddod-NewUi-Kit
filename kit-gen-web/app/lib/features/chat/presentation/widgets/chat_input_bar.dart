@@ -1,47 +1,29 @@
 import 'package:flutter/material.dart';
+import 'chat_input_field.dart';
 
+/// Thin named wrapper around [ChatInputField].
+/// Quick-prompt chips were removed — the left rail already covers shortcuts.
 class ChatInputBar extends StatelessWidget {
   const ChatInputBar({
     super.key,
     required this.controller,
     required this.onSend,
+    required this.isLoading,
+    required this.archMode,
   });
 
   final TextEditingController controller;
   final VoidCallback onSend;
+  final bool isLoading;
+  final bool archMode;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.fromLTRB(12, 8, 8, 8),
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: Theme.of(context).colorScheme.outlineVariant),
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            child: TextField(
-              controller: controller,
-              minLines: 1,
-              maxLines: 6,
-              textInputAction: TextInputAction.send,
-              onSubmitted: (_) => onSend(),
-              decoration: const InputDecoration(
-                hintText: 'Describe your screen or flow...',
-                border: InputBorder.none,
-              ),
-            ),
-          ),
-          const SizedBox(width: 8),
-          FilledButton.tonalIcon(
-            onPressed: onSend,
-            icon: const Icon(Icons.send_rounded),
-            label: const Text('Generate'),
-          ),
-        ],
-      ),
+    return ChatInputField(
+      controller: controller,
+      onSend: onSend,
+      isLoading: isLoading,
+      archMode: archMode,
     );
   }
 }

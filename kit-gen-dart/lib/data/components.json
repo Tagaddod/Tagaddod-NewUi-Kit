@@ -7,55 +7,89 @@
       "className": "TopAppBar",
       "description": "Top app bar with title, prefix, and suffix widgets. Title takes a Widget, NOT a String.",
       "importPath": "package:tagaddod_ui_kit/widgets/top_app_bar.dart",
-      "constructors": ["TopAppBar()"],
+      "constructors": [
+        "TopAppBar()"
+      ],
       "parameters": "title: Widget?, prefix: Widget?, suffix: Widget?, centerTitle: bool?, titleSpacing: double?, backgroundColor: Color?, automaticallyImplyLeading: bool = true",
-      "example": "TopAppBar(\n  title: AppText.bodyLgSemiBold(text: 'Login', textColor: TextColors.colorText),\n  prefix: AppIcon(svgIconPath: 'assets/svg/back.svg', onTap: () => Navigator.pop(context)),\n  suffix: AppIcon(svgIconPath: 'assets/svg/settings.svg'),\n)"
+      "example": "TopAppBar(\n  title: AppText.bodyLgSemiBold(text: 'Dashboard', textColor: AppColors.colorBlack),\n  prefix: AppIcon(svgIconPath: AppAssets.back, width: 24, height: 24, onTap: () {}),\n  suffix: Icon(Icons.settings_outlined, color: AppColors.colorGray1400),\n)\n\n// Suffix with icon button:\nTopAppBar(\n  title: AppText.bodyLgSemiBold(text: 'Profile'),\n  suffix: GestureDetector(\n    onTap: () {},\n    child: const Icon(Icons.notifications_outlined),\n  ),\n)"
     },
     {
       "className": "AppFilledButton",
-      "description": "Primary filled button. Has PRIVATE default constructor — use .medium or .large ONLY.",
+      "description": "Primary filled button. Has PRIVATE default constructor \u2014 use .medium or .large ONLY.",
       "importPath": "package:tagaddod_ui_kit/widgets/button/app_filled_button.dart",
-      "constructors": ["AppFilledButton.medium()", "AppFilledButton.large()"],
+      "constructors": [
+        "AppFilledButton.medium()",
+        "AppFilledButton.large()"
+      ],
       "parameters": "btnText: String? (required if no child), child: Widget?, onTap: VoidCallback?, buttonType: ButtonType = ButtonType.defaultButton, iconPath: String?, suffixIconPath: String?, width: double, isLoading: bool = false, backgroundColor: Color?, textColor: Color?, borderRadius: BorderRadius?",
       "example": "AppFilledButton.medium(\n  btnText: 'Login',\n  onTap: () {},\n  buttonType: ButtonType.defaultButton,\n  width: double.infinity,\n)\n\nAppFilledButton.large(\n  btnText: 'Submit',\n  onTap: () {},\n  buttonType: ButtonType.successButton,\n  iconPath: 'assets/svg/check.svg',\n)"
     },
     {
       "className": "AppOutlinedButton",
-      "description": "Outlined button for secondary actions. Has PRIVATE default constructor — use .medium or .large ONLY.",
+      "description": "Outlined button for secondary actions. Has PRIVATE default constructor \u2014 use .medium or .large ONLY.",
       "importPath": "package:tagaddod_ui_kit/widgets/button/app_outlined_button.dart",
-      "constructors": ["AppOutlinedButton.medium()", "AppOutlinedButton.large()"],
+      "constructors": [
+        "AppOutlinedButton.medium()",
+        "AppOutlinedButton.large()"
+      ],
       "parameters": "btnText: String? (required if no child), child: Widget?, onTap: VoidCallback?, buttonType: ButtonType = ButtonType.defaultButton, iconPath: String?, suffixIconPath: String?, width: double, isLoading: bool = false",
       "example": "AppOutlinedButton.medium(\n  btnText: 'Cancel',\n  onTap: () {},\n  buttonType: ButtonType.neutralButton,\n  width: double.infinity,\n)"
     },
     {
       "className": "AppTextButton",
-      "description": "Text-only button for tertiary actions. Has PRIVATE default constructor — use .medium or .large ONLY.",
+      "description": "Text-only button for tertiary actions. Has PRIVATE default constructor \u2014 use .medium or .large ONLY.",
       "importPath": "package:tagaddod_ui_kit/widgets/button/app_text_button.dart",
-      "constructors": ["AppTextButton.medium()", "AppTextButton.large()"],
+      "constructors": [
+        "AppTextButton.medium()",
+        "AppTextButton.large()"
+      ],
       "parameters": "btnText: String? (required if no child), child: Widget?, onTap: VoidCallback?, buttonType: ButtonType = ButtonType.defaultButton, iconPath: String?, suffixIconPath: String?, width: double",
       "example": "AppTextButton.medium(\n  btnText: 'Forgot Password?',\n  onTap: () {},\n  buttonType: ButtonType.defaultButton,\n)"
     },
     {
       "className": "AppTonalButton",
-      "description": "Medium-emphasis tonal button. Has PRIVATE default constructor — use .medium or .large ONLY.",
+      "description": "Medium-emphasis tonal button. Has PRIVATE default constructor \u2014 use .medium or .large ONLY.",
       "importPath": "package:tagaddod_ui_kit/widgets/button/app_tonal_button.dart",
-      "constructors": ["AppTonalButton.medium()", "AppTonalButton.large()"],
+      "constructors": [
+        "AppTonalButton.medium()",
+        "AppTonalButton.large()"
+      ],
       "parameters": "btnText: String? (required if no child), child: Widget?, onTap: VoidCallback?, buttonType: ButtonType = ButtonType.defaultButton, iconPath: String?, suffixIconPath: String?, width: double, isLoading: bool = false",
       "example": "AppTonalButton.medium(\n  btnText: 'Details',\n  onTap: () {},\n  buttonType: ButtonType.defaultButton,\n)"
     },
     {
       "className": "AppTextField",
-      "description": "Text input with label, validation, and helper text. Has PRIVATE default constructor — use .medium or .large ONLY.",
+      "description": "Text input with label, validation, and helper text. Has PRIVATE default constructor \u2014 use .medium or .large ONLY.",
       "importPath": "package:tagaddod_ui_kit/widgets/app_text_field.dart",
-      "constructors": ["AppTextField.medium()", "AppTextField.large()"],
+      "constructors": [
+        "AppTextField.medium()",
+        "AppTextField.large()"
+      ],
       "parameters": "labelText: String?, hintText: String?, textEditingController: TextEditingController?, keyboardType: TextInputType?, obscureText: bool = false, readOnly: bool = false, prefix: Widget?, suffix: Widget?, helperText: String?, validator: String? Function(String?)?, width: double = 200, height: double (40 for medium / 56 for large), isOptionalEnabled: bool = false, optionalText: String?, onChanged: Function(String)?",
       "example": "AppTextField.large(\n  labelText: 'Email',\n  hintText: 'Enter your email',\n  textEditingController: _emailController,\n  keyboardType: TextInputType.emailAddress,\n  width: double.infinity,\n)\n\nAppTextField.large(\n  labelText: 'Password',\n  hintText: 'Enter your password',\n  textEditingController: _passwordController,\n  obscureText: true,\n  width: double.infinity,\n)"
     },
     {
       "className": "AppText",
-      "description": "Typography component. Has PRIVATE default constructor — MUST use named constructors: .headingMd, .headingSm, .bodyLg, .bodyLgMedium, .bodyLgSemiBold, .bodyMd, .bodyMdMedium, .bodyMdSemiBold, .bodySm, .bodySmMedium, .bodySmSemiBold, .captionLg, .captionLgMedium, .captionLgSemiBold, .captionSm, .captionSmSemiBold",
+      "description": "Typography component. Has PRIVATE default constructor \u2014 MUST use named constructors: .headingMd, .headingSm, .bodyLg, .bodyLgMedium, .bodyLgSemiBold, .bodyMd, .bodyMdMedium, .bodyMdSemiBold, .bodySm, .bodySmMedium, .bodySmSemiBold, .captionLg, .captionLgMedium, .captionLgSemiBold, .captionSm, .captionSmSemiBold",
       "importPath": "package:tagaddod_ui_kit/widgets/app_text.dart",
-      "constructors": ["AppText.headingMd()", "AppText.headingSm()", "AppText.bodyLg()", "AppText.bodyLgMedium()", "AppText.bodyLgSemiBold()", "AppText.bodyMd()", "AppText.bodyMdMedium()", "AppText.bodyMdSemiBold()", "AppText.bodySm()", "AppText.bodySmMedium()", "AppText.bodySmSemiBold()", "AppText.captionLg()", "AppText.captionLgMedium()", "AppText.captionLgSemiBold()", "AppText.captionSm()", "AppText.captionSmSemiBold()"],
+      "constructors": [
+        "AppText.headingMd()",
+        "AppText.headingSm()",
+        "AppText.bodyLg()",
+        "AppText.bodyLgMedium()",
+        "AppText.bodyLgSemiBold()",
+        "AppText.bodyMd()",
+        "AppText.bodyMdMedium()",
+        "AppText.bodyMdSemiBold()",
+        "AppText.bodySm()",
+        "AppText.bodySmMedium()",
+        "AppText.bodySmSemiBold()",
+        "AppText.captionLg()",
+        "AppText.captionLgMedium()",
+        "AppText.captionLgSemiBold()",
+        "AppText.captionSm()",
+        "AppText.captionSmSemiBold()"
+      ],
       "parameters": "text: String (REQUIRED), textColor: Color?, textAlign: TextAlign = TextAlign.start, maxLines: int?, overflow: TextOverflow?, letterSpacing: double?, height: double?, decoration: TextDecoration?",
       "example": "AppText.headingMd(text: 'Welcome Back', textColor: TextColors.colorText)\n\nAppText.bodyMd(text: 'Enter your credentials', textColor: TextColors.colorTextSecondary)\n\nAppText.captionLg(text: 'Forgot password?', textColor: TextColors.colorTextLink)"
     },
@@ -63,7 +97,9 @@
       "className": "AppCheckBox",
       "description": "Checkbox input with custom styling.",
       "importPath": "package:tagaddod_ui_kit/widgets/app_check_box.dart",
-      "constructors": ["AppCheckBox()"],
+      "constructors": [
+        "AppCheckBox()"
+      ],
       "parameters": "value: bool? (REQUIRED), onChanged: ValueChanged<bool?>?, tristate: bool = false, isError: bool = false, size: double = 20, checkmarkSize: double = 14, activeColor: Color?, checkColor: Color?",
       "example": "AppCheckBox(\n  value: _rememberMe,\n  onChanged: (value) => setState(() => _rememberMe = value ?? false),\n)"
     },
@@ -71,7 +107,9 @@
       "className": "AppRadioButton",
       "description": "Radio button input. Generic type T for value/groupValue.",
       "importPath": "package:tagaddod_ui_kit/widgets/app_radio_button.dart",
-      "constructors": ["AppRadioButton<T>()"],
+      "constructors": [
+        "AppRadioButton<T>()"
+      ],
       "parameters": "value: T (REQUIRED), groupValue: T (REQUIRED), onChanged: void Function(bool)?, borderWidth: double?, splashRadius: double?",
       "example": "AppRadioButton<String>(\n  value: 'option1',\n  groupValue: selectedValue,\n  onChanged: (selected) => setState(() => selectedValue = 'option1'),\n)"
     },
@@ -79,7 +117,9 @@
       "className": "AppSwitch",
       "description": "Toggle switch component.",
       "importPath": "package:tagaddod_ui_kit/widgets/app_switch.dart",
-      "constructors": ["AppSwitch()"],
+      "constructors": [
+        "AppSwitch()"
+      ],
       "parameters": "value: bool (REQUIRED), onChanged: void Function(bool)?, activeColor: Color?, activeTrackColor: Color?, inactiveTrackColor: Color?, thumbColor: Color?",
       "example": "AppSwitch(\n  value: _isEnabled,\n  onChanged: (value) => setState(() => _isEnabled = value),\n)"
     },
@@ -87,15 +127,20 @@
       "className": "AppIcon",
       "description": "SVG icon renderer. Requires flutter_svg package.",
       "importPath": "package:tagaddod_ui_kit/widgets/app_icon.dart",
-      "constructors": ["AppIcon()"],
-      "parameters": "svgIconPath: String (REQUIRED), width: double? = 16, height: double? = 16, colorFilter: ColorFilter?, onTap: VoidCallback?, fit: BoxFit = BoxFit.contain",
-      "example": "AppIcon(\n  svgIconPath: 'assets/svg/email.svg',\n  width: 24,\n  height: 24,\n  colorFilter: ColorFilter.mode(IconColors.colorIcon, BlendMode.srcIn),\n)"
+      "constructors": [
+        "AppIcon()"
+      ],
+      "parameters": "svgIconPath: String (REQUIRED \u2014 must be one of AppAssets.plus / .minus / .alertCircle / .close / .check / .appLogoSvg / .back), width: double? = 16, height: double? = 16, colorFilter: ColorFilter?, onTap: VoidCallback?, fit: BoxFit = BoxFit.contain",
+      "example": "// Use AppIcon ONLY with the 7 kit SVG constants:\nAppIcon(\n  svgIconPath: AppAssets.alertCircle,\n  width: 24,\n  height: 24,\n  colorFilter: ColorFilter.mode(AppColors.colorRed1200, BlendMode.srcIn),\n)\n\n// Tappable:\nAppIcon(svgIconPath: AppAssets.close, width: 20, height: 20, onTap: () {})\n\n// For ANY other icon (home, settings, search, bell, \u2026) use Flutter Material:\n// Icon(Icons.home_outlined, color: AppColors.colorBlue1200, size: 24)"
     },
     {
       "className": "AppBadge",
-      "description": "Badge for status indicators and labels. Has PRIVATE default constructor — use .small or .medium ONLY.",
+      "description": "Badge for status indicators and labels. Has PRIVATE default constructor \u2014 use .small or .medium ONLY.",
       "importPath": "package:tagaddod_ui_kit/widgets/app_badge.dart",
-      "constructors": ["AppBadge.small()", "AppBadge.medium()"],
+      "constructors": [
+        "AppBadge.small()",
+        "AppBadge.medium()"
+      ],
       "parameters": "textLabel: String?, badgeType: AppBadgeType = AppBadgeType.defaultBadge, isStrong: bool = false, svgIconPath: String?, width: double?, borderRadius: double?",
       "example": "AppBadge.small(\n  textLabel: 'New',\n  badgeType: AppBadgeType.info,\n)\n\nAppBadge.medium(\n  textLabel: 'Active',\n  badgeType: AppBadgeType.success,\n  isStrong: true,\n)"
     },
@@ -103,7 +148,9 @@
       "className": "AppDivider",
       "description": "Horizontal divider line.",
       "importPath": "package:tagaddod_ui_kit/widgets/app_divider.dart",
-      "constructors": ["AppDivider()"],
+      "constructors": [
+        "AppDivider()"
+      ],
       "parameters": "color: Color? = BorderColors.colorBorderSecondary, height: double?, thickness: double?, indent: double?, endIndent: double?",
       "example": "const AppDivider()"
     },
@@ -111,7 +158,9 @@
       "className": "AppBottomSheet",
       "description": "Bottom sheet modal component. Requires a body Widget.",
       "importPath": "package:tagaddod_ui_kit/widgets/app_bottom_sheet.dart",
-      "constructors": ["AppBottomSheet()"],
+      "constructors": [
+        "AppBottomSheet()"
+      ],
       "parameters": "body: Widget (REQUIRED), showDragHandler: bool = true, contentPadding: EdgeInsets?, contentBackgroundColor: Color?, headerBackgroundColor: Color?, crossAxisAlignment: CrossAxisAlignment?, mainAxisSize: MainAxisSize?",
       "example": "showModalBottomSheet(\n  context: context,\n  builder: (context) => AppBottomSheet(\n    body: Column(children: [/* content */]),\n  ),\n)"
     },
@@ -119,7 +168,9 @@
       "className": "AppLoadingView",
       "description": "Loading spinner with optional text.",
       "importPath": "package:tagaddod_ui_kit/widgets/app_loading_view.dart",
-      "constructors": ["AppLoadingView()"],
+      "constructors": [
+        "AppLoadingView()"
+      ],
       "parameters": "color: Color?, loadingText: String?, textStyle: TextStyle?",
       "example": "const AppLoadingView(\n  loadingText: 'Loading...',\n)"
     },
@@ -127,7 +178,9 @@
       "className": "AppExpandableView",
       "description": "Expandable/collapsible content. Requires header, body, trailingIcon, pressedColor.",
       "importPath": "package:tagaddod_ui_kit/widgets/app_expandable_view.dart",
-      "constructors": ["AppExpandableView()"],
+      "constructors": [
+        "AppExpandableView()"
+      ],
       "parameters": "header: Widget (REQUIRED), body: Widget (REQUIRED), trailingIcon: Widget? (REQUIRED), pressedColor: Color (REQUIRED), initiallyExpanded: bool = false, animationDuration: Duration?",
       "example": "AppExpandableView(\n  header: AppText.bodyMdSemiBold(text: 'Details'),\n  body: Column(children: [/* content */]),\n  trailingIcon: Icon(Icons.expand_more),\n  pressedColor: BgColors.colorBgSurfaceSecondary,\n)"
     },
@@ -135,31 +188,39 @@
       "className": "AppModalDialog",
       "description": "Modal dialog with optional header, body, and footer sections.",
       "importPath": "package:tagaddod_ui_kit/widgets/app_modal_dialog/app_modal_dialog.dart",
-      "constructors": ["AppModalDialog()"],
+      "constructors": [
+        "AppModalDialog()"
+      ],
       "parameters": "modalHeaderTitle: String = '', bodyWidget: Widget?, footerWidget: Widget?, svgIconPath: String?, onTap: VoidCallback?, showModalHeader: bool = true, showModalHeaderTitle: bool = true, showModalHeaderIcon: bool = true, showModalHeaderDivider: bool = true, spaceBetweenTitleAndDivider: double? = 16, spaceBetweenBodyAndFooter: double? = 16",
       "example": "showDialog(\n  context: context,\n  builder: (context) => AppModalDialog(\n    modalHeaderTitle: 'Confirm Action',\n    bodyWidget: AppText.bodyMd(text: 'Are you sure?', textColor: TextColors.colorText),\n    footerWidget: Row(\n      children: [\n        Expanded(child: AppOutlinedButton.medium(btnText: 'Cancel', onTap: () => Navigator.pop(context), width: double.infinity)),\n        const SizedBox(width: 12),\n        Expanded(child: AppFilledButton.medium(btnText: 'Confirm', onTap: () {}, width: double.infinity)),\n      ],\n    ),\n  ),\n)"
     },
     {
       "className": "AppBottomNavigationBar",
-      "description": "Bottom navigation bar. Items must be AppBottomNavigationBarItem (also from this package). Import bottom_navigation_bar.dart for both classes.",
+      "description": "Sticky bottom navigation bar for screens with multiple top-level tabs (Home, Orders, Profile, etc.). Use as Scaffold.bottomNavigationBar. Each item takes a Flutter Material Icon() and a label string. Automatically applies brand colors to selected vs unselected items.",
       "importPath": "package:tagaddod_ui_kit/widgets/bottom_navigation_bar.dart",
-      "constructors": ["AppBottomNavigationBar()"],
-      "parameters": "items: List<AppBottomNavigationBarItem> (REQUIRED), selectedIndex: int = 0, onTap: Function(int)?, backgroundColor: Color?, type: BottomNavigationBarType? = BottomNavigationBarType.fixed, elevation: double?, iconSize: double = 24, selectedItemColor: Color?, unselectedItemColor: Color?, showSelectedLabels: bool?, showUnselectedLabels: bool?, selectedLabelStyle: TextStyle?, unselectedLabelStyle: TextStyle?, borderColor: Color?",
-      "example": "AppBottomNavigationBar(\n  items: [\n    AppBottomNavigationBarItem(icon: AppIcon(svgIconPath: 'assets/svg/home.svg'), label: 'Home'),\n    AppBottomNavigationBarItem(icon: AppIcon(svgIconPath: 'assets/svg/search.svg'), label: 'Search'),\n    AppBottomNavigationBarItem(icon: AppIcon(svgIconPath: 'assets/svg/profile.svg'), label: 'Profile'),\n  ],\n  selectedIndex: 0,\n  onTap: (index) => setState(() => _selectedIndex = index),\n)"
+      "constructors": [
+        "AppBottomNavigationBar()"
+      ],
+      "parameters": "items: List<AppBottomNavigationBarItem> (REQUIRED), selectedIndex: int = 0, onTap: Function(int)?, backgroundColor: Color?, selectedItemColor: Color?, unselectedItemColor: Color?, borderColor: Color?, elevation: double?, iconSize: double = 24",
+      "example": "AppBottomNavigationBar(\n  items: [\n    AppBottomNavigationBarItem(icon: const Icon(Icons.home_outlined), label: 'Home'),\n    AppBottomNavigationBarItem(icon: const Icon(Icons.search_outlined), label: 'Explore'),\n    AppBottomNavigationBarItem(icon: const Icon(Icons.shopping_cart_outlined), label: 'Orders'),\n    AppBottomNavigationBarItem(icon: const Icon(Icons.person_outline), label: 'Profile'),\n  ],\n  selectedIndex: _selectedIndex,\n  onTap: (i) => setState(() => _selectedIndex = i),\n)"
     },
     {
       "className": "ScrollableTabBar",
       "description": "Scrollable horizontal tab bar with customizable colors. Requires tabs (list of label strings), selectedIndex, and onTabSelected callback.",
       "importPath": "package:tagaddod_ui_kit/widgets/scrollable_tab_bar.dart",
-      "constructors": ["ScrollableTabBar()"],
-      "parameters": "tabs: List<String> (REQUIRED), selectedIndex: int (REQUIRED), onTabSelected: ValueChanged<int> (REQUIRED), tabWidgets: List<Widget>?, activeColor: Color = Colors.black, inactiveColor: Color = BgColors.colorBgSurfaceHover, width: double?, height: double?, margin: EdgeInsetsGeometry?, paddingInside: EdgeInsetsGeometry?, textAlign: TextAlign = TextAlign.center, borderRadius: double = 8, indicatorColor: Color = AppColors.colorGray1600, borderColor: Color = BorderColors.colorBorderSecondary, activeTextColor: Color = TextColors.colorTextOnBgFill, inactiveTextColor: Color = TextColors.colorText",
+      "constructors": [
+        "ScrollableTabBar()"
+      ],
+      "parameters": "tabs: List<String> (REQUIRED), selectedIndex: int (REQUIRED), onTabSelected: ValueChanged<int> (REQUIRED), tabWidgets: List<Widget>?, activeColor: Color = Colors.black, inactiveColor: Color = BgColors.colorBgSurfaceHover, width: double? (width of EACH INDIVIDUAL TAB \u2014 do NOT use double.infinity here; omit for auto-sizing), height: double?, margin: EdgeInsetsGeometry?, paddingInside: EdgeInsetsGeometry?, textAlign: TextAlign = TextAlign.center, borderRadius: double = 8, indicatorColor: Color = AppColors.colorGray1600, borderColor: Color = BorderColors.colorBorderSecondary, activeTextColor: Color = TextColors.colorTextOnBgFill, inactiveTextColor: Color = TextColors.colorText",
       "example": "ScrollableTabBar(\n  tabs: ['All', 'Active', 'Completed'],\n  selectedIndex: _selectedTab,\n  onTabSelected: (index) => setState(() => _selectedTab = index),\n)"
     },
     {
       "className": "AppStepper",
       "description": "Step progress bar indicator.",
       "importPath": "package:tagaddod_ui_kit/widgets/app_stepper.dart",
-      "constructors": ["AppStepper()"],
+      "constructors": [
+        "AppStepper()"
+      ],
       "parameters": "numOfSteps: int (REQUIRED), activeIndex: int (REQUIRED), activeColor: Color?, disableColor: Color?, height: double = 6, space: double = 2",
       "example": "AppStepper(\n  numOfSteps: 4,\n  activeIndex: 1,\n)"
     },
@@ -167,47 +228,63 @@
       "className": "StepperFlow",
       "description": "Multi-step flow with header, stepper line, and step content.",
       "importPath": "package:tagaddod_ui_kit/widgets/stepper_flow.dart",
-      "constructors": ["StepperFlow()"],
+      "constructors": [
+        "StepperFlow()"
+      ],
       "parameters": "steps: List<StepView> (REQUIRED), activeIndex: int (REQUIRED), showStepperLine: bool = true, backgroundColor: Color?, icon: Widget?",
       "example": "StepperFlow(\n  steps: [\n    StepView(stepName: 'Step 1', stepBody: Widget1()),\n    StepView(stepName: 'Step 2', stepBody: Widget2()),\n  ],\n  activeIndex: 0,\n)"
     },
     {
       "className": "AppFilledIconButton",
-      "description": "Icon-only filled button. PRIVATE default constructor — use .medium or .large ONLY.",
+      "description": "Icon-only filled button. PRIVATE default constructor \u2014 use .medium or .large ONLY.",
       "importPath": "package:tagaddod_ui_kit/widgets/icon_button/app_filled_icon_button.dart",
-      "constructors": ["AppFilledIconButton.medium()", "AppFilledIconButton.large()"],
+      "constructors": [
+        "AppFilledIconButton.medium()",
+        "AppFilledIconButton.large()"
+      ],
       "parameters": "iconPath: String (REQUIRED), onTap: VoidCallback?, buttonType: ButtonType = ButtonType.defaultButton, width: double, height: double, iconWidth: double?, iconHeight: double?, isCircle: bool = false",
-      "example": "AppFilledIconButton.medium(\n  iconPath: 'assets/svg/add.svg',\n  onTap: () {},\n)"
+      "example": "AppFilledIconButton.medium(\n  iconPath: AppAssets.plus,\n  onTap: () {},\n  buttonType: ButtonType.defaultButton,\n)\n\nAppFilledIconButton.large(\n  iconPath: AppAssets.check,\n  onTap: () {},\n  buttonType: ButtonType.successButton,\n)"
     },
     {
       "className": "AppOutlinedIconButton",
-      "description": "Icon-only outlined button. PRIVATE default constructor — use .medium or .large ONLY.",
+      "description": "Icon-only outlined button. PRIVATE default constructor \u2014 use .medium or .large ONLY.",
       "importPath": "package:tagaddod_ui_kit/widgets/icon_button/app_outlined_icon_button.dart",
-      "constructors": ["AppOutlinedIconButton.medium()", "AppOutlinedIconButton.large()"],
+      "constructors": [
+        "AppOutlinedIconButton.medium()",
+        "AppOutlinedIconButton.large()"
+      ],
       "parameters": "iconPath: String (REQUIRED), onTap: VoidCallback?, buttonType: ButtonType = ButtonType.defaultButton, width: double, height: double",
-      "example": "AppOutlinedIconButton.medium(\n  iconPath: 'assets/svg/edit.svg',\n  onTap: () {},\n)"
+      "example": "AppOutlinedIconButton.medium(\n  iconPath: AppAssets.close,\n  onTap: () {},\n  buttonType: ButtonType.neutralButton,\n)"
     },
     {
       "className": "AppStandardIconButton",
-      "description": "Standard icon-only button. PRIVATE default constructor — use .medium or .large ONLY.",
+      "description": "Standard icon-only button. PRIVATE default constructor \u2014 use .medium or .large ONLY.",
       "importPath": "package:tagaddod_ui_kit/widgets/icon_button/app_standard_icon_button.dart",
-      "constructors": ["AppStandardIconButton.medium()", "AppStandardIconButton.large()"],
+      "constructors": [
+        "AppStandardIconButton.medium()",
+        "AppStandardIconButton.large()"
+      ],
       "parameters": "iconPath: String (REQUIRED), onTap: VoidCallback?, buttonType: ButtonType = ButtonType.defaultButton",
-      "example": "AppStandardIconButton.medium(\n  iconPath: 'assets/svg/close.svg',\n  onTap: () {},\n)"
+      "example": "AppStandardIconButton.medium(\n  iconPath: AppAssets.back,\n  onTap: () {},\n  buttonType: ButtonType.defaultButton,\n)"
     },
     {
       "className": "AppTonalIconButton",
-      "description": "Tonal icon-only button. PRIVATE default constructor — use .medium or .large ONLY.",
+      "description": "Tonal icon-only button. PRIVATE default constructor \u2014 use .medium or .large ONLY.",
       "importPath": "package:tagaddod_ui_kit/widgets/icon_button/app_tonal_icon_button.dart",
-      "constructors": ["AppTonalIconButton.medium()", "AppTonalIconButton.large()"],
+      "constructors": [
+        "AppTonalIconButton.medium()",
+        "AppTonalIconButton.large()"
+      ],
       "parameters": "iconPath: String (REQUIRED), onTap: VoidCallback?, buttonType: ButtonType = ButtonType.defaultButton, isCircle: bool = false",
-      "example": "AppTonalIconButton.medium(\n  iconPath: 'assets/svg/info.svg',\n  onTap: () {},\n)"
+      "example": "AppTonalIconButton.medium(\n  iconPath: AppAssets.alertCircle,\n  onTap: () {},\n  buttonType: ButtonType.neutralButton,\n)"
     },
     {
       "className": "SuccessMessage",
       "description": "Success toast/banner message with optional leading/trailing icons and vertical line accent.",
       "importPath": "package:tagaddod_ui_kit/widgets/Toast_message/success_message.dart",
-      "constructors": ["SuccessMessage()"],
+      "constructors": [
+        "SuccessMessage()"
+      ],
       "parameters": "title: String (REQUIRED), subtitle: String?, backgroundColor: Color = BgColors.colorBgFillSuccessSecondary, borderColor: Color = BorderColors.colorBorderSuccess, titleColor: Color = TextColors.colorTextSuccess, subtitleColor: Color = TextColors.colorText, onClose: VoidCallback?, trailingIconPath: String = AppAssets.close, leadingIconPath: String = AppAssets.check, showLeadingIcon: bool = true, showTrailingIcon: bool = true, leadingIconColor: Color = BorderColors.colorBorderSuccess, trailingIconColor: Color = IconColors.colorIcon, verticalLineColor: Color = BorderColors.colorBorderSuccess, showVerticalLine: bool = false, verticalLineWidth: double = 5",
       "example": "SuccessMessage(\n  title: 'Operation successful!',\n  subtitle: 'Your changes have been saved.',\n  onClose: () {},\n)"
     },
@@ -215,7 +292,9 @@
       "className": "ErrorMessage",
       "description": "Error toast/banner message with optional leading/trailing icons and vertical line accent.",
       "importPath": "package:tagaddod_ui_kit/widgets/Toast_message/error_message.dart",
-      "constructors": ["ErrorMessage()"],
+      "constructors": [
+        "ErrorMessage()"
+      ],
       "parameters": "title: String (REQUIRED), subtitle: String?, backgroundColor: Color = BgColors.colorBgFillCriticalSecondary, borderColor: Color = BorderColors.colorBorderCritical, titleColor: Color = TextColors.colorTextCritical, subtitleColor: Color = TextColors.colorText, onClose: VoidCallback?, trailingIconPath: String = AppAssets.close, leadingIconPath: String = AppAssets.alertCircle, showLeadingIcon: bool = true, showTrailingIcon: bool = true, leadingIconColor: Color = IconColors.colorIconCritical, trailingIconColor: Color = IconColors.colorIcon, verticalLineColor: Color = BorderColors.colorBorderCritical, showVerticalLine: bool = false, verticalLineWidth: double = 5",
       "example": "ErrorMessage(\n  title: 'Something went wrong',\n  subtitle: 'Please try again later.',\n  onClose: () {},\n)"
     },
@@ -223,15 +302,19 @@
       "className": "AppLogo",
       "description": "App logo/image widget with SVG support, placeholder, and error handling. Uses flutter_svg internally.",
       "importPath": "package:tagaddod_ui_kit/widgets/app_logo.dart",
-      "constructors": ["AppLogo()"],
+      "constructors": [
+        "AppLogo()"
+      ],
       "parameters": "appIconPath: String?, width: double?, height: double?, colorFilter: ColorFilter?, alignment: Alignment = Alignment.center, clipBehavior: Clip = Clip.none, fit: BoxFit = BoxFit.contain, errorBuilder: Widget Function(BuildContext, Object, StackTrace)?, frameBuilder: Widget Function(BuildContext, Widget, int, bool)?, placeholderBuilder: Widget Function(BuildContext)?, placeholderWidth: double?, placeholderHeight: double?",
-      "example": "AppLogo(\n  appIconPath: 'assets/svg/logo.svg',\n  width: 120,\n  height: 40,\n)"
+      "example": "// Shows brand SVG logo:\nconst AppLogo(width: 120, height: 40)\n\n// Custom asset:\nAppLogo(appIconPath: AppAssets.appLogoSvg, width: 80)"
     },
     {
       "className": "BarPercentIndicator",
       "description": "Linear bar progress indicator showing a percentage (0.0 to 1.0).",
       "importPath": "package:tagaddod_ui_kit/widgets/bar_percent_indicator.dart",
-      "constructors": ["BarPercentIndicator()"],
+      "constructors": [
+        "BarPercentIndicator()"
+      ],
       "parameters": "percentage: double (REQUIRED, 0.0-1.0), isRTL: bool = false, progressColor: Color? = BgColors.colorBgFillSuccess, disableColor: Color? = AppColors.colorGray100, labelColor: Color? = Colors.red, barHeight: double? = 16, barWidth: double?",
       "example": "BarPercentIndicator(\n  percentage: 0.75,\n  barHeight: 12,\n  barWidth: double.infinity,\n  progressColor: BgColors.colorBgFillSuccess,\n)"
     },
@@ -239,7 +322,9 @@
       "className": "CirclePercentIndicator",
       "description": "Circular progress indicator showing a percentage (0.0 to 1.0).",
       "importPath": "package:tagaddod_ui_kit/widgets/circle_percent_indicator.dart",
-      "constructors": ["CirclePercentIndicator()"],
+      "constructors": [
+        "CirclePercentIndicator()"
+      ],
       "parameters": "percentage: double (REQUIRED, 0.0-1.0), labelColor: Color?, disableColor: Color?, progressColor: Color?, lineWidth: double = 5, radius: double = 25",
       "example": "CirclePercentIndicator(\n  percentage: 0.65,\n  radius: 30,\n  lineWidth: 6,\n  progressColor: BgColors.colorBgFillSuccess,\n)"
     },
@@ -247,7 +332,9 @@
       "className": "NumberContainer",
       "description": "Styled container for displaying a number/text value with optional border and background.",
       "importPath": "package:tagaddod_ui_kit/widgets/number_container.dart",
-      "constructors": ["NumberContainer()"],
+      "constructors": [
+        "NumberContainer()"
+      ],
       "parameters": "value: String (REQUIRED), backgroundColor: Color?, borderWidth: double? = 1, borderColor: Color?, borderRadius: double?, textColor: Color?, width: double?, height: double?",
       "example": "NumberContainer(\n  value: '42',\n  backgroundColor: BgColors.colorBgSurfaceSecondary,\n  borderRadius: 8,\n  textColor: TextColors.colorText,\n)"
     },
@@ -255,7 +342,9 @@
       "className": "NumberCounter",
       "description": "Numeric input with increment/decrement buttons, validation, and error display.",
       "importPath": "package:tagaddod_ui_kit/widgets/number_counter.dart",
-      "constructors": ["NumberCounter()"],
+      "constructors": [
+        "NumberCounter()"
+      ],
       "parameters": "textEditingController: TextEditingController (REQUIRED), initialValue: double (REQUIRED), errorText: String (REQUIRED), minValue: double = 0, maxValue: double?, fractionDigits: int = 1, width: double?, onDecrease: Function()?, onIncrease: Function()?, onChanged: ValueChanged<String>?, readOnly: bool = false, hasContainer: bool = true, borderRadius: double?, borderColor: Color?, errorBorderColor: Color?, backgroundColor: Color?, decrementRate: double = 1, incrementRate: double = 1, validateTextInput: bool = true, plusBackgroundColor: Color?, plusIconColor: Color?, inputFormatters: List<TextInputFormatter>?",
       "example": "NumberCounter(\n  textEditingController: _counterController,\n  initialValue: 1,\n  errorText: 'Invalid value',\n  minValue: 0,\n  maxValue: 100,\n  onChanged: (value) => print(value),\n)"
     },
@@ -263,7 +352,9 @@
       "className": "MultiSegmentCircularProgress",
       "description": "Multi-segment circular progress indicator for tasks with completed/pending/failed states.",
       "importPath": "package:tagaddod_ui_kit/widgets/multi_segment_circular_progress.dart",
-      "constructors": ["MultiSegmentCircularProgress()"],
+      "constructors": [
+        "MultiSegmentCircularProgress()"
+      ],
       "parameters": "size: double (REQUIRED), strokeWidth: double (REQUIRED), totalTasks: int (REQUIRED), completedTasks: int (REQUIRED), pendingTasks: int (REQUIRED), failedTasks: int (REQUIRED), completedColor: Color = BgColors.colorBgFillSuccess, pendingColor: Color = BgColors.colorBgFillWarning, failedColor: Color = BgColors.colorBgFillCritical, remainingColor: Color = Color(0xffD9D9D9)",
       "example": "MultiSegmentCircularProgress(\n  size: 100,\n  strokeWidth: 8,\n  totalTasks: 20,\n  completedTasks: 12,\n  pendingTasks: 5,\n  failedTasks: 3,\n)"
     },
@@ -271,7 +362,9 @@
       "className": "MultiSegmentLinearProgress",
       "description": "Multi-segment linear (horizontal bar) progress indicator for tasks with completed/pending/failed states.",
       "importPath": "package:tagaddod_ui_kit/widgets/multi_segment_progress_line.dart",
-      "constructors": ["MultiSegmentLinearProgress()"],
+      "constructors": [
+        "MultiSegmentLinearProgress()"
+      ],
       "parameters": "width: double (REQUIRED), height: double (REQUIRED), totalTasks: int (REQUIRED), completedTasks: int (REQUIRED), pendingTasks: int (REQUIRED), failedTasks: int (REQUIRED), completedColor: Color = BgColors.colorBgFillSuccess, pendingColor: Color = BgColors.colorBgFillWarning, failedColor: Color = BgColors.colorBgFillCritical, remainingColor: Color = Color(0xFFE5E5E5), borderRadius: double = 5.0",
       "example": "MultiSegmentLinearProgress(\n  width: double.infinity,\n  height: 12,\n  totalTasks: 20,\n  completedTasks: 12,\n  pendingTasks: 5,\n  failedTasks: 3,\n)"
     },
@@ -279,9 +372,21 @@
       "className": "DottedRoundedBorder",
       "description": "A container with dotted rounded border. Useful for upload areas or placeholder boxes.",
       "importPath": "package:tagaddod_ui_kit/widgets/app_dotted_box.dart",
-      "constructors": ["DottedRoundedBorder()"],
+      "constructors": [
+        "DottedRoundedBorder()"
+      ],
       "parameters": "width: double (REQUIRED), height: double (REQUIRED), borderRadius: double = 12, strokeWidth: double = 2, dotSpacing: double = 6, color: Color = Colors.black, child: Widget?, padding: EdgeInsets = EdgeInsets.all(12)",
       "example": "DottedRoundedBorder(\n  width: double.infinity,\n  height: 150,\n  color: BorderColors.colorBorderSecondary,\n  child: Center(\n    child: AppText.bodyMd(text: 'Tap to upload', textColor: TextColors.colorTextSecondary),\n  ),\n)"
+    },
+    {
+      "className": "AppBottomNavigationBarItem",
+      "description": "A single tab item inside AppBottomNavigationBar. icon accepts any Widget — use Flutter Material Icon() for standard nav icons.",
+      "importPath": "package:tagaddod_ui_kit/widgets/bottom_navigation_bar.dart",
+      "constructors": [
+        "AppBottomNavigationBarItem()"
+      ],
+      "parameters": "icon: Widget (REQUIRED — use Material Icon e.g. const Icon(Icons.home_outlined)), label: String (REQUIRED)",
+      "example": "AppBottomNavigationBarItem(\n  icon: const Icon(Icons.home_outlined),\n  label: 'Home',\n)"
     }
   ]
 }

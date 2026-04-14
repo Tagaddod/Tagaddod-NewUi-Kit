@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:tagaddod_ui_kit/colors/semantic/border_colors.dart';
-import 'package:tagaddod_ui_kit/colors/semantic/icon_colors.dart';
 import 'package:tagaddod_ui_kit/colors/semantic/text_colors.dart';
 import 'package:tagaddod_ui_kit/typography/primitives/typography.dart'
     as typography;
 import 'package:tagaddod_ui_kit/typography/semantics/caption_styles.dart';
-import 'package:tagaddod_ui_kit/widgets/app_icon.dart';
 
 class AppBottomNavigationBar extends StatelessWidget {
   final List<AppBottomNavigationBarItem> items;
@@ -68,15 +66,8 @@ class AppBottomNavigationBar extends StatelessWidget {
                   icon: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      e.icon.copyWith(
-                          colorFilter: selectedIndex == items.indexOf(e)
-                              ? null
-                              : const ColorFilter.mode(
-                                  IconColors.colorIconSecondary,
-                                  BlendMode.srcIn)),
-                      const SizedBox(
-                        height: 3,
-                      )
+                      e.icon,
+                      const SizedBox(height: 3),
                     ],
                   ),
                   label: e.label,
@@ -116,7 +107,7 @@ class AppBottomNavigationBar extends StatelessWidget {
 }
 
 class AppBottomNavigationBarItem {
-  final AppIcon icon;
+  final Widget icon;
   final String label;
   final bool isSelected;
 

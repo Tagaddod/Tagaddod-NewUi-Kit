@@ -1,0 +1,28 @@
+# Git
+.git
+.gitignore
+
+# Build artifacts (the Dockerfile fetches these itself via Stage 1)
+kit-gen-web/ui/build/
+kit-gen-web/app/build/
+kit-gen-web/app/.dart_tool/
+kit-gen-web/ui/.dart_tool/
+kit-gen-web/server/.dart_tool/
+kit-gen-web/preview_harness/.dart_tool/
+
+# Flutter / Dart local caches (only root /build — bare `build/` matches any
+# folder named "build" anywhere and can drop files from the build context).
+.dart_tool/
+.pub-cache/
+/build/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# macOS
+.DS_Store
+
+# Logs
+*.log

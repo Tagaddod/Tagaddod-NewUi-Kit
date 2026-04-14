@@ -7,9 +7,9 @@ class GenerationPayload {
   final List<GenerationKitGap> kitGaps;
   final ValidationStatus validation;
   final PreviewArtifact preview;
+  final ScreenSpec screenSpec;
   final UsageMetrics tokens;
   final UsageMetrics timings;
-
   const GenerationPayload({
     required this.mode,
     required this.requirement,
@@ -19,11 +19,21 @@ class GenerationPayload {
     required this.kitGaps,
     required this.validation,
     required this.preview,
+    required this.screenSpec,
     required this.tokens,
     required this.timings,
   });
 
   bool get isArchitectureMode => mode == 'arch';
+  bool get hasCode => screenCode.trim().isNotEmpty || files.isNotEmpty;
+  int get matchedComponentCount => matchedComponents.length;
+  int get kitGapCount => kitGaps.length;
+  bool get hasPreviewImage => preview.hasImage;
+  bool get hasRenderablePreview =>
+      screenSpec.isRenderable || preview.hasImage || preview.hasLivePreview;
+  bool get codeVerified => validation.ran && validation.passed;
+  String get primaryCodeTitle =>
+      files.isNotEmpty ? files.first.path : 'generated_preview_screen.dart';
 
   factory GenerationPayload.fromJson(Map<String, dynamic> json) {
     return GenerationPayload(
@@ -32,24 +42,19 @@ class GenerationPayload {
       screenCode: (json['screenCode'] ?? json['code']) as String? ?? '',
       files: (json['files'] as List<dynamic>? ?? const [])
           .map(
-            (item) => GeneratedCodeFile.fromJson(
-              item as Map<String, dynamic>,
-            ),
+            (item) => GeneratedCodeFile.fromJson(item as Map<String, dynamic>),
           )
           .toList(),
       matchedComponents:
           (json['matchedComponents'] as List<dynamic>? ?? const [])
               .map(
-                (item) => MatchedComponent.fromJson(
-                  item as Map<String, dynamic>,
-                ),
+                (item) =>
+                    MatchedComponent.fromJson(item as Map<String, dynamic>),
               )
               .toList(),
       kitGaps: (json['kitGaps'] as List<dynamic>? ?? const [])
           .map(
-            (item) => GenerationKitGap.fromJson(
-              item as Map<String, dynamic>,
-            ),
+            (item) => GenerationKitGap.fromJson(item as Map<String, dynamic>),
           )
           .toList(),
       validation: ValidationStatus.fromJson(
@@ -57,6 +62,9 @@ class GenerationPayload {
       ),
       preview: PreviewArtifact.fromJson(
         json['preview'] as Map<String, dynamic>? ?? const {},
+      ),
+      screenSpec: ScreenSpec.fromJson(
+        json['screenSpec'] as Map<String, dynamic>? ?? const {},
       ),
       tokens: UsageMetrics.fromJson(
         json['tokens'] as Map<String, dynamic>? ?? const {},
@@ -72,10 +80,7 @@ class GeneratedCodeFile {
   final String path;
   final String code;
 
-  const GeneratedCodeFile({
-    required this.path,
-    required this.code,
-  });
+  const GeneratedCodeFile({required this.path, required this.code});
 
   factory GeneratedCodeFile.fromJson(Map<String, dynamic> json) {
     return GeneratedCodeFile(
@@ -122,16 +127,25 @@ class GenerationKitGap {
     this.proposedImplementation,
   });
 
+  Map<String, dynamic> toJson() => {
+        'widget_name': widgetName,
+        'description': description,
+        if (reason != null) 'reason': reason,
+        if (suggestedComponentName != null)
+          'suggested_component_name': suggestedComponentName,
+        if (priority != null) 'priority': priority,
+        if (proposedImplementation != null)
+          'proposed_implementation': proposedImplementation,
+      };
+
   factory GenerationKitGap.fromJson(Map<String, dynamic> json) {
     return GenerationKitGap(
       widgetName: json['widget_name'] as String? ?? '',
       description: json['description'] as String? ?? '',
       reason: json['reason'] as String?,
-      suggestedComponentName:
-          json['suggested_component_name'] as String?,
+      suggestedComponentName: json['suggested_component_name'] as String?,
       priority: json['priority'] as int?,
-      proposedImplementation:
-          json['proposed_implementation'] as String?,
+      proposedImplementation: json['proposed_implementation'] as String?,
     );
   }
 }
@@ -168,6 +182,7 @@ class PreviewArtifact {
   final int? width;
   final int? height;
   final String? message;
+  final String? previewUrl;
 
   const PreviewArtifact({
     required this.status,
@@ -176,13 +191,12 @@ class PreviewArtifact {
     this.width,
     this.height,
     this.message,
+    this.previewUrl,
   });
 
-  bool get hasImage =>
-      imageBase64 != null && imageBase64!.isNotEmpty;
-
+  bool get hasImage => imageBase64 != null && imageBase64!.isNotEmpty;
+  bool get hasLivePreview => previewUrl != null && previewUrl!.isNotEmpty;
   bool get isRealPreview => source == 'flutter_render';
-
   bool get isConceptFallback => source == 'concept';
 
   factory PreviewArtifact.fromJson(Map<String, dynamic> json) {
@@ -193,6 +207,120 @@ class PreviewArtifact {
       width: json['width'] as int?,
       height: json['height'] as int?,
       message: json['message'] as String?,
+      previewUrl: json['previewUrl'] as String?,
+    );
+  }
+}
+
+class ScreenSpec {
+  final String screenType;
+  final String title;
+  final String subtitle;
+  final String? topBarTitle;
+  final bool useLogo;
+  final List<ScreenSpecSection> sections;
+
+  const ScreenSpec({
+    required this.screenType,
+    required this.title,
+    required this.subtitle,
+    required this.topBarTitle,
+    required this.useLogo,
+    required this.sections,
+  });
+
+  const ScreenSpec.empty()
+    : screenType = 'generic',
+      title = '',
+      subtitle = '',
+      topBarTitle = null,
+      useLogo = false,
+      sections = const [];
+
+  bool get isRenderable =>
+      title.trim().isNotEmpty ||
+      sections.any(
+        (section) =>
+            section.title.trim().isNotEmpty ||
+            section.subtitle.trim().isNotEmpty ||
+            section.items.isNotEmpty,
+      );
+
+  factory ScreenSpec.fromJson(Map<String, dynamic> json) {
+    return ScreenSpec(
+      screenType: json['screen_type'] as String? ?? 'generic',
+      title: json['title'] as String? ?? '',
+      subtitle: json['subtitle'] as String? ?? '',
+      topBarTitle: json['top_bar_title'] as String?,
+      useLogo: json['use_logo'] as bool? ?? false,
+      sections: (json['sections'] as List<dynamic>? ?? const [])
+          .whereType<Map<String, dynamic>>()
+          .map(ScreenSpecSection.fromJson)
+          .toList(),
+    );
+  }
+}
+
+class ScreenSpecSection {
+  final String kind;
+  final String title;
+  final String subtitle;
+  final List<ScreenSpecItem> items;
+
+  const ScreenSpecSection({
+    required this.kind,
+    required this.title,
+    required this.subtitle,
+    required this.items,
+  });
+
+  factory ScreenSpecSection.fromJson(Map<String, dynamic> json) {
+    return ScreenSpecSection(
+      kind: json['kind'] as String? ?? 'content',
+      title: json['title'] as String? ?? '',
+      subtitle: json['subtitle'] as String? ?? '',
+      items: (json['items'] as List<dynamic>? ?? const [])
+          .whereType<Map<String, dynamic>>()
+          .map(ScreenSpecItem.fromJson)
+          .toList(),
+    );
+  }
+}
+
+class ScreenSpecItem {
+  final String kind;
+  final String label;
+  final String? value;
+  final String? hint;
+  final String? componentName;
+  final String? emphasis;
+  final String? resolution;
+  final bool? checked;
+  final bool? obscured;
+
+  const ScreenSpecItem({
+    required this.kind,
+    required this.label,
+    this.value,
+    this.hint,
+    this.componentName,
+    this.emphasis,
+    this.resolution,
+    this.checked,
+    this.obscured,
+  });
+
+  factory ScreenSpecItem.fromJson(Map<String, dynamic> json) {
+    return ScreenSpecItem(
+      kind: json['kind'] as String? ?? 'placeholder',
+      label: json['label'] as String? ?? '',
+      value: json['value'] as String?,
+      hint: json['hint'] as String?,
+      componentName: json['component_name'] as String?,
+      emphasis: json['emphasis'] as String?,
+      resolution: json['resolution'] as String?,
+      checked: json['checked'] as bool?,
+      obscured: json['obscured'] as bool?,
     );
   }
 }
@@ -204,9 +332,7 @@ class UsageMetrics {
 
   factory UsageMetrics.fromJson(Map<String, dynamic> json) {
     return UsageMetrics(
-      json.map(
-        (key, value) => MapEntry(key, value as int? ?? 0),
-      ),
+      json.map((key, value) => MapEntry(key, value as int? ?? 0)),
     );
   }
 

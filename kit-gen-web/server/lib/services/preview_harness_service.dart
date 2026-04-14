@@ -1,208 +1,92 @@
-import 'dart:convert';
+import 'dart:async';
 import 'dart:io';
-import 'package:path/path.dart' as p;
+import '../models/preview_job_workspace.dart';
 import '../models/preview_result.dart';
-import 'project_paths.dart';
-
-class PreviewJobWorkspace {
-  final Directory directory;
-  final File generatedScreenFile;
-  final File previewFile;
-  bool dependenciesReady = false;
-
-  PreviewJobWorkspace({
-    required this.directory,
-    required this.generatedScreenFile,
-    required this.previewFile,
-  });
-
-  Future<void> writeCode(String code) async {
-    await generatedScreenFile.parent.create(recursive: true);
-    await generatedScreenFile.writeAsString(code);
-  }
-
-  Future<void> dispose({bool keep = false}) async {
-    if (keep || !directory.existsSync()) return;
-    await directory.delete(recursive: true);
-  }
-}
+import 'warm_workspace_pool.dart';
+import 'workspace_factory.dart';
 
 class PreviewHarnessService {
-  static const previewWidth = 900;
-  static const previewHeight = 1200;
+  static WarmWorkspacePool? _pool;
 
-  Future<PreviewJobWorkspace> createWorkspace() async {
-    final templateDir = Directory(previewHarnessTemplateDir);
-    if (!templateDir.existsSync()) {
-      throw Exception(
-        'Preview harness template not found at '
-        '$previewHarnessTemplateDir',
-      );
-    }
-
-    final workspaceDir =
-        await Directory.systemTemp.createTemp('kit_gen_preview_');
-    await _copyDirectory(templateDir, workspaceDir);
-
-    final pubspec = File(p.join(workspaceDir.path, 'pubspec.yaml'));
-    final pubspecContent = await pubspec.readAsString();
-    await pubspec.writeAsString(
-      pubspecContent.replaceAll(
-        '{{UI_KIT_PATH}}',
-        repoRoot,
-      ),
-    );
-
-    return PreviewJobWorkspace(
-      directory: workspaceDir,
-      generatedScreenFile: File(
-        p.join(
-          workspaceDir.path,
-          'lib',
-          'generated',
-          'generated_preview_screen.dart',
-        ),
-      ),
-      previewFile: File(
-        p.join(workspaceDir.path, 'preview_output', 'preview.png'),
-      ),
-    );
+  static Future<void> initializePool({int size = 2}) async {
+    _pool = WarmWorkspacePool(size: size);
+    await _pool!.initialize();
   }
+
+  Future<PreviewJobWorkspace> createWorkspace() async =>
+      _pool?.tryAcquire() ?? await WorkspaceFactory.create();
 
   Future<List<String>> analyze(PreviewJobWorkspace workspace) async {
-    final dependencyErrors = await _ensureDependencies(workspace);
-    if (dependencyErrors.isNotEmpty) return dependencyErrors;
-
     final result = await Process.run(
       'flutter',
-      [
-        'analyze',
-        '--no-pub',
-        'lib/generated/generated_preview_screen.dart',
-      ],
+      ['analyze', '--no-pub', 'lib/generated/generated_preview_screen.dart'],
       workingDirectory: workspace.directory.path,
     );
-
     if (result.exitCode == 0) return const [];
-    return _extractIssues(
-      '${result.stdout}\n${result.stderr}',
-      fallback: 'Generated screen failed static validation.',
-    );
+    final combined = '${result.stdout}\n${result.stderr}'.trim();
+    print('[analyze] flutter analyze exit=${result.exitCode}\n$combined\n---');
+    return _extractErrors(combined);
   }
 
-  Future<PreviewResult> render(
-    PreviewJobWorkspace workspace,
-  ) async {
-    final dependencyErrors = await _ensureDependencies(workspace);
-    if (dependencyErrors.isNotEmpty) {
-      return PreviewResult.failed(
-        message: dependencyErrors.join('\n'),
-      );
-    }
-
-    final result = await Process.run(
-      'flutter',
-      [
-        'test',
-        '--no-pub',
-        '--update-goldens',
-        'test/render_test.dart',
-      ],
-      workingDirectory: workspace.directory.path,
-    );
-
-    if (result.exitCode != 0) {
-      return PreviewResult.failed(
-        message: _extractIssues(
-          '${result.stdout}\n${result.stderr}',
-          fallback: 'Flutter preview rendering failed.',
-        ).join('\n'),
-      );
-    }
-
-    if (!workspace.previewFile.existsSync()) {
-      return PreviewResult.failed(
-        message: 'Preview image was not produced by the harness.',
-      );
-    }
-
-    final base64Image = base64Encode(
-      await workspace.previewFile.readAsBytes(),
-    );
-
-    return PreviewResult.rendered(
-      imageBase64: base64Image,
-      width: previewWidth,
-      height: previewHeight,
-      message: 'Real Flutter preview rendered from the generated screen.',
-    );
+  /// Writes code is already on disk (written by _validateSingleScreen).
+  /// Explicitly trigger hot-reload so the running flutter web-server picks up
+  /// the file change immediately, then wait for DDC recompilation.
+  Future<PreviewResult> renderLive(PreviewJobWorkspace workspace) async {
+    await workspace.hotReload();
+    await Future.delayed(const Duration(seconds: 6));
+    final url = 'http://localhost:${workspace.previewerPort}/';
+    Timer(const Duration(minutes: 5), () {
+      workspace.dispose();
+      _pool?.replenish();
+    });
+    return PreviewResult.livePreview(previewUrl: url);
   }
 
-  Future<List<String>> _ensureDependencies(
-    PreviewJobWorkspace workspace,
-  ) async {
-    if (workspace.dependenciesReady) return const [];
-
-    final result = await Process.run(
-      'flutter',
-      ['pub', 'get'],
-      workingDirectory: workspace.directory.path,
-    );
-
-    if (result.exitCode != 0) {
-      return _extractIssues(
-        '${result.stdout}\n${result.stderr}',
-        fallback: 'Preview harness dependencies failed to resolve.',
-      );
-    }
-
-    workspace.dependenciesReady = true;
-    return const [];
-  }
-
-  Future<void> _copyDirectory(
-    Directory source,
-    Directory destination,
-  ) async {
-    await for (final entity in source.list(recursive: true)) {
-      final relative = p.relative(entity.path, from: source.path);
-      final targetPath = p.join(destination.path, relative);
-
-      if (entity is Directory) {
-        await Directory(targetPath).create(recursive: true);
-        continue;
-      }
-
-      if (entity is File) {
-        await File(targetPath).parent.create(recursive: true);
-        await entity.copy(targetPath);
-      }
-    }
-  }
-
-  List<String> _extractIssues(
-    String output, {
-    required String fallback,
-  }) {
+  static List<String> _extractErrors(String output) {
     final lines = output
         .split('\n')
-        .map((line) => line.trim())
-        .where((line) => line.isNotEmpty)
-        .where(
-          (line) =>
-              line.contains(' error • ') ||
-              line.contains(' warning • ') ||
-              line.contains('Exception') ||
-              line.contains('TestFailure') ||
-              line.startsWith('Error:') ||
-              line.contains('Failed assertion') ||
-              line.contains('isn\'t defined') ||
-              line.contains('No named parameter'),
-        )
-        .take(12)
+        .map((l) => l.trim())
+        .where((l) => l.isNotEmpty)
         .toList();
 
-    if (lines.isNotEmpty) return lines;
-    return [fallback];
+    // flutter analyze exits 1 even for info-only passes.
+    // Never trigger a repair for info-only lints — they are NOT compile errors.
+    final hasActualError = lines.any(
+        (l) => l.contains(' error • ') || l.startsWith('error •'));
+    final hasWarning = lines.any(
+        (l) => l.contains(' warning • ') || l.startsWith('warning •'));
+    if (!hasActualError && !hasWarning) return const [];
+
+    // Grab error-level lines.
+    final errorLines = lines
+        .where((l) => l.contains(' error • ') || l.startsWith('error •'))
+        .take(15)
+        .toList();
+    if (errorLines.isNotEmpty) return errorLines;
+
+    // Warning-level lines (may still block compilation in strict mode).
+    final warnLines = lines
+        .where((l) => l.contains(' warning • ') || l.startsWith('warning •'))
+        .take(15)
+        .toList();
+    if (warnLines.isNotEmpty) return warnLines;
+
+    // Broad net for unlabeled compile-time failures.
+    return lines
+        .where(
+          (l) =>
+              l.contains('Exception') ||
+              l.contains('Failed assertion') ||
+              l.startsWith('Error:') ||
+              l.contains("isn't defined") ||
+              l.contains('No named parameter') ||
+              l.contains("can't be assigned") ||
+              l.contains('Too few positional') ||
+              l.contains('Too many positional') ||
+              l.contains('Undefined name') ||
+              l.contains('Undefined class'),
+        )
+        .take(15)
+        .toList();
   }
 }

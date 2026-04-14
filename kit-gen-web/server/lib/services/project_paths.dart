@@ -6,6 +6,13 @@ String get _scriptDir =>
 
 String get repoRoot => _findRepoRoot();
 
+/// Path for `tagaddod_ui_kit` in preview workspaces (`path:` in pubspec).
+/// In Docker, [KIT_GEN_UI_KIT_PATH] points at a flat copy of lib/ assets/
+/// fonts/ + pubspec so Flutter always resolves assets (independent of
+/// monorepo discovery).
+String get uiKitPackagePath =>
+    Platform.environment['KIT_GEN_UI_KIT_PATH'] ?? repoRoot;
+
 String get kitGenWebRoot => p.join(repoRoot, 'kit-gen-web');
 
 String get serverRoot => p.join(kitGenWebRoot, 'server');

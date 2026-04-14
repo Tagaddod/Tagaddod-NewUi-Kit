@@ -5,6 +5,7 @@ class PreviewResult {
   final int? width;
   final int? height;
   final String? message;
+  final String? previewUrl;
 
   const PreviewResult({
     required this.status,
@@ -13,35 +14,25 @@ class PreviewResult {
     this.width,
     this.height,
     this.message,
+    this.previewUrl,
   });
 
-  factory PreviewResult.rendered({
-    required String imageBase64,
-    required int width,
-    required int height,
+  factory PreviewResult.livePreview({
+    required String previewUrl,
     String? message,
   }) =>
       PreviewResult(
-        status: 'rendered',
-        source: 'flutter_render',
-        imageBase64: imageBase64,
-        width: width,
-        height: height,
+        status: 'live',
+        source: 'widget_previewer',
+        previewUrl: previewUrl,
         message: message,
       );
 
-  factory PreviewResult.failed({String? message}) => PreviewResult(
-        status: 'failed',
-        source: 'none',
-        message: message,
-      );
+  factory PreviewResult.failed({String? message}) =>
+      PreviewResult(status: 'failed', source: 'none', message: message);
 
   factory PreviewResult.unavailable({String? message}) =>
-      PreviewResult(
-        status: 'unavailable',
-        source: 'none',
-        message: message,
-      );
+      PreviewResult(status: 'unavailable', source: 'none', message: message);
 
   factory PreviewResult.conceptFallback({
     required String imageBase64,
@@ -61,5 +52,6 @@ class PreviewResult {
         'width': width,
         'height': height,
         'message': message,
+        'previewUrl': previewUrl,
       };
 }

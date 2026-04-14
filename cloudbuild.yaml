@@ -1,0 +1,32 @@
+steps:
+  # Cloud Build is used ONLY to build the Docker image on a linux/amd64 machine.
+  # Cloud Run deploy + Firebase Hosting are handled locally by deploy.sh
+  # (your gcloud session already has the needed permissions there).
+
+  - name: 'gcr.io/cloud-builders/docker'
+    id: build-image
+    args:
+      - build
+      - -t
+      - 'gcr.io/$PROJECT_ID/kit-gen-server:$_TAG'
+      - -t
+      - 'gcr.io/$PROJECT_ID/kit-gen-server:latest'
+      - .
+
+  - name: 'gcr.io/cloud-builders/docker'
+    id: push-image
+    args: [push, '--all-tags', 'gcr.io/$PROJECT_ID/kit-gen-server']
+    waitFor: [build-image]
+
+images:
+  - 'gcr.io/$PROJECT_ID/kit-gen-server:$_TAG'
+  - 'gcr.io/$PROJECT_ID/kit-gen-server:latest'
+
+substitutions:
+  _TAG: latest
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+  machineType: E2_HIGHCPU_8
+
+timeout: 1800s
